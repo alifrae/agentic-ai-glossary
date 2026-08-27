@@ -1,29 +1,55 @@
 # Agentic AI Glossary
 
-A lightweight, mobile-friendly personal wiki for agentic AI vocabulary, concepts, acronyms, patterns, and engineering slang.
+A lightweight, mobile-friendly personal wiki for agentic AI vocabulary, concepts, acronyms, patterns, engineering slang, and things worth remembering.
 
-## What it does
+The site intentionally stays **static and local-first**: no framework, build step, account, database, backend, or embedded GitHub credential.
+
+## V2: focus-first learning
+
+V2 keeps the fast glossary from V1 and adds a small learning layer designed to reduce unintentional topic switching:
+
+- **One active concept** — the page remembers what you were learning and makes Resume the default action.
+- **Progressive disclosure** — Focus asks you to recall the concept before revealing the definition and example.
+- **Simple learning states** — Not reviewed → Learning → Familiar → Solid.
+- **Light review scheduling** — Still fuzzy = 1 day, Got it = 7 days, Solid = 30 days.
+- **Memory hooks** — save the analogy or sentence that makes a concept stick.
+- **Often confused with** — explicitly capture concepts you mix up.
+- **Related terms + backlinks** — relationships are shown only after the current explanation is revealed, under “After this”.
+- **Parking lot** — capture a tangent in one line without abandoning the current concept; convert it to an Inbox entry later.
+- **Deep links** — focused concepts use `#term=...` links.
+- **Keyboard shortcuts** — `/` search, `f` resume focus, `p` park a tangent.
+
+V2 deliberately does **not** add timers, streaks, notifications, gamification, accounts, or a complicated spaced-repetition algorithm. The goal is to reduce cognitive overhead, not create another productivity system to maintain.
+
+## Reference features
 
 - Instant full-text search
-- Filter by group, kind, and review status
+- Filter by group, kind, and learning state
 - Sort table columns
 - Hide/show columns
 - Add custom columns
 - Add/edit/hide entries locally
 - Add personal notes/comments
-- Mark entries that need review
 - Mobile card layout
 - Export JSON, CSV, or Markdown
 - Import a JSON snapshot
-- No framework, build step, account, database, or backend
 
 ## Data model
 
 The `glossary-*.json` files are the canonical shared glossary committed to Git.
 
-Browser edits are intentionally local-first and stored in `localStorage`. This keeps the site static and safe: there is no token or GitHub credential embedded in the page.
+Browser edits are stored in `localStorage`, including:
 
-Use **Data → Export JSON snapshot** to back up personal edits or move them between devices.
+- personal entry edits
+- notes and memory hooks
+- learning/review state
+- recall sentences
+- parking-lot items
+- custom columns and display preferences
+
+Existing V1 local data is migrated in place when V2 loads.
+
+Use **Data → Export JSON snapshot** to back up personal state or move it between devices.
 
 ## Run locally
 
@@ -37,19 +63,17 @@ Then open `http://localhost:8000`.
 
 ## GitHub Pages
 
-This repository is designed to publish directly from the root of `main`:
+Publish directly from the root of `main`:
 
 1. Open **Settings → Pages**
 2. Under **Build and deployment**, choose **Deploy from a branch**
 3. Select **main** and **/(root)**
 4. Save
 
-The resulting site should be available at:
-
-`https://alifrae.github.io/agentic-ai-glossary/`
+Site: `https://alifrae.github.io/agentic-ai-glossary/`
 
 ## Design principle
 
-Keep this repository a **small personal reference system**, not a CMS.
+Keep this repository a **small personal memory system**, not a CMS.
 
-The canonical content should stay reviewable in Git. Personal annotations and learning state stay local in the browser. If the project ever needs multi-device automatic sync or collaborative editing, add a backend only then.
+Canonical knowledge stays reviewable in Git. Personal annotations and learning state stay local in the browser. Add automatic multi-device sync only if the lack of it becomes a real recurring problem.
