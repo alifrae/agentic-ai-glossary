@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A lightweight personal wiki and glossary for agentic AI terms, concepts and engineering slang.">
+  <meta name="color-scheme" content="light dark">
+  <title>Agentic AI Glossary</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <p class="eyebrow">Personal reference</p>
+      <h1>Agentic AI Glossary</h1>
+      <p class="subtitle">Searchable notes for terms, concepts, acronyms and engineering slang.</p>
+    </div>
+    <div class="header-actions">
+      <button id="addEntryBtn" class="primary">+ Add entry</button>
+      <button id="columnsBtn">Columns</button>
+      <button id="dataBtn">Data</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="toolbar" aria-label="Glossary controls">
+      <label class="search-wrap">
+        <span class="sr-only">Search</span>
+        <input id="searchInput" type="search" placeholder="Search terms, definitions, notes…">
+      </label>
+
+      <label>
+        <span>Group</span>
+        <select id="groupFilter"><option value="">All groups</option></select>
+      </label>
+
+      <label>
+        <span>Kind</span>
+        <select id="kindFilter"><option value="">All kinds</option></select>
+      </label>
+
+      <label>
+        <span>Review</span>
+        <select id="reviewFilter">
+          <option value="">All</option>
+          <option value="review">Needs review</option>
+          <option value="known">Not marked</option>
+        </select>
+      </label>
+    </section>
+
+    <section class="summary" aria-live="polite">
+      <div><strong id="resultCount">0</strong><span>shown</span></div>
+      <div><strong id="totalCount">0</strong><span>entries</span></div>
+      <div><strong id="reviewCount">0</strong><span>to review</span></div>
+      <button id="clearFiltersBtn" class="text-button">Clear filters</button>
+    </section>
+
+    <section class="desktop-table" aria-label="Glossary table">
+      <div class="table-scroll">
+        <table>
+          <thead><tr id="tableHead"></tr></thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="cardList" class="card-list" aria-label="Glossary entries"></section>
+
+    <div id="emptyState" class="empty-state" hidden>
+      <strong>No matching entries.</strong>
+      <p>Clear the filters or add a new entry.</p>
+    </div>
+  </main>
+
+  <dialog id="entryDialog">
+    <form id="entryForm" method="dialog">
+      <div class="dialog-head">
+        <div>
+          <p class="eyebrow">Wiki entry</p>
+          <h2 id="entryDialogTitle">Add entry</h2>
+        </div>
+        <button type="button" class="icon-button" data-close="entryDialog" aria-label="Close">×</button>
+      </div>
+
+      <input id="entryId" type="hidden">
+
+      <div class="form-grid">
+        <label class="span-2">Term
+          <input id="termField" required maxlength="120">
+        </label>
+        <label>Group
+          <input id="groupField" list="groupOptions" required maxlength="80">
+          <datalist id="groupOptions"></datalist>
+        </label>
+        <label>Kind
+          <input id="kindField" list="kindOptions" required maxlength="50">
+          <datalist id="kindOptions"></datalist>
+        </label>
+        <label class="span-2">Definition
+          <textarea id="definitionField" required rows="3" maxlength="1200"></textarea>
+        </label>
+        <label class="span-2">Plain English
+          <textarea id="plainField" rows="2" maxlength="800"></textarea>
+        </label>
+        <label class="span-2">Example
+          <textarea id="exampleField" rows="2" maxlength="800"></textarea>
+        </label>
+        <label>Aliases <small>comma separated</small>
+          <input id="aliasesField" maxlength="500">
+        </label>
+        <label>Related <small>comma separated</small>
+          <input id="relatedField" maxlength="500">
+        </label>
+        <label class="span-2">Source / link
+          <input id="sourceField" maxlength="500" placeholder="Optional">
+        </label>
+        <label class="span-2">My note / comment
+          <textarea id="notesField" rows="3" maxlength="2000" placeholder="What do I keep forgetting about this?"></textarea>
+        </label>
+        <label class="check-row span-2">
+          <input id="reviewField" type="checkbox">
+          <span>Mark as “needs review”</span>
+        </label>
+        <div id="customFieldsEditor" class="span-2 custom-fields-editor"></div>
+      </div>
+
+      <div class="dialog-actions">
+        <button id="deleteEntryBtn" type="button" class="danger" hidden>Delete local entry</button>
+        <span class="spacer"></span>
+        <button type="button" data-close="entryDialog">Cancel</button>
+        <button class="primary" value="save">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="columnsDialog">
+    <div class="dialog-head">
+      <div>
+        <p class="eyebrow">Display</p>
+        <h2>Columns</h2>
+      </div>
+      <button type="button" class="icon-button" data-close="columnsDialog" aria-label="Close">×</button>
+    </div>
+    <p class="muted">Choose what appears in the desktop table. Custom columns are stored locally in this browser.</p>
+    <div id="columnChecklist" class="column-checklist"></div>
+    <form id="customColumnForm" class="inline-form">
+      <label>Add custom column
+        <input id="customColumnName" maxlength="40" placeholder="e.g. Provider">
+      </label>
+      <button class="primary">Add</button>
+    </form>
+    <div class="dialog-actions">
+      <span class="spacer"></span>
+      <button type="button" class="primary" data-close="columnsDialog">Done</button>
+    </div>
+  </dialog>
+
+  <dialog id="dataDialog">
+    <div class="dialog-head">
+      <div>
+        <p class="eyebrow">Backup & portability</p>
+        <h2>Data</h2>
+      </div>
+      <button type="button" class="icon-button" data-close="dataDialog" aria-label="Close">×</button>
+    </div>
+
+    <div class="data-grid">
+      <button id="exportJsonBtn">Export JSON snapshot</button>
+      <button id="exportCsvBtn">Export CSV</button>
+      <button id="exportMdBtn">Export Markdown</button>
+      <label class="file-button">Import JSON
+        <input id="importInput" type="file" accept=".json,application/json">
+      </label>
+    </div>
+
+    <p class="notice">
+      Edits, notes, review flags and custom columns are saved only in this browser. Export a JSON snapshot to move them to another device.
+    </p>
+
+    <div class="dialog-actions">
+      <button id="resetBtn" type="button" class="danger">Reset local changes</button>
+      <span class="spacer"></span>
+      <button type="button" class="primary" data-close="dataDialog">Done</button>
+    </div>
+  </dialog>
+
+  <footer>
+    <span>Static, local-first, no account or backend.</span>
+    <span>Tip: press <kbd>/</kbd> to search.</span>
+  </footer>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
