@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="A lightweight personal wiki and glossary for agentic AI terms, concepts and engineering slang.">
+  <meta name="description" content="A lightweight personal wiki for agentic AI concepts, focused learning, review and quick capture.">
   <meta name="color-scheme" content="light dark">
   <title>Agentic AI Glossary</title>
   <link rel="stylesheet" href="styles.css">
@@ -13,20 +13,55 @@
     <div>
       <p class="eyebrow">Personal reference</p>
       <h1>Agentic AI Glossary</h1>
-      <p class="subtitle">Searchable notes for terms, concepts, acronyms and engineering slang.</p>
+      <p class="subtitle">Find fast. Learn one thing. Park the rest.</p>
     </div>
     <div class="header-actions">
-      <button id="addEntryBtn" class="primary">+ Add entry</button>
+      <button id="resumeFocusBtn" class="primary">Focus</button>
+      <button id="addEntryBtn">+ Add entry</button>
       <button id="columnsBtn">Columns</button>
       <button id="dataBtn">Data</button>
     </div>
   </header>
 
   <main>
+    <section class="focus-strip" aria-label="Focus and parking lot">
+      <div class="focus-now">
+        <p class="eyebrow">Now</p>
+        <div class="focus-now-row">
+          <div>
+            <strong id="focusNowTerm">No active concept</strong>
+            <p id="focusNowHint">Pick one concept and stay with it until you can explain it simply.</p>
+          </div>
+          <button id="focusNowBtn" class="primary">Choose concept</button>
+        </div>
+      </div>
+
+      <form id="parkingForm" class="parking-form">
+        <label for="parkingInput">Something else caught your attention?</label>
+        <div class="parking-row">
+          <input id="parkingInput" maxlength="180" placeholder="Park it here instead of switching topics…" autocomplete="off">
+          <button class="quiet-primary">Park</button>
+        </div>
+        <div class="parking-meta">
+          <span id="parkingCount">0 parked</span>
+          <button id="openParkingBtn" type="button" class="text-button">Open parking lot</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="review-strip" aria-label="Review queue">
+      <div>
+        <p class="eyebrow">Review</p>
+        <strong><span id="dueCount">0</span> concepts due</strong>
+        <span class="muted">Short review beats another deep dive.</span>
+      </div>
+      <button id="reviewBtn">Review one</button>
+    </section>
+
     <section class="toolbar" aria-label="Glossary controls">
       <label class="search-wrap">
         <span class="sr-only">Search</span>
-        <input id="searchInput" type="search" placeholder="Search terms, definitions, notes…">
+        <input id="searchInput" type="search" placeholder="Search terms, definitions, memory hooks…">
       </label>
 
       <label>
@@ -40,11 +75,14 @@
       </label>
 
       <label>
-        <span>Review</span>
+        <span>Learning</span>
         <select id="reviewFilter">
           <option value="">All</option>
-          <option value="review">Needs review</option>
-          <option value="known">Not marked</option>
+          <option value="due">Due / fuzzy</option>
+          <option value="learning">Learning</option>
+          <option value="familiar">Familiar</option>
+          <option value="mastered">Solid</option>
+          <option value="new">Not reviewed</option>
         </select>
       </label>
     </section>
@@ -52,7 +90,7 @@
     <section class="summary" aria-live="polite">
       <div><strong id="resultCount">0</strong><span>shown</span></div>
       <div><strong id="totalCount">0</strong><span>entries</span></div>
-      <div><strong id="reviewCount">0</strong><span>to review</span></div>
+      <div><strong id="reviewCount">0</strong><span>due / fuzzy</span></div>
       <button id="clearFiltersBtn" class="text-button">Clear filters</button>
     </section>
 
@@ -72,6 +110,81 @@
       <p>Clear the filters or add a new entry.</p>
     </div>
   </main>
+
+  <dialog id="focusDialog" class="focus-dialog">
+    <div class="dialog-head focus-dialog-head">
+      <div>
+        <p class="eyebrow">Focus on one concept</p>
+        <h2 id="focusTerm">Concept</h2>
+      </div>
+      <button type="button" class="icon-button" data-close="focusDialog" aria-label="Close">×</button>
+    </div>
+
+    <div id="focusMeta" class="focus-meta"></div>
+    <p id="focusPlain" class="focus-plain"></p>
+
+    <section class="recall-box">
+      <label for="recallInput">Before revealing it: explain it in one sentence.</label>
+      <textarea id="recallInput" rows="2" maxlength="500" placeholder="Your current understanding…"></textarea>
+      <button id="revealBtn" type="button" class="primary">Reveal explanation</button>
+    </section>
+
+    <section id="focusAnswer" class="focus-answer" hidden>
+      <div class="answer-block">
+        <span class="mini-label">Definition</span>
+        <p id="focusDefinition"></p>
+      </div>
+      <div id="focusExampleWrap" class="answer-block" hidden>
+        <span class="mini-label">Example</span>
+        <p id="focusExample"></p>
+      </div>
+
+      <label class="memory-hook-label">Memory hook
+        <input id="memoryHookInput" maxlength="300" placeholder="The sentence, analogy or trick that makes this stick">
+      </label>
+
+      <div id="confusedWrap" class="after-this" hidden>
+        <span class="mini-label">Often confused with</span>
+        <div id="confusedLinks" class="chip-row"></div>
+      </div>
+
+      <div id="relatedWrap" class="after-this" hidden>
+        <span class="mini-label">After this</span>
+        <div id="relatedLinks" class="chip-row"></div>
+      </div>
+
+      <div id="backlinksWrap" class="after-this" hidden>
+        <span class="mini-label">Referenced by</span>
+        <div id="backlinks" class="chip-row"></div>
+      </div>
+    </section>
+
+    <div class="focus-actions">
+      <button id="fuzzyBtn" type="button">Still fuzzy</button>
+      <button id="gotItBtn" type="button">Got it</button>
+      <button id="solidBtn" type="button" class="primary">Solid</button>
+    </div>
+    <div class="focus-secondary-actions">
+      <button id="editFromFocusBtn" type="button" class="text-button">Edit entry</button>
+      <span id="focusSchedule" class="muted"></span>
+    </div>
+  </dialog>
+
+  <dialog id="parkingDialog">
+    <div class="dialog-head">
+      <div>
+        <p class="eyebrow">Parking lot</p>
+        <h2>Not now, not lost</h2>
+      </div>
+      <button type="button" class="icon-button" data-close="parkingDialog" aria-label="Close">×</button>
+    </div>
+    <p class="muted">Capture tangents without abandoning the concept you are learning. Convert one only when you intentionally decide to switch.</p>
+    <div id="parkingList" class="parking-list"></div>
+    <div class="dialog-actions">
+      <span class="spacer"></span>
+      <button type="button" class="primary" data-close="parkingDialog">Done</button>
+    </div>
+  </dialog>
 
   <dialog id="entryDialog">
     <form id="entryForm" method="dialog">
@@ -106,11 +219,17 @@
         <label class="span-2">Example
           <textarea id="exampleField" rows="2" maxlength="800"></textarea>
         </label>
+        <label class="span-2">Memory hook
+          <input id="memoryHookField" maxlength="300" placeholder="Analogy or sentence that makes this stick">
+        </label>
         <label>Aliases <small>comma separated</small>
           <input id="aliasesField" maxlength="500">
         </label>
         <label>Related <small>comma separated</small>
           <input id="relatedField" maxlength="500">
+        </label>
+        <label class="span-2">Often confused with <small>comma separated</small>
+          <input id="confusedField" maxlength="500" placeholder="e.g. Agent, Model">
         </label>
         <label class="span-2">Source / link
           <input id="sourceField" maxlength="500" placeholder="Optional">
@@ -120,7 +239,7 @@
         </label>
         <label class="check-row span-2">
           <input id="reviewField" type="checkbox">
-          <span>Mark as “needs review”</span>
+          <span>Mark as “still fuzzy / review soon”</span>
         </label>
         <div id="customFieldsEditor" class="span-2 custom-fields-editor"></div>
       </div>
@@ -142,7 +261,7 @@
       </div>
       <button type="button" class="icon-button" data-close="columnsDialog" aria-label="Close">×</button>
     </div>
-    <p class="muted">Choose what appears in the desktop table. Custom columns are stored locally in this browser.</p>
+    <p class="muted">Keep the table lean. Extra fields can stay hidden until you need them.</p>
     <div id="columnChecklist" class="column-checklist"></div>
     <form id="customColumnForm" class="inline-form">
       <label>Add custom column
@@ -175,7 +294,7 @@
     </div>
 
     <p class="notice">
-      Edits, notes, review flags and custom columns are saved only in this browser. Export a JSON snapshot to move them to another device.
+      Entries, learning state, memory hooks, parking-lot items and custom columns are stored only in this browser. Export JSON to move them to another device.
     </p>
 
     <div class="dialog-actions">
@@ -187,7 +306,7 @@
 
   <footer>
     <span>Static, local-first, no account or backend.</span>
-    <span>Tip: press <kbd>/</kbd> to search.</span>
+    <span><kbd>/</kbd> search · <kbd>f</kbd> resume focus · <kbd>p</kbd> park a tangent</span>
   </footer>
 
   <script src="data-loader.js"></script>
