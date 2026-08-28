@@ -2,7 +2,7 @@
   "use strict";
 
   const nativeFetch = window.fetch.bind(window);
-  const glossaryFiles = ["glossary-1.json", "glossary-2.json", "glossary-3.json", "glossary-4.json", "glossary-5.json"];
+  const glossaryFiles = ["glossary-1.json", "glossary-2.json", "glossary-3.json", "glossary-4.json", "glossary-5.json", "glossary-6.json"];
   const STORAGE_KEY = "agentic-ai-glossary.local.v1";
   let learningPaths = {};
   let glossaryEntries = [];
