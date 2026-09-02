@@ -1,0 +1,461 @@
+# V5 Design — Self-Contained Entries, Cross-Links, References, and Core Content Gaps
+
+Date: 2026-09-02
+Status: Approved after review
+Branch: `feat/v5-self-contained-entries`
+
+## Objective
+
+Make every glossary entry and long-form article useful as a teaching surface rather than only a definition index. A reader should be able to understand the concept, follow prerequisite/related concepts, inspect authoritative references, and navigate deeper without leaving the page or relying on Learn mode.
+
+V5 is deliberately a content-quality and rendering pass. It does not redesign the navigation, add accounts, add gamification, or introduce a frontend framework.
+
+## Success criteria
+
+V5 is complete when:
+
+1. Canonical glossary terms and aliases appearing in `definition`, `plain`, or `example` render as Wikipedia-style links to the existing `#term=` route, with a source-level opt-out for generic/common-word occurrences.
+2. Every canonical glossary entry across every glossary shard has a validated `level` and at least one authoritative `reference` before V5 is merged.
+3. Compact cards show level and prerequisites directly.
+4. The LLM Mathematics topic contains a concept-graph view built from canonical concepts and `related` edges.
+5. The LLM Mathematics teaching sequence explicitly covers vectors → attention → softmax → backpropagation/gradient descent → sampling, with ELI5 → mechanism → worked example depth.
+6. Canonical concepts `Distillation`, `Pruning`, and `Quantization` exist with references and meaningful graph relationships.
+7. A new long-form article, `How a model gets built, end to end`, covers pretraining → fine-tuning → alignment/RLHF → evaluation → deployment with a concrete toy example.
+8. Existing V4 navigation, Learn behavior, local state, and privacy boundary remain unchanged.
+9. CI validates metadata coverage, graph integrity, reference structure, new content, JavaScript/JSON syntax, and privacy constraints.
+
+## 0. Review decisions and risk controls
+
+### 0.1 Metadata coverage: full backfill in V5
+
+V5 will finish with **100% canonical metadata coverage**, not a partial coverage target.
+
+To avoid turning citation backfill into a risky big-bang change, implementation is staged:
+
+1. Build the metadata schema, loader merge, validator, and coverage report.
+2. Add metadata for new and actively touched concepts.
+3. Backfill the remaining canonical glossary entries in reviewable batches grouped by domain/source family.
+4. Switch the final merge gate to require 100% coverage.
+
+During branch development, the validator may report the current coverage percentage and uncovered terms. The branch is not merge-ready until coverage reaches 100%.
+
+References may be reused where one authoritative source genuinely covers several related concepts. The goal is defensible sourcing, not artificial one-source-per-term uniqueness.
+
+### 0.2 Auto-link escape hatch for common words
+
+Automatic linking is the default, but authors can suppress a specific occurrence with:
+
+```text
+[[nolink:Model]]
+```
+
+The rendered text is plain `Model`; the marker itself is never shown.
+
+This escape hatch is intended for ordinary-English uses of canonical terms such as `Model`, `Context`, `Memory`, `Agent`, or `Training` where a link would be noisy or misleading.
+
+### 0.3 Reference authority is a review gate, not a fake CI inference
+
+CI can validate structure, URL scheme, coverage, duplicate metadata keys, and generate a reference-domain/source report. It cannot reliably determine whether a source is truly primary or authoritative.
+
+Therefore:
+
+- automated validation checks structure and completeness;
+- CI emits a source/domain report to make review easier;
+- source authority remains an explicit PR-review responsibility;
+- the README/authoring rules state the source hierarchy: original paper/spec/standard/official docs first, authoritative textbooks/course material second, aggregators avoided.
+
+### 0.4 Graph layout debt is bounded deliberately
+
+The LLM Mathematics graph is curated and intentionally small. Topic data contains ordered `graphStages`, not hard-coded pixel coordinates. The renderer computes responsive deterministic positions from stage index and node index.
+
+This means adding a node generally requires adding it to a stage, not manually tuning x/y coordinates. If the graph grows beyond the point where a staged teaching flow remains readable, that is a future graph-system problem and is explicitly outside V5.
+
+## 1. Data model
+
+### 1.1 Canonical glossary content remains in glossary shards
+
+Existing `glossary-*.json` files remain authoritative for:
+
+- `term`
+- `group`
+- `kind`
+- `definition`
+- `plain`
+- `example`
+- `aliases`
+- `related`
+- existing optional teaching fields
+
+V5 will not mechanically duplicate every glossary entry into a new canonical content file.
+
+### 1.2 New `glossary-metadata.json`
+
+A new sidecar file is keyed by canonical term:
+
+```json
+{
+  "LLM": {
+    "level": "Core",
+    "references": [
+      {
+        "title": "Attention Is All You Need",
+        "url": "https://arxiv.org/abs/1706.03762"
+      }
+    ]
+  }
+}
+```
+
+Allowed levels are exactly:
+
+- `Beginner`
+- `Core`
+- `Advanced`
+
+`references` is an array of objects with:
+
+- `title`: non-empty string
+- `url`: absolute `https://` URL
+
+Reference policy:
+
+- Prefer original papers, standards, official specifications, official technical documentation, or authoritative textbooks/course material.
+- Avoid blog aggregators, SEO summaries, scraped content, and citation farms.
+- An entry may have multiple references.
+- **Every canonical glossary entry must have at least one reference before V5 merge. There are no silent coverage exemptions.**
+
+### 1.3 Prerequisite authority remains `learning-paths.json`
+
+Prerequisite relationships remain authoritative in `learning-paths.json`.
+
+At runtime `data-loader.js` merges prerequisites into the glossary entries as:
+
+```js
+entry.prerequisites = [...]
+```
+
+This prevents two sources of truth while letting every compact card render prerequisite information.
+
+### 1.4 Runtime entry shape
+
+After loading and merging, every canonical public glossary entry available to the UI has:
+
+- existing glossary fields
+- `level`
+- `references`
+- `prerequisites`
+
+Local-only user-created entries remain supported. They are not required to satisfy canonical metadata coverage and may use a fallback level such as `Local` in the UI rather than being written into `glossary-metadata.json`.
+
+## 2. Automatic term linking
+
+### 2.1 Scope
+
+Automatic links are generated in these glossary text fields:
+
+- `definition`
+- `plain`
+- `example`
+
+The same shared rendering helper may later be reused elsewhere, but V5 does not automatically rewrite arbitrary article prose.
+
+### 2.2 Matching
+
+The linker builds a runtime dictionary from:
+
+- canonical `term`
+- all `aliases`
+
+Rules:
+
+1. Case-insensitive matching.
+2. Longest-match-first so `context window` wins over `context` where both exist.
+3. Word-boundary-aware for ordinary word-like terms.
+4. Do not link the current entry to itself, including its aliases.
+5. Do not recursively process generated links.
+6. Escape source text before injecting anchor markup.
+7. All links use existing deep links: `#term=<canonical term>`.
+8. Generated anchors carry `data-term-link` and `data-no-open` so clicking a link inside a card does not trigger the card-level open/focus handler.
+9. `[[nolink:Canonical or alias text]]` protects one occurrence from linking and renders only the inner visible text.
+10. Invalid or unresolved `[[nolink:...]]` markers render their inner text safely rather than leaking markup.
+
+### 2.3 Failure behavior
+
+If the glossary dictionary is unavailable, rendering falls back to escaped plain text after stripping valid `nolink` markers. Linking is enhancement, not a loading dependency.
+
+## 3. Compact cards
+
+Each compact card will show:
+
+- canonical term
+- learning status (existing)
+- level badge: Beginner / Core / Advanced
+- definition with auto-linked terms
+- plain-English explanation with auto-linked terms when present
+- existing group/kind metadata
+- prerequisites, rendered as clickable concept chips when present
+- a compact `Further reading` section using the entry's references
+
+The existing focus/review behavior remains unchanged.
+
+The table view may expose level as an optional column, but the acceptance requirement applies to compact cards.
+
+## 4. Further reading blocks
+
+### 4.1 Glossary entries
+
+Compact cards and rich concept pages render `references` as `Further reading`.
+
+Reference links:
+
+- open in a new tab
+- use `rel="noopener noreferrer"`
+- display human-readable source titles
+- do not render unsafe or non-HTTP(S) URLs
+
+### 4.2 Long-form articles
+
+V4 articles already have structured references. V5 standardizes the user-facing heading as `Further reading` or separates the existing reference list into primary references and advanced reading where useful.
+
+Articles continue to use the existing richer reference schema. No regression to article metadata is allowed.
+
+## 5. Concept graph
+
+### 5.1 Scope
+
+V5 ships one graph in the `LLM Mathematics` topic hub.
+
+It is not a general-purpose graph explorer.
+
+### 5.2 Graph data
+
+The `llm-mathematics` topic gains an ordered structure such as:
+
+```json
+"graphStages": [
+  ["Embedding", "Vector"],
+  ["Attention"],
+  ["Softmax"],
+  ["Training", "Backpropagation", "Gradient descent"],
+  ["Inference", "Sampling"]
+]
+```
+
+Exact canonical names must resolve against the glossary.
+
+Nodes are canonical glossary terms from these stages. Edges are derived only from canonical `related` relationships where both endpoints are in the graph node set.
+
+No duplicated graph-edge content file is introduced.
+
+### 5.3 Rendering
+
+Use deterministic inline SVG implemented with existing vanilla JavaScript/CSS.
+
+Requirements:
+
+- responsive sizing
+- positions computed from stage index/node index rather than stored pixel coordinates
+- clear labels
+- accessible clickable nodes where practical
+- click node → existing `#term=` route
+- no external graph dependency
+- graph failure does not block the topic hub content
+
+## 6. LLM Mathematics teaching pass
+
+The `LLM Mathematics` hub is reorganized into an explicit progressive sequence:
+
+1. vectors and representations
+2. attention scores / weighted combinations
+3. softmax and probability distributions
+4. training loss and backpropagation / gradient descent
+5. autoregressive inference and sampling
+
+Each stage must follow the existing progressive-depth philosophy:
+
+### ELI5
+
+Explain the intuition in ordinary language before notation.
+
+### Mechanism
+
+Introduce the actual operation and why it exists in the pipeline.
+
+### Worked example
+
+Use small hand-computable numbers. Avoid examples that require a calculator or obscure the concept behind large matrices.
+
+The existing mathematics articles should be revised or connected rather than creating redundant copies.
+
+## 7. Missing concepts
+
+Add canonical entries:
+
+### Distillation
+
+Explain knowledge distillation as teacher-student transfer/compression. Cover:
+
+- teacher vs student model
+- soft targets / probability distribution matching at a conceptual level
+- why it can reduce inference cost
+- trade-off between compression and capability retention
+
+Related concepts should include `Model`, `Training`, `Quantization`, and `Pruning` where canonical relationships make sense.
+
+### Pruning
+
+Explain removal/sparsification of parameters, weights, channels, heads, or structures to reduce computation/storage, with the distinction between unstructured and structured pruning at a high level.
+
+### Quantization
+
+Explain representing weights/activations with lower-precision numeric formats to reduce memory/bandwidth/compute, with accuracy/calibration trade-offs.
+
+All three receive levels, references, examples, plain-English explanations, and graph relationships.
+
+## 8. New article — How a model gets built, end to end
+
+New article ID:
+
+`how-a-model-gets-built-end-to-end`
+
+Primary topic:
+
+`ai-foundations`
+
+Secondary topic where appropriate:
+
+`ai-engineering`
+
+Required structure:
+
+1. ELI5 overview of the model-development lifecycle.
+2. Data preparation / tokenization context where necessary.
+3. Pretraining.
+4. Fine-tuning / supervised adaptation.
+5. Alignment, preference optimization, or RLHF — clearly state that real systems can use different post-training recipes and RLHF is not universal.
+6. Evaluation and red-teaming/validation concepts.
+7. Deployment / inference serving.
+8. Concrete toy example that follows one tiny fictional model/task through all stages.
+9. Failure modes and trade-offs.
+10. Related concepts.
+11. Primary/official references.
+12. Read-next links into mathematics, eval, inference, and agent/system concepts.
+
+The article must distinguish training a base model from building an assistant product around a model.
+
+## 9. Validation and CI
+
+Add V5 tests before implementation.
+
+The test/validator suite must cover:
+
+### Metadata
+
+- `glossary-metadata.json` parses.
+- Metadata keys resolve to canonical terms, never only aliases.
+- Coverage percentage is computed and printed during branch development.
+- Final merge gate requires exactly 100% canonical metadata coverage.
+- Levels are exactly Beginner/Core/Advanced.
+- References have non-empty titles and HTTPS URLs.
+- A source/domain report is emitted for manual authority review.
+
+### Runtime merge
+
+Static-contract tests confirm `data-loader.js` loads and merges metadata and prerequisites into runtime entries.
+
+### Auto-linking
+
+Tests confirm:
+
+- a dedicated linker helper exists
+- longest-match logic exists
+- self-link prevention exists
+- `#term=` routes are emitted
+- links are marked so card-level handlers do not consume them
+- `[[nolink:...]]` suppresses a selected occurrence
+- invalid/unresolved opt-out markers fail safely
+
+### Cards
+
+Tests require compact-card rendering for:
+
+- level badge
+- prerequisites
+- Further reading
+- linked teaching text
+
+### Graph
+
+Tests require:
+
+- LLM Mathematics topic `graphStages`
+- all graph-stage terms resolve canonically
+- SVG renderer or equivalent deterministic graph code
+- positions derived from stage/index
+- `related`-edge derivation
+- clickable canonical term nodes
+
+### Content
+
+Tests require canonical `Distillation`, `Pruning`, `Quantization`.
+
+Tests require article `how-a-model-gets-built-end-to-end` and its expected lifecycle stages.
+
+Tests require the LLM Mathematics hub/articles to cover vectors, attention, softmax, backpropagation/gradient descent, and sampling with ELI5 plus worked examples.
+
+### Existing safeguards
+
+Retain:
+
+- V3 content validation
+- V4 content validation
+- privacy validation
+- JavaScript syntax checks
+- JSON syntax checks
+- existing Learn/local-state/static-contract tests
+
+## 10. Files expected to change
+
+Likely additions:
+
+- `glossary-metadata.json`
+- `content/articles/how-a-model-gets-built-end-to-end.json`
+- V5-specific validator/tests if separation improves clarity
+
+Likely modifications:
+
+- `data-loader.js`
+- `app.js`
+- `wiki.js` if rich concept pages need metadata/reference rendering
+- `v4.js`
+- `v4.css` and/or `wiki.css`
+- `content/topics.json`
+- `content/articles/index.json`
+- existing LLM Mathematics articles
+- one glossary shard for Distillation/Pruning/Quantization
+- `.github/workflows/validate.yml`
+- `README.md`
+
+No navigation redesign and no new framework/build system.
+
+## 11. Non-goals
+
+V5 will not add:
+
+- accounts
+- server-side persistence
+- gamification
+- new top-level navigation
+- generic arbitrary graph exploration
+- an external graph library
+- automatic links inside source code/equations
+- automatic external-reference discovery at runtime
+- private repository integration
+
+## 12. Privacy
+
+Existing public/private rules remain binding.
+
+The new automatic linker, references, graph, and new project-neutral content must not expose private project paths, repository identifiers, proprietary data, internal test evidence, or work-derived confidential material.
+
+The existing privacy validator remains part of the acceptance gate.

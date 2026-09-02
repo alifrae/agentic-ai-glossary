@@ -10,18 +10,18 @@ The public site intentionally stays **static and local-first**: no framework, bu
 
 The repository started as an agentic-AI glossary. It is evolving into a broader **Personal AI & Engineering Wiki** with two complementary layers:
 
-- **Compact concepts** for fast retrieval, definitions, ELI5 explanations, aliases, examples, prerequisites, misconceptions, and related terms.
+- **Compact concepts** for fast retrieval, definitions, ELI5 explanations, aliases, examples, prerequisites, references, misconceptions, and related terms.
 - **Long-form articles and topic hubs** for subjects that need architecture, mathematics, worked examples, comparisons, references, trade-offs, and advanced reading.
 
 The main public knowledge areas are:
 
 - **AI Foundations** — models, LLMs, transformers, tokens, inference, training, embeddings, attention, context, reasoning and multimodality.
-- **LLM Mathematics** — vectors, matrices, probability, logits, softmax, embeddings, attention, loss, gradient descent, backpropagation, autoregressive inference, sampling and related mathematics.
+- **LLM Mathematics** — vectors, probability, softmax, embeddings, attention, loss, gradient descent, backpropagation, autoregressive inference and sampling.
 - **Agentic AI** — agents, workflows, harnesses, tools, skills, memory, orchestration, subagents, planning, verification and autonomy.
 - **Agent Protocols** — MCP, ACP, A2A, tool/function calling, schemas, transports, capability discovery, authentication/authorization and interoperability.
 - **AI Engineering** — RAG, grounding, evaluation, observability, feedback, safety, context engineering, routing and production trade-offs.
 - **Future AI** — AGI, ASI, recursive self-improvement, singularity, world models, physical AI, embodiment and forecasting uncertainty.
-- **AI & Humanity** — intelligence, consciousness, sentience, sapience, agency, machine consciousness, moral status, AI rights, human augmentation, work, meaning, transhumanism, alignment and coexistence.
+- **AI & Humanity** — intelligence, consciousness, sentience, sapience, agency, moral status, human augmentation, work, meaning, alignment and coexistence.
 - **Systems Engineering** — requirements, interfaces, black/white-box reasoning, verification, architecture, trade-offs and change-impact thinking.
 - **Pia / SceneWorks / PCS / Scene Studio** — public pages contain only intentionally sanitized, high-level engineering examples.
 
@@ -35,22 +35,24 @@ Public content must never contain private repository names, URLs, paths, documen
 
 Client-side hiding, obscure routes, or JavaScript gating are **not** considered privacy controls: anything shipped through GitHub Pages is public.
 
-## Current surfaces
+## Current V5 surfaces
 
-The V4 application provides:
+V5 keeps the V4/V3 navigation and learning flows while making compact concepts self-contained:
 
 - **Home** — retrieval-first landing page with topic entry points and global search.
-- **Topics** — browse the 11 public knowledge hubs and their flagship articles.
+- **Topics** — public knowledge hubs and their flagship articles.
 - **Wiki** — searchable compact glossary plus rich concept pages.
 - **Learn** — focus-first learning with recall-before-reveal, prerequisites and review state.
 - **ELI5 & Misconceptions** — simple mental models and nuanced misconception cards.
-- **Long-form articles** — source-backed explanations with equations, worked examples, comparisons, references, read-next paths and advanced reading.
+- **Long-form articles** — source-backed explanations with equations, worked examples, comparisons, references and read-next paths.
+- **Self-contained concept cards** — every canonical concept has a level, prerequisite links where defined, automatic related-term linking, and authoritative further reading.
+- **LLM Mathematics graph** — a clickable deterministic SVG graph generated from `graphStages` plus canonical related-concept edges.
 
-V4 preserves the existing V3 learning model and browser-local state while adding the broader knowledge architecture around it.
+V5 preserves browser-local state under `agentic-ai-glossary.local.v1`.
 
 ## Focus-first learning
 
-The learning behavior is intentionally small and low-maintenance:
+The learning behavior remains intentionally small and low-maintenance:
 
 - one active concept;
 - recall before reveal;
@@ -70,35 +72,71 @@ No streaks, timers, notifications, accounts, or complicated spaced-repetition en
 Canonical public knowledge is split by responsibility:
 
 - `glossary-*.json` — compact canonical vocabulary and concept graph.
-- `learning-paths.json` — prerequisite edges and learning-oriented relationships.
-- `wiki-content.json` — optional concept enrichment for selected terms.
+- `glossary-metadata.json` — V5 sidecar keyed by **canonical term**, containing `level` and authoritative `references` for every canonical entry.
+- `learning-paths.json` — the single source of truth for prerequisite edges and learning-oriented relationships.
+- `wiki-content.json` — optional rich concept enrichment for selected terms.
 - `misconceptions.json` — curated misconception cards.
-- `content/topics.json` — V4 topic-hub manifest.
-- `content/articles/index.json` — V4 long-form article manifest.
+- `content/topics.json` — topic-hub manifest; `graphStages` is used for deterministic topic graphs where needed.
+- `content/articles/index.json` — long-form article manifest.
 - `content/articles/*.json` — structured source-backed articles.
+- `scripts/generate_v5_metadata.py` — deterministic helper that produces explicit metadata records from the reviewed source-family registry while preserving manual per-term overrides.
 
 Browser-specific state remains in `localStorage` under `agentic-ai-glossary.local.v1`, including notes, local edits, recall text, learning state, parking-lot items and display preferences.
 
+## V5 concept-page behavior
+
+Every canonical concept must remain useful without opening another article:
+
+1. term + level;
+2. ELI5 / plain-English explanation;
+3. precise definition;
+4. example or mechanism where available;
+5. prerequisite links from `learning-paths.json`;
+6. automatic links to canonical concepts mentioned in prose;
+7. further reading from `glossary-metadata.json`.
+
+Automatic linking is longest-match-first and resolves aliases to canonical `#term=` routes. To intentionally keep an occurrence as ordinary prose, write:
+
+```text
+[[nolink:Model]]
+```
+
+It renders as plain `Model` without creating a concept link.
+
+## Reference policy
+
+V5 requires at least one HTTPS reference for **every** canonical glossary entry. The preferred hierarchy is:
+
+1. original paper, specification, standard, or official project/product documentation;
+2. authoritative textbook, institutional guide, or maintained technical documentation;
+3. secondary explainers only when a stronger source is unavailable.
+
+Avoid SEO aggregators, anonymous tutorials, scraped copies, and placeholder URLs. CI validates structure, canonical coverage and URL shape; **source authority remains a human review responsibility**. `scripts/validate_v5_content.py` prints reference-host distribution to make review easier.
+
+Allowed concept levels are exactly:
+
+- `Beginner`
+- `Core`
+- `Advanced`
+
 ## Article design
 
-Substantial V4 articles are designed to support progressive depth rather than a single wall of text. Depending on the topic they can include:
+Substantial articles support progressive depth rather than a single wall of text. Depending on the topic they can include:
 
 - ELI5 / 30-second explanation;
-- core explanation;
+- mechanism;
 - equations and notation;
 - worked numerical examples;
-- architecture/mechanism;
+- architecture;
 - trade-offs and failure modes;
 - engineering scenarios;
 - misconceptions;
 - self-checks;
 - related concepts and prerequisites;
 - epistemic-status labels for contested/future topics;
-- **References**;
-- **Read more**;
-- **Advanced reading**.
+- references and read-next paths.
 
-Primary sources, official specifications, original papers and standards are preferred when available.
+The model-lifecycle article deliberately separates data preparation, tokenization, pretraining, fine-tuning, preference-oriented post-training, evaluation/red-teaming, deployment/inference and the surrounding assistant product. RLHF is presented as an influential recipe, **not a universal stage**.
 
 ## Epistemic discipline
 
@@ -116,18 +154,37 @@ The wiki should make uncertainty easier to see, not flatten technical facts, for
 
 ### Add a compact concept
 
-Add it to an appropriate `glossary-*.json` shard with a concise definition, plain-English explanation, useful aliases/examples and meaningful relationship edges.
+1. Add the canonical entry to an appropriate numbered `glossary-N.json` shard.
+2. Add prerequisite relationships to `learning-paths.json` only if they genuinely improve learning order.
+3. Add or regenerate its `glossary-metadata.json` record with an allowed level and authoritative reference.
+4. Add meaningful aliases/related edges; avoid relationship spam merely to make the graph dense.
+5. Use `[[nolink:Term]]` when an ordinary-language occurrence should not auto-link.
+6. Run the full validators before merge.
+
+To regenerate the explicit metadata sidecar from the reviewed source registry while preserving manual overrides:
+
+```bash
+python scripts/generate_v5_metadata.py
+```
+
+Review the resulting source assignments before committing them.
+
+### Maintain the LLM Mathematics graph
+
+`content/topics.json` owns the ordered `graphStages` data. Do **not** hand-maintain x/y coordinates. The renderer computes node positions from stage/index and derives graph edges from canonical `related` relationships.
+
+All graph labels must resolve to canonical glossary terms.
 
 ### Enrich a concept
 
-For compact concept enrichment, add the canonical term to `wiki-content.json` with only the fields that add teaching value (`howItWorks`, `whenItMatters`, trade-offs, failure modes, scenarios, decision factors, self-checks and sources).
+For rich concept enrichment, add the canonical term to `wiki-content.json` with only fields that add teaching value (`howItWorks`, `whenItMatters`, trade-offs, failure modes, scenarios, decision factors, self-checks and sources).
 
-### Add a long-form V4 article
+### Add a long-form article
 
 1. Add or confirm its topic in `content/topics.json`.
 2. Add the article to `content/articles/index.json`.
 3. Create its structured JSON document under `content/articles/`.
-4. Use public-only references.
+4. Prefer primary/official references.
 5. Mark project-specific public articles as sanitized.
 6. Run all content and privacy validators before merge.
 
@@ -152,14 +209,17 @@ Required validation includes:
 python -m unittest discover -s tests -p 'test_*.py' -v
 python scripts/validate_content.py
 python scripts/validate_v4_content.py
+python scripts/validate_v5_content.py
 python scripts/validate_privacy.py
 node --check app.js
 node --check data-loader.js
+node --check term-links.js
 node --check wiki.js
 node --check v4.js
+node --check v5.js
 ```
 
-The V3 content graph, V4 content graph, and public privacy boundary are all required CI gates on `main`.
+`validate_v5_content.py` is a hard gate: metadata coverage must be **100%**. The V3 graph, V4 content graph, V5 metadata graph, unit tests, JavaScript syntax, JSON syntax and public privacy boundary must all pass on `main`.
 
 ## Run locally
 
@@ -180,6 +240,7 @@ Useful deep links include:
 - `#page=eli5`
 - `#term=LLM`
 - `#topic=llm-mathematics`
+- `#article=how-a-model-gets-built-end-to-end`
 - `#article=llm-math-from-vectors-to-attention`
 
 ## GitHub Pages

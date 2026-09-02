@@ -5,12 +5,14 @@
   const glossaryFiles = ["glossary-1.json", "glossary-2.json", "glossary-3.json", "glossary-4.json", "glossary-5.json", "glossary-6.json", "glossary-7.json"];
   const STORAGE_KEY = "agentic-ai-glossary.local.v1";
   let learningPaths = {};
+  let glossaryMetadata = {};
   let glossaryEntries = [];
 
   window.__wikiContent = window.__wikiContent || {};
   window.__wikiMisconceptions = window.__wikiMisconceptions || [];
   window.__wikiTopics = window.__wikiTopics || [];
   window.__wikiArticles = window.__wikiArticles || [];
+  window.__wikiGlossaryMetadata = window.__wikiGlossaryMetadata || {};
 
   function unique(values) {
     return [...new Set((values || []).map(String).map(v => v.trim()).filter(Boolean))];
@@ -39,6 +41,19 @@
     }
     window.__wikiLearningPaths = learningPaths;
     return learningPaths;
+  }
+
+  async function loadGlossaryMetadata() {
+    const payload = await loadOptionalJson(
+      "glossary-metadata.json",
+      { entries: {} },
+      "Glossary metadata"
+    );
+    glossaryMetadata = payload?.entries && typeof payload.entries === "object" && !Array.isArray(payload.entries)
+      ? payload.entries
+      : {};
+    window.__wikiGlossaryMetadata = glossaryMetadata;
+    return glossaryMetadata;
   }
 
   async function loadWikiEnrichment() {
@@ -80,21 +95,26 @@
     const url = typeof input === "string" ? input : input?.url;
     if (url !== "glossary.json") return nativeFetch(input, init);
 
-    const [payloads, paths] = await Promise.all([
+    const [payloads, paths, metadata] = await Promise.all([
       Promise.all(glossaryFiles.map(async file => {
         const response = await nativeFetch(file, { ...init, cache: "no-store" });
         if (!response.ok) throw new Error(`${file}: HTTP ${response.status}`);
         return response.json();
       })),
       loadLearningPaths(),
+      loadGlossaryMetadata(),
       loadWikiEnrichment(),
       loadV4Content()
     ]);
 
     glossaryEntries = payloads.flatMap(payload => payload.entries || []).map(entry => {
       const learning = paths[entry.term] || {};
+      const meta = metadata[entry.term] || {};
       return {
         ...entry,
+        level: meta.level || "",
+        references: Array.isArray(meta.references) ? meta.references : [],
+        prerequisites: unique(learning.understandFirst || []),
         memoryHook: entry.memoryHook || learning.memoryHook || "",
         confusedWith: unique([...(entry.confusedWith || []), ...(learning.confusedWith || [])])
       };

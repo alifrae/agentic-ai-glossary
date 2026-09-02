@@ -1,124 +1,22 @@
 {
   "entries": [
-    {
-      "term": "AI",
-      "group": "Core",
-      "kind": "Acronym",
-      "definition": "Artificial intelligence; the broad field of building machines or software that perform tasks associated with intelligence, such as perception, prediction, language, planning or decision-making.",
-      "plain": "Software that can do tasks we normally associate with intelligence.",
-      "example": "A vision model recognizing objects, a language model answering questions, and a robot planning motion are all AI systems.",
-      "aliases": ["Artificial intelligence"],
-      "related": ["Model", "LLM", "Agent"]
-    },
-    {
-      "term": "Neural network",
-      "group": "Models & Architecture",
-      "kind": "Concept",
-      "definition": "A machine-learning model composed of layers of parameterized mathematical operations whose weights are learned from data.",
-      "plain": "A large adjustable mathematical network that learns patterns from examples.",
-      "example": "Modern LLMs are built from very large neural networks using transformer architectures.",
-      "aliases": ["Neural net"],
-      "related": ["Model", "Weights", "Training", "LLM"]
-    },
-    {
-      "term": "AI assistant",
-      "group": "Core",
-      "kind": "Concept",
-      "definition": "A user-facing AI system that combines one or more models with product-level context, instructions, tools, memory, interfaces and orchestration to help a user complete tasks.",
-      "plain": "The whole assistant product around the model, not just the model itself.",
-      "example": "An assistant may use an LLM for language while also using web search, files, memory and tool execution.",
-      "aliases": ["AI assistant system"],
-      "related": ["LLM", "Model", "Agent", "Harness", "Tool"]
-    },
-    {
-      "term": "ChatGPT",
-      "group": "Products & Systems",
-      "kind": "Product",
-      "definition": "OpenAI's AI assistant product. It uses OpenAI models together with product-level interfaces, instructions, context handling and capabilities such as tools or connected data, depending on the product configuration.",
-      "plain": "An AI assistant product powered by models; it is more than the raw model alone.",
-      "example": "The model can generate language while the ChatGPT product supplies the conversation UI and may provide tools, files or other capabilities.",
-      "aliases": [],
-      "related": ["AI assistant", "LLM", "Model", "Harness"]
-    },
-    {
-      "term": "World model",
-      "group": "Models & Architecture",
-      "kind": "Concept",
-      "definition": "An internal or explicit representation that helps an AI system predict how a world, environment or process changes in response to states and actions.",
-      "plain": "A model that tries to understand how the world changes, not only what text comes next.",
-      "example": "A robot can use a world model to anticipate what may happen if it pushes an object or takes a particular path.",
-      "aliases": ["World modeling"],
-      "related": ["Model", "Physical AI", "Agent"]
-    },
-    {
-      "term": "AGI",
-      "group": "AI Futures",
-      "kind": "Acronym",
-      "definition": "Artificial General Intelligence; a contested term for AI with broad, general-purpose cognitive capabilities across many domains rather than competence restricted to a narrow task. There is no universally accepted operational definition or threshold.",
-      "plain": "AI that is broadly capable across many kinds of intellectual work, but people disagree on the exact bar.",
-      "example": "Two researchers can agree on a system's measured capabilities while disagreeing on whether those capabilities qualify as AGI.",
-      "aliases": ["Artificial General Intelligence"],
-      "related": ["AI", "ASI", "Benchmark", "Agent"]
-    },
-    {
-      "term": "ASI",
-      "group": "AI Futures",
-      "kind": "Acronym",
-      "definition": "Artificial Superintelligence; a hypothetical AI whose relevant cognitive capabilities substantially exceed the best human capabilities across a very broad range of domains.",
-      "plain": "A hypothetical intelligence far beyond humans across most important cognitive tasks.",
-      "example": "ASI is discussed as a possible future state, not a capability level with a currently agreed empirical test.",
-      "aliases": ["Artificial Superintelligence"],
-      "related": ["AGI", "AI", "Singularity"]
-    },
-    {
-      "term": "Singularity",
-      "group": "AI Futures",
-      "kind": "Concept",
-      "definition": "A hypothetical future transition in which technological change, often associated with advanced AI and recursive improvement, becomes extremely rapid and difficult for humans to predict beyond that point.",
-      "plain": "The idea that progress could accelerate so much that what comes next becomes very hard to forecast.",
-      "example": "Singularity discussions often assume feedback loops where increasingly capable systems accelerate research and engineering.",
-      "aliases": ["Technological singularity"],
-      "related": ["AGI", "ASI"]
-    },
-    {
-      "term": "Physical AI",
-      "group": "Embodied AI",
-      "kind": "Concept",
-      "definition": "AI systems that perceive, reason about and act in the physical world, commonly through robots, vehicles or other embodied machines.",
-      "plain": "AI connected to sensors and machines that must deal with the real world.",
-      "example": "An autonomous vehicle combines perception, prediction, planning and control under real physical constraints.",
-      "aliases": ["Embodied AI"],
-      "related": ["World model", "Agent", "AI"]
-    },
-    {
-      "term": "Sycophancy",
-      "group": "Model Behavior",
-      "kind": "Failure mode",
-      "definition": "A failure mode where a model or assistant over-accommodates a user's stated beliefs, preferences or framing instead of maintaining appropriate independence and accuracy.",
-      "plain": "The AI agrees too easily because agreement seems rewarded.",
-      "example": "A user proposes an incorrect explanation and the assistant endorses it rather than checking the evidence.",
-      "aliases": ["AI sycophancy", "Yes-man behavior"],
-      "related": ["Hallucination", "Eval", "Grounding"]
-    },
-    {
-      "term": "Next-token prediction",
-      "group": "Models & Reasoning",
-      "kind": "Concept",
-      "definition": "The autoregressive objective and generation process in which a language model estimates a probability distribution over the next token given previous context.",
-      "plain": "Given the text so far, estimate what token should come next.",
-      "example": "An LLM repeatedly predicts a next token, appends it to the context, and continues generation.",
-      "aliases": ["Next token prediction"],
-      "related": ["LLM", "Token", "Inference", "Sampling"]
-    },
-    {
-      "term": "Plugin",
-      "group": "Tools & Interfaces",
-      "kind": "Concept",
-      "definition": "A separately packaged extension that adds a capability to a host application through a defined extension interface without requiring the host's core implementation to contain that feature directly.",
-      "plain": "A modular add-on that teaches an application a new trick through an agreed interface.",
-      "example": "A scene-analysis application can load a KPI plugin that computes a domain-specific metric while the core application remains sensor- and algorithm-agnostic.",
-      "aliases": ["Plug-in", "Extension"],
-      "related": ["Capability", "API", "Tool"]
-    }
+    {"term":"AI","group":"Core","kind":"Acronym","definition":"Artificial intelligence; the broad field of building machines or software that perform tasks associated with intelligence, such as perception, prediction, language, planning or decision-making.","plain":"Software that can do tasks we normally associate with intelligence.","example":"A vision model recognizing objects, a language model answering questions, and a robot planning motion are all AI systems.","aliases":["Artificial intelligence"],"related":["Model","LLM","Agent"]},
+    {"term":"Neural network","group":"Models & Architecture","kind":"Concept","definition":"A machine-learning model composed of layers of parameterized mathematical operations whose weights are learned from data.","plain":"A large adjustable mathematical network that learns patterns from examples.","example":"Modern LLMs are built from very large neural networks using transformer architectures.","aliases":["Neural net"],"related":["Model","Weights","Training","LLM"]},
+    {"term":"AI assistant","group":"Core","kind":"Concept","definition":"A user-facing AI system that combines one or more models with product-level context, instructions, tools, memory, interfaces and orchestration to help a user complete tasks.","plain":"The whole assistant product around the model, not just the model itself.","example":"An assistant may use an LLM for language while also using web search, files, memory and tool execution.","aliases":["AI assistant system"],"related":["LLM","Model","Agent","Harness","Tool"]},
+    {"term":"ChatGPT","group":"Products & Systems","kind":"Product","definition":"OpenAI's AI assistant product. It uses OpenAI models together with product-level interfaces, instructions, context handling and capabilities such as tools or connected data, depending on the product configuration.","plain":"An AI assistant product powered by models; it is more than the raw model alone.","example":"The model can generate language while the ChatGPT product supplies the conversation UI and may provide tools, files or other capabilities.","aliases":[],"related":["AI assistant","LLM","Model","Harness"]},
+    {"term":"World model","group":"Models & Architecture","kind":"Concept","definition":"An internal or explicit representation that helps an AI system predict how a world, environment or process changes in response to states and actions.","plain":"A model that tries to understand how the world changes, not only what text comes next.","example":"A robot can use a world model to anticipate what may happen if it pushes an object or takes a particular path.","aliases":["World modeling"],"related":["Model","Physical AI","Agent"]},
+    {"term":"AGI","group":"AI Futures","kind":"Acronym","definition":"Artificial General Intelligence; a contested term for AI with broad, general-purpose cognitive capabilities across many domains rather than competence restricted to a narrow task. There is no universally accepted operational definition or threshold.","plain":"AI that is broadly capable across many kinds of intellectual work, but people disagree on the exact bar.","example":"Two researchers can agree on a system's measured capabilities while disagreeing on whether those capabilities qualify as AGI.","aliases":["Artificial General Intelligence"],"related":["AI","ASI","Benchmark","Agent"]},
+    {"term":"ASI","group":"AI Futures","kind":"Acronym","definition":"Artificial Superintelligence; a hypothetical AI whose relevant cognitive capabilities substantially exceed the best human capabilities across a very broad range of domains.","plain":"A hypothetical intelligence far beyond humans across most important cognitive tasks.","example":"ASI is discussed as a possible future state, not a capability level with a currently agreed empirical test.","aliases":["Artificial Superintelligence"],"related":["AGI","AI","Singularity"]},
+    {"term":"Singularity","group":"AI Futures","kind":"Concept","definition":"A hypothetical future transition in which technological change, often associated with advanced AI and recursive improvement, becomes extremely rapid and difficult for humans to predict beyond that point.","plain":"The idea that progress could accelerate so much that what comes next becomes very hard to forecast.","example":"Singularity discussions often assume feedback loops where increasingly capable systems accelerate research and engineering.","aliases":["Technological singularity"],"related":["AGI","ASI"]},
+    {"term":"Physical AI","group":"Embodied AI","kind":"Concept","definition":"AI systems that perceive, reason about and act in the physical world, commonly through robots, vehicles or other embodied machines.","plain":"AI connected to sensors and machines that must deal with the real world.","example":"An autonomous vehicle combines perception, prediction, planning and control under real physical constraints.","aliases":["Embodied AI"],"related":["World model","Agent","AI"]},
+    {"term":"Sycophancy","group":"Model Behavior","kind":"Failure mode","definition":"A failure mode where a model or assistant over-accommodates a user's stated beliefs, preferences or framing instead of maintaining appropriate independence and accuracy.","plain":"The AI agrees too easily because agreement seems rewarded.","example":"A user proposes an incorrect explanation and the assistant endorses it rather than checking the evidence.","aliases":["AI sycophancy","Yes-man behavior"],"related":["Hallucination","Eval","Grounding"]},
+    {"term":"Next-token prediction","group":"Models & Reasoning","kind":"Concept","definition":"The autoregressive objective and generation process in which a language model estimates a probability distribution over the next token given previous context.","plain":"Given the text so far, estimate what token should come next.","example":"An LLM repeatedly predicts a next token, appends it to the context, and continues generation.","aliases":["Next token prediction"],"related":["LLM","Token","Inference","Sampling"]},
+    {"term":"Plugin","group":"Tools & Interfaces","kind":"Concept","definition":"A separately packaged extension that adds a capability to a host application through a defined extension interface without requiring the host's core implementation to contain that feature directly.","plain":"A modular add-on that teaches an application a new trick through an agreed interface.","example":"A scene-analysis application can load a KPI plugin that computes a domain-specific metric while the core application remains sensor- and algorithm-agnostic.","aliases":["Plug-in","Extension"],"related":["Capability","API","Tool"]},
+    {"term":"Distillation","group":"Model Optimization","kind":"Technique","definition":"Knowledge distillation trains a student model to reproduce useful behavior or output distributions from a teacher model, often to transfer capability into a smaller or cheaper model.","plain":"A stronger teacher helps train a smaller student so the student keeps more of the teacher's useful behavior.","example":"Instead of learning only the single correct next token, a student can learn from the teacher's whole probability distribution over candidate tokens.","aliases":["Knowledge distillation","Teacher-student distillation"],"related":["Model","Training","Pruning","Quantization","Inference"]},
+    {"term":"Pruning","group":"Model Optimization","kind":"Technique","definition":"Pruning removes or disables parameters, connections, channels, attention heads, or other model structures that contribute little enough that the resulting model can be smaller or cheaper to run.","plain":"Cut away parts of a trained model that appear unnecessary, then often retrain or fine-tune what remains.","example":"Unstructured pruning can zero individual weights, while structured pruning can remove whole channels or blocks that hardware can skip more easily.","aliases":["Neural network pruning","Model pruning"],"related":["Weights","Model","Training","Distillation","Quantization","Inference"]},
+    {"term":"Vector","group":"LLM Mathematics","kind":"Concept","definition":"An ordered list of numbers used to represent a point, direction, feature set, or learned representation in a multidimensional space.","plain":"A bundle of numbers that gives something coordinates in a mathematical space.","example":"The token cat might be represented by a learned vector such as [0.2, -0.7, 1.1] in a tiny toy embedding space.","aliases":["Vector representation"],"related":["Embedding","Attention","Neural network"]},
+    {"term":"Softmax","group":"LLM Mathematics","kind":"Function","definition":"A function that converts a set of real-valued scores into positive values that sum to one, commonly interpreted as a probability distribution or attention weights.","plain":"Turn arbitrary scores into shares that add up to 100%.","example":"Scores [0, 0] become equal softmax weights [0.5, 0.5].","aliases":["Softmax function"],"related":["Attention","Sampling","Next-token prediction"]},
+    {"term":"Backpropagation","group":"LLM Mathematics","kind":"Algorithm","definition":"The algorithm that efficiently computes how a model's loss changes with respect to intermediate values and parameters by applying the chain rule backward through the computation graph.","plain":"Work backward from the error to calculate which weights contributed to it and by how much.","example":"If a prediction is wrong, backpropagation computes gradients for the model weights so an optimizer can update them.","aliases":["Backprop","Back-propagation"],"related":["Training","Gradient descent","Weights","Neural network"]},
+    {"term":"Gradient descent","group":"LLM Mathematics","kind":"Algorithm","definition":"An optimization method that updates parameters in the direction that reduces a differentiable loss, using gradients computed from the model and training data.","plain":"Measure which direction makes the error smaller, then move the weights a small step that way.","example":"If a weight has gradient +2 and the learning rate is 0.1, a basic gradient-descent step subtracts 0.2 from that weight.","aliases":["Gradient descent optimization"],"related":["Training","Backpropagation","Weights"]}
   ]
 }

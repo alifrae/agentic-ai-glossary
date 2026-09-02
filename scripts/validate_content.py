@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import json
+import re
 import sys
 from pathlib import Path
 from typing import Any
@@ -11,6 +12,7 @@ from typing import Any
 
 ALLOWED_VERDICTS = {"False", "Misleading", "Depends", "Reasonable but uncertain"}
 MISCONCEPTION_REQUIRED = ("claim", "verdict", "short", "detail", "related")
+GLOSSARY_SHARD_RE = re.compile(r"^glossary-\d+\.json$")
 
 
 def _read_json(path: Path) -> Any:
@@ -21,7 +23,10 @@ def _read_json(path: Path) -> Any:
 
 
 def _glossary_files(root: Path) -> list[Path]:
-    return sorted(root.glob("glossary-*.json"), key=lambda p: p.name)
+    return sorted(
+        (path for path in root.glob("glossary-*.json") if GLOSSARY_SHARD_RE.match(path.name)),
+        key=lambda p: p.name,
+    )
 
 
 def validate_repo(root: Path) -> list[str]:
@@ -121,15 +126,15 @@ def validate_repo(root: Path) -> list[str]:
 
 
 def main() -> int:
-    root = Path(__file__).resolve().parents[1]
-    errors = validate_repo(root)
+    errors = validate_repo(Path.cwd())
     if errors:
+        print("Content validation failed:", file=sys.stderr)
         for error in errors:
-            print(f"ERROR: {error}")
+            print(f"- {error}", file=sys.stderr)
         return 1
     print("Content validation passed.")
     return 0
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    raise SystemExit(main())

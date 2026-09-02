@@ -85,6 +85,50 @@ class StaticContractTests(unittest.TestCase):
         ]:
             self.assertIn(token, loader)
 
+    def test_v5_runtime_metadata_merge_contract(self):
+        loader = self.read("data-loader.js")
+        for token in [
+            "glossary-metadata.json",
+            "__wikiGlossaryMetadata",
+            "prerequisites:",
+            "level:",
+            "references:",
+        ]:
+            self.assertIn(token, loader)
+
+    def test_v5_self_contained_entry_surface(self):
+        term_links = self.read("term-links.js")
+        self.assertIn('href = "v5.css"', term_links)
+        self.assertIn('src = "v5.js"', term_links)
+        v5 = self.read("v5.js")
+        for token in [
+            "WikiTermLinks.render",
+            "entry.level",
+            "entry.prerequisites",
+            "entry.references",
+            "Further reading",
+            "data-no-open",
+            "noopener noreferrer",
+            "MutationObserver",
+            "#cardList",
+            "#conceptContent",
+        ]:
+            self.assertIn(token, v5)
+
+    def test_v5_llm_math_graph_renderer_contract(self):
+        v5 = self.read("v5.js")
+        for token in [
+            "graphStages",
+            "renderMathGraph",
+            "<svg",
+            "stageIndex",
+            "nodeIndex",
+            "entry.related",
+            "data-v5-graph-term",
+            "#v4TopicView",
+        ]:
+            self.assertIn(token, v5)
+
     def test_v4_shell_article_renderer_and_global_search(self):
         html = self.read("index.html")
         self.assertIn('href="v4.css"', html)

@@ -1,0 +1,1480 @@
+{
+  "entries": {
+    "Adapter": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "OpenAPI Specification",
+          "url": "https://spec.openapis.org/oas/latest.html"
+        }
+      ]
+    },
+    "Agent": {
+      "level": "Beginner",
+      "references": [
+        {
+          "title": "Deep Learning",
+          "url": "https://www.deeplearningbook.org/"
+        }
+      ]
+    },
+    "Agent loop": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "Building Effective AI Agents",
+          "url": "https://www.anthropic.com/engineering/building-effective-agents"
+        }
+      ]
+    },
+    "Agent spaghetti": {
+      "level": "Beginner",
+      "references": [
+        {
+          "title": "Guide to the Software Engineering Body of Knowledge (SWEBOK Guide V4.0)",
+          "url": "https://www.computer.org/education/bodies-of-knowledge/software-engineering"
+        }
+      ]
+    },
+    "Agent-friendly API": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "OpenAPI Specification",
+          "url": "https://spec.openapis.org/oas/latest.html"
+        }
+      ]
+    },
+    "Agentic AI": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "Building Effective AI Agents",
+          "url": "https://www.anthropic.com/engineering/building-effective-agents"
+        }
+      ]
+    },
+    "AGI": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "Universal Intelligence: A Definition of Machine Intelligence",
+          "url": "https://arxiv.org/abs/0712.3329"
+        }
+      ]
+    },
+    "AI": {
+      "level": "Beginner",
+      "references": [
+        {
+          "title": "Deep Learning",
+          "url": "https://www.deeplearningbook.org/"
+        }
+      ]
+    },
+    "AI assistant": {
+      "level": "Beginner",
+      "references": [
+        {
+          "title": "What is ChatGPT: FAQ",
+          "url": "https://help.openai.com/en/articles/12677804-what-is-chatgpt-faq"
+        }
+      ]
+    },
+    "AI slop": {
+      "level": "Beginner",
+      "references": [
+        {
+          "title": "Guide to the Software Engineering Body of Knowledge (SWEBOK Guide V4.0)",
+          "url": "https://www.computer.org/education/bodies-of-knowledge/software-engineering"
+        }
+      ]
+    },
+    "Allowlist": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "NIST AI Risk Management Framework 1.0",
+          "url": "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-ai-rmf-10"
+        }
+      ]
+    },
+    "API": {
+      "level": "Beginner",
+      "references": [
+        {
+          "title": "OpenAPI Specification",
+          "url": "https://spec.openapis.org/oas/latest.html"
+        }
+      ]
+    },
+    "Approval gate": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "NIST AI Risk Management Framework 1.0",
+          "url": "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-ai-rmf-10"
+        }
+      ]
+    },
+    "ASI": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "How Long Before Superintelligence?",
+          "url": "https://nickbostrom.com/superintelligence"
+        }
+      ]
+    },
+    "Attention": {
+      "level": "Advanced",
+      "references": [
+        {
+          "title": "Attention Is All You Need",
+          "url": "https://arxiv.org/abs/1706.03762"
+        }
+      ]
+    },
+    "Autonomy": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "Building Effective AI Agents",
+          "url": "https://www.anthropic.com/engineering/building-effective-agents"
+        }
+      ]
+    },
+    "Backpropagation": {
+      "level": "Advanced",
+      "references": [
+        {
+          "title": "Google Machine Learning Glossary",
+          "url": "https://developers.google.com/machine-learning/glossary"
+        }
+      ]
+    },
+    "Batch size": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "CUDA Programming Guide",
+          "url": "https://docs.nvidia.com/cuda/cuda-programming-guide/index.html"
+        }
+      ]
+    },
+    "Benchmark": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "OpenAI Evals",
+          "url": "https://evals.openai.com/"
+        }
+      ]
+    },
+    "Bikeshedding": {
+      "level": "Beginner",
+      "references": [
+        {
+          "title": "Guide to the Software Engineering Body of Knowledge (SWEBOK Guide V4.0)",
+          "url": "https://www.computer.org/education/bodies-of-knowledge/software-engineering"
+        }
+      ]
+    },
+    "Black box": {
+      "level": "Beginner",
+      "references": [
+        {
+          "title": "Guide to the Software Engineering Body of Knowledge (SWEBOK Guide V4.0)",
+          "url": "https://www.computer.org/education/bodies-of-knowledge/software-engineering"
+        }
+      ]
+    },
+    "Blast radius": {
+      "level": "Beginner",
+      "references": [
+        {
+          "title": "NIST AI Risk Management Framework 1.0",
+          "url": "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-ai-rmf-10"
+        }
+      ]
+    },
+    "Boilerplate": {
+      "level": "Beginner",
+      "references": [
+        {
+          "title": "Guide to the Software Engineering Body of Knowledge (SWEBOK Guide V4.0)",
+          "url": "https://www.computer.org/education/bodies-of-knowledge/software-engineering"
+        }
+      ]
+    },
+    "Bounded": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "NIST AI Risk Management Framework 1.0",
+          "url": "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-ai-rmf-10"
+        }
+      ]
+    },
+    "Bounded autonomy": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "Building Effective AI Agents",
+          "url": "https://www.anthropic.com/engineering/building-effective-agents"
+        }
+      ]
+    },
+    "Cache": {
+      "level": "Beginner",
+      "references": [
+        {
+          "title": "Site Reliability Engineering",
+          "url": "https://sre.google/sre-book/table-of-contents/"
+        }
+      ]
+    },
+    "Cache hit": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "Site Reliability Engineering",
+          "url": "https://sre.google/sre-book/table-of-contents/"
+        }
+      ]
+    },
+    "Cache miss": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "Site Reliability Engineering",
+          "url": "https://sre.google/sre-book/table-of-contents/"
+        }
+      ]
+    },
+    "Capability": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "Building Effective AI Agents",
+          "url": "https://www.anthropic.com/engineering/building-effective-agents"
+        }
+      ]
+    },
+    "Chain of thought (CoT)": {
+      "level": "Advanced",
+      "references": [
+        {
+          "title": "Google Machine Learning Glossary",
+          "url": "https://developers.google.com/machine-learning/glossary"
+        }
+      ]
+    },
+    "ChatGPT": {
+      "level": "Beginner",
+      "references": [
+        {
+          "title": "What is ChatGPT: FAQ",
+          "url": "https://help.openai.com/en/articles/12677804-what-is-chatgpt-faq"
+        }
+      ]
+    },
+    "Checkpoint": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "Site Reliability Engineering",
+          "url": "https://sre.google/sre-book/table-of-contents/"
+        }
+      ]
+    },
+    "Compute budget": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "Site Reliability Engineering",
+          "url": "https://sre.google/sre-book/table-of-contents/"
+        }
+      ]
+    },
+    "Context": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "Language Models are Few-Shot Learners",
+          "url": "https://arxiv.org/abs/2005.14165"
+        }
+      ]
+    },
+    "Context engineering": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "Language Models are Few-Shot Learners",
+          "url": "https://arxiv.org/abs/2005.14165"
+        }
+      ]
+    },
+    "Context rot": {
+      "level": "Beginner",
+      "references": [
+        {
+          "title": "Language Models are Few-Shot Learners",
+          "url": "https://arxiv.org/abs/2005.14165"
+        }
+      ]
+    },
+    "Context window": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "Language Models are Few-Shot Learners",
+          "url": "https://arxiv.org/abs/2005.14165"
+        }
+      ]
+    },
+    "CPU inference": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "CUDA Programming Guide",
+          "url": "https://docs.nvidia.com/cuda/cuda-programming-guide/index.html"
+        }
+      ]
+    },
+    "Critic": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "Building Effective AI Agents",
+          "url": "https://www.anthropic.com/engineering/building-effective-agents"
+        }
+      ]
+    },
+    "CUDA": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "CUDA Programming Guide",
+          "url": "https://docs.nvidia.com/cuda/cuda-programming-guide/index.html"
+        }
+      ]
+    },
+    "Decode phase": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "llama.cpp — LLM inference in C/C++",
+          "url": "https://github.com/ggml-org/llama.cpp"
+        }
+      ]
+    },
+    "Dense model": {
+      "level": "Advanced",
+      "references": [
+        {
+          "title": "Google Machine Learning Glossary",
+          "url": "https://developers.google.com/machine-learning/glossary"
+        }
+      ]
+    },
+    "Denylist": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "NIST AI Risk Management Framework 1.0",
+          "url": "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-ai-rmf-10"
+        }
+      ]
+    },
+    "Deterministic": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "Site Reliability Engineering",
+          "url": "https://sre.google/sre-book/table-of-contents/"
+        }
+      ]
+    },
+    "Distillation": {
+      "level": "Advanced",
+      "references": [
+        {
+          "title": "Distilling the Knowledge in a Neural Network",
+          "url": "https://arxiv.org/abs/1503.02531"
+        }
+      ]
+    },
+    "Dogfood": {
+      "level": "Beginner",
+      "references": [
+        {
+          "title": "Guide to the Software Engineering Body of Knowledge (SWEBOK Guide V4.0)",
+          "url": "https://www.computer.org/education/bodies-of-knowledge/software-engineering"
+        }
+      ]
+    },
+    "Edge case": {
+      "level": "Beginner",
+      "references": [
+        {
+          "title": "Guide to the Software Engineering Body of Knowledge (SWEBOK Guide V4.0)",
+          "url": "https://www.computer.org/education/bodies-of-knowledge/software-engineering"
+        }
+      ]
+    },
+    "Egress": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "NIST AI Risk Management Framework 1.0",
+          "url": "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-ai-rmf-10"
+        }
+      ]
+    },
+    "Embedding": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "Google Machine Learning Glossary",
+          "url": "https://developers.google.com/machine-learning/glossary"
+        }
+      ]
+    },
+    "Eval": {
+      "level": "Beginner",
+      "references": [
+        {
+          "title": "OpenAI Evals",
+          "url": "https://evals.openai.com/"
+        }
+      ]
+    },
+    "Evidence": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "Language Models are Few-Shot Learners",
+          "url": "https://arxiv.org/abs/2005.14165"
+        }
+      ]
+    },
+    "Executor": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "Building Effective AI Agents",
+          "url": "https://www.anthropic.com/engineering/building-effective-agents"
+        }
+      ]
+    },
+    "Footgun": {
+      "level": "Beginner",
+      "references": [
+        {
+          "title": "Guide to the Software Engineering Body of Knowledge (SWEBOK Guide V4.0)",
+          "url": "https://www.computer.org/education/bodies-of-knowledge/software-engineering"
+        }
+      ]
+    },
+    "GGUF": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "llama.cpp — LLM inference in C/C++",
+          "url": "https://github.com/ggml-org/llama.cpp"
+        }
+      ]
+    },
+    "Glue code": {
+      "level": "Beginner",
+      "references": [
+        {
+          "title": "Guide to the Software Engineering Body of Knowledge (SWEBOK Guide V4.0)",
+          "url": "https://www.computer.org/education/bodies-of-knowledge/software-engineering"
+        }
+      ]
+    },
+    "Golden dataset": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "OpenAI Evals",
+          "url": "https://evals.openai.com/"
+        }
+      ]
+    },
+    "GPU offload": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "CUDA Programming Guide",
+          "url": "https://docs.nvidia.com/cuda/cuda-programming-guide/index.html"
+        }
+      ]
+    },
+    "Gradient descent": {
+      "level": "Advanced",
+      "references": [
+        {
+          "title": "Google Machine Learning Glossary",
+          "url": "https://developers.google.com/machine-learning/glossary"
+        }
+      ]
+    },
+    "Grounding": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "Language Models are Few-Shot Learners",
+          "url": "https://arxiv.org/abs/2005.14165"
+        }
+      ]
+    },
+    "Guardrail": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "NIST AI Risk Management Framework 1.0",
+          "url": "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-ai-rmf-10"
+        }
+      ]
+    },
+    "Hallucination": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "Google Machine Learning Glossary",
+          "url": "https://developers.google.com/machine-learning/glossary"
+        }
+      ]
+    },
+    "Handoff": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "Building Effective AI Agents",
+          "url": "https://www.anthropic.com/engineering/building-effective-agents"
+        }
+      ]
+    },
+    "Happy path": {
+      "level": "Beginner",
+      "references": [
+        {
+          "title": "Guide to the Software Engineering Body of Knowledge (SWEBOK Guide V4.0)",
+          "url": "https://www.computer.org/education/bodies-of-knowledge/software-engineering"
+        }
+      ]
+    },
+    "Harness": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "Building Effective AI Agents",
+          "url": "https://www.anthropic.com/engineering/building-effective-agents"
+        }
+      ]
+    },
+    "HITL": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "NIST AI Risk Management Framework 1.0",
+          "url": "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-ai-rmf-10"
+        }
+      ]
+    },
+    "Hook": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "Site Reliability Engineering",
+          "url": "https://sre.google/sre-book/table-of-contents/"
+        }
+      ]
+    },
+    "Human-on-the-loop": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "NIST AI Risk Management Framework 1.0",
+          "url": "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-ai-rmf-10"
+        }
+      ]
+    },
+    "Inference": {
+      "level": "Beginner",
+      "references": [
+        {
+          "title": "Deep Learning",
+          "url": "https://www.deeplearningbook.org/"
+        }
+      ]
+    },
+    "Inference backend": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "llama.cpp — LLM inference in C/C++",
+          "url": "https://github.com/ggml-org/llama.cpp"
+        }
+      ]
+    },
+    "Knowledge graph": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "Language Models are Few-Shot Learners",
+          "url": "https://arxiv.org/abs/2005.14165"
+        }
+      ]
+    },
+    "KV cache": {
+      "level": "Advanced",
+      "references": [
+        {
+          "title": "Hugging Face Transformers: Cache strategies",
+          "url": "https://huggingface.co/docs/transformers/main/kv_cache"
+        }
+      ]
+    },
+    "Latency": {
+      "level": "Beginner",
+      "references": [
+        {
+          "title": "Site Reliability Engineering",
+          "url": "https://sre.google/sre-book/table-of-contents/"
+        }
+      ]
+    },
+    "Least privilege": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "NIST Glossary: Least Privilege",
+          "url": "https://csrc.nist.gov/glossary/term/least_privilege"
+        }
+      ]
+    },
+    "llama.cpp": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "llama.cpp — LLM inference in C/C++",
+          "url": "https://github.com/ggml-org/llama.cpp"
+        }
+      ]
+    },
+    "LLM": {
+      "level": "Beginner",
+      "references": [
+        {
+          "title": "Deep Learning",
+          "url": "https://www.deeplearningbook.org/"
+        }
+      ]
+    },
+    "LLM-as-a-judge": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "OpenAI Evals",
+          "url": "https://evals.openai.com/"
+        }
+      ]
+    },
+    "LM Studio": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "LM Studio Documentation",
+          "url": "https://lmstudio.ai/docs/app"
+        }
+      ]
+    },
+    "Local model": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "llama.cpp — LLM inference in C/C++",
+          "url": "https://github.com/ggml-org/llama.cpp"
+        }
+      ]
+    },
+    "Long-term memory": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "Language Models are Few-Shot Learners",
+          "url": "https://arxiv.org/abs/2005.14165"
+        }
+      ]
+    },
+    "Magic": {
+      "level": "Beginner",
+      "references": [
+        {
+          "title": "Guide to the Software Engineering Body of Knowledge (SWEBOK Guide V4.0)",
+          "url": "https://www.computer.org/education/bodies-of-knowledge/software-engineering"
+        }
+      ]
+    },
+    "MCP": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "The 2026-07-28 Model Context Protocol Specification",
+          "url": "https://blog.modelcontextprotocol.io/posts/2026-07-28/"
+        }
+      ]
+    },
+    "Memory": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "Language Models are Few-Shot Learners",
+          "url": "https://arxiv.org/abs/2005.14165"
+        }
+      ]
+    },
+    "Memory bandwidth": {
+      "level": "Advanced",
+      "references": [
+        {
+          "title": "CUDA Programming Guide",
+          "url": "https://docs.nvidia.com/cuda/cuda-programming-guide/index.html"
+        }
+      ]
+    },
+    "Metal": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "Metal Overview",
+          "url": "https://developer.apple.com/metal/"
+        }
+      ]
+    },
+    "Mixture of Experts (MoE)": {
+      "level": "Advanced",
+      "references": [
+        {
+          "title": "Google Machine Learning Glossary",
+          "url": "https://developers.google.com/machine-learning/glossary"
+        }
+      ]
+    },
+    "Model": {
+      "level": "Beginner",
+      "references": [
+        {
+          "title": "Deep Learning",
+          "url": "https://www.deeplearningbook.org/"
+        }
+      ]
+    },
+    "Multi-agent system": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "Building Effective AI Agents",
+          "url": "https://www.anthropic.com/engineering/building-effective-agents"
+        }
+      ]
+    },
+    "Nerfing a model": {
+      "level": "Beginner",
+      "references": [
+        {
+          "title": "Guide to the Software Engineering Body of Knowledge (SWEBOK Guide V4.0)",
+          "url": "https://www.computer.org/education/bodies-of-knowledge/software-engineering"
+        }
+      ]
+    },
+    "Neural network": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "Google Machine Learning Glossary",
+          "url": "https://developers.google.com/machine-learning/glossary"
+        }
+      ]
+    },
+    "Next-token prediction": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "Language Models are Few-Shot Learners",
+          "url": "https://arxiv.org/abs/2005.14165"
+        }
+      ]
+    },
+    "Ollama": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "Ollama Documentation",
+          "url": "https://docs.ollama.com/"
+        }
+      ]
+    },
+    "Open-weight model": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "llama.cpp — LLM inference in C/C++",
+          "url": "https://github.com/ggml-org/llama.cpp"
+        }
+      ]
+    },
+    "Orchestration": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "Building Effective AI Agents",
+          "url": "https://www.anthropic.com/engineering/building-effective-agents"
+        }
+      ]
+    },
+    "Over-engineering": {
+      "level": "Beginner",
+      "references": [
+        {
+          "title": "Guide to the Software Engineering Body of Knowledge (SWEBOK Guide V4.0)",
+          "url": "https://www.computer.org/education/bodies-of-knowledge/software-engineering"
+        }
+      ]
+    },
+    "Parameter count": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "Google Machine Learning Glossary",
+          "url": "https://developers.google.com/machine-learning/glossary"
+        }
+      ]
+    },
+    "Pass@k": {
+      "level": "Advanced",
+      "references": [
+        {
+          "title": "OpenAI Evals",
+          "url": "https://evals.openai.com/"
+        }
+      ]
+    },
+    "Permission": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "NIST AI Risk Management Framework 1.0",
+          "url": "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-ai-rmf-10"
+        }
+      ]
+    },
+    "Physical AI": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "Aligning Perception, Reasoning, Modeling and Interaction: A Survey on Physical AI",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42284175/"
+        }
+      ]
+    },
+    "Planner": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "Building Effective AI Agents",
+          "url": "https://www.anthropic.com/engineering/building-effective-agents"
+        }
+      ]
+    },
+    "Plugin": {
+      "level": "Beginner",
+      "references": [
+        {
+          "title": "OpenAPI Specification",
+          "url": "https://spec.openapis.org/oas/latest.html"
+        }
+      ]
+    },
+    "Plumbing": {
+      "level": "Beginner",
+      "references": [
+        {
+          "title": "Guide to the Software Engineering Body of Knowledge (SWEBOK Guide V4.0)",
+          "url": "https://www.computer.org/education/bodies-of-knowledge/software-engineering"
+        }
+      ]
+    },
+    "Prefill": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "llama.cpp — LLM inference in C/C++",
+          "url": "https://github.com/ggml-org/llama.cpp"
+        }
+      ]
+    },
+    "Prompt": {
+      "level": "Beginner",
+      "references": [
+        {
+          "title": "Language Models are Few-Shot Learners",
+          "url": "https://arxiv.org/abs/2005.14165"
+        }
+      ]
+    },
+    "Prompt cache": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "Site Reliability Engineering",
+          "url": "https://sre.google/sre-book/table-of-contents/"
+        }
+      ]
+    },
+    "Prompt engineering": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "Language Models are Few-Shot Learners",
+          "url": "https://arxiv.org/abs/2005.14165"
+        }
+      ]
+    },
+    "Prompt injection": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "OWASP LLM01: Prompt Injection",
+          "url": "https://genai.owasp.org/llmrisk/llm01-prompt-injection/"
+        }
+      ]
+    },
+    "Prompt spaghetti": {
+      "level": "Beginner",
+      "references": [
+        {
+          "title": "Guide to the Software Engineering Body of Knowledge (SWEBOK Guide V4.0)",
+          "url": "https://www.computer.org/education/bodies-of-knowledge/software-engineering"
+        }
+      ]
+    },
+    "Pruning": {
+      "level": "Advanced",
+      "references": [
+        {
+          "title": "Learning both Weights and Connections for Efficient Neural Networks",
+          "url": "https://arxiv.org/abs/1506.02626"
+        }
+      ]
+    },
+    "Quantization": {
+      "level": "Advanced",
+      "references": [
+        {
+          "title": "Quantization and Training of Neural Networks for Efficient Integer-Arithmetic-Only Inference",
+          "url": "https://arxiv.org/abs/1712.05877"
+        }
+      ]
+    },
+    "Quantization level": {
+      "level": "Advanced",
+      "references": [
+        {
+          "title": "llama.cpp — LLM inference in C/C++",
+          "url": "https://github.com/ggml-org/llama.cpp"
+        }
+      ]
+    },
+    "Rabbit hole": {
+      "level": "Beginner",
+      "references": [
+        {
+          "title": "Guide to the Software Engineering Body of Knowledge (SWEBOK Guide V4.0)",
+          "url": "https://www.computer.org/education/bodies-of-knowledge/software-engineering"
+        }
+      ]
+    },
+    "RAG": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
+          "url": "https://arxiv.org/abs/2005.11401"
+        }
+      ]
+    },
+    "Reasoning model": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "Google Machine Learning Glossary",
+          "url": "https://developers.google.com/machine-learning/glossary"
+        }
+      ]
+    },
+    "Recovery": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "Site Reliability Engineering",
+          "url": "https://sre.google/sre-book/table-of-contents/"
+        }
+      ]
+    },
+    "Reflection": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "Building Effective AI Agents",
+          "url": "https://www.anthropic.com/engineering/building-effective-agents"
+        }
+      ]
+    },
+    "Regression": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "OpenAI Evals",
+          "url": "https://evals.openai.com/"
+        }
+      ]
+    },
+    "Regression test": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "OpenAI Evals",
+          "url": "https://evals.openai.com/"
+        }
+      ]
+    },
+    "Retrieval": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
+          "url": "https://arxiv.org/abs/2005.11401"
+        }
+      ]
+    },
+    "Retry": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "Site Reliability Engineering",
+          "url": "https://sre.google/sre-book/table-of-contents/"
+        }
+      ]
+    },
+    "Rollout": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "OpenAI Evals",
+          "url": "https://evals.openai.com/"
+        }
+      ]
+    },
+    "RoPE": {
+      "level": "Advanced",
+      "references": [
+        {
+          "title": "Attention Is All You Need",
+          "url": "https://arxiv.org/abs/1706.03762"
+        }
+      ]
+    },
+    "Runtime": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "Building Effective AI Agents",
+          "url": "https://www.anthropic.com/engineering/building-effective-agents"
+        }
+      ]
+    },
+    "Safetensors": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "Safetensors documentation",
+          "url": "https://huggingface.co/docs/safetensors/index"
+        }
+      ]
+    },
+    "Sampling": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "Hugging Face Transformers: Generation",
+          "url": "https://huggingface.co/docs/transformers/en/main_classes/text_generation"
+        }
+      ]
+    },
+    "Sandbox": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "NIST AI Risk Management Framework 1.0",
+          "url": "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-ai-rmf-10"
+        }
+      ]
+    },
+    "Scaffold": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "Building Effective AI Agents",
+          "url": "https://www.anthropic.com/engineering/building-effective-agents"
+        }
+      ]
+    },
+    "Schema": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "JSON Schema Specification",
+          "url": "https://json-schema.org/specification"
+        }
+      ]
+    },
+    "Sharp edge": {
+      "level": "Beginner",
+      "references": [
+        {
+          "title": "Guide to the Software Engineering Body of Knowledge (SWEBOK Guide V4.0)",
+          "url": "https://www.computer.org/education/bodies-of-knowledge/software-engineering"
+        }
+      ]
+    },
+    "Short-term memory": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "Language Models are Few-Shot Learners",
+          "url": "https://arxiv.org/abs/2005.14165"
+        }
+      ]
+    },
+    "Singularity": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "The Coming Technological Singularity",
+          "url": "https://cseweb.ucsd.edu/~goguen/misc/singularity.html"
+        }
+      ]
+    },
+    "Skill": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "Building Effective AI Agents",
+          "url": "https://www.anthropic.com/engineering/building-effective-agents"
+        }
+      ]
+    },
+    "Softmax": {
+      "level": "Advanced",
+      "references": [
+        {
+          "title": "Google Machine Learning Glossary",
+          "url": "https://developers.google.com/machine-learning/glossary"
+        }
+      ]
+    },
+    "Source of truth": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "Language Models are Few-Shot Learners",
+          "url": "https://arxiv.org/abs/2005.14165"
+        }
+      ]
+    },
+    "State": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "Site Reliability Engineering",
+          "url": "https://sre.google/sre-book/table-of-contents/"
+        }
+      ]
+    },
+    "Stop condition": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "Site Reliability Engineering",
+          "url": "https://sre.google/sre-book/table-of-contents/"
+        }
+      ]
+    },
+    "Subagent": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "Building Effective AI Agents",
+          "url": "https://www.anthropic.com/engineering/building-effective-agents"
+        }
+      ]
+    },
+    "Sycophancy": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "Google Machine Learning Glossary",
+          "url": "https://developers.google.com/machine-learning/glossary"
+        }
+      ]
+    },
+    "System prompt": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "Language Models are Few-Shot Learners",
+          "url": "https://arxiv.org/abs/2005.14165"
+        }
+      ]
+    },
+    "System RAM": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "CUDA Programming Guide",
+          "url": "https://docs.nvidia.com/cuda/cuda-programming-guide/index.html"
+        }
+      ]
+    },
+    "Temperature": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "Hugging Face Transformers: Generation",
+          "url": "https://huggingface.co/docs/transformers/en/main_classes/text_generation"
+        }
+      ]
+    },
+    "Throughput": {
+      "level": "Beginner",
+      "references": [
+        {
+          "title": "Site Reliability Engineering",
+          "url": "https://sre.google/sre-book/table-of-contents/"
+        }
+      ]
+    },
+    "Time to first token (TTFT)": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "llama.cpp — LLM inference in C/C++",
+          "url": "https://github.com/ggml-org/llama.cpp"
+        }
+      ]
+    },
+    "Token": {
+      "level": "Beginner",
+      "references": [
+        {
+          "title": "Deep Learning",
+          "url": "https://www.deeplearningbook.org/"
+        }
+      ]
+    },
+    "Token budget": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "Site Reliability Engineering",
+          "url": "https://sre.google/sre-book/table-of-contents/"
+        }
+      ]
+    },
+    "Token burn": {
+      "level": "Beginner",
+      "references": [
+        {
+          "title": "Guide to the Software Engineering Body of Knowledge (SWEBOK Guide V4.0)",
+          "url": "https://www.computer.org/education/bodies-of-knowledge/software-engineering"
+        }
+      ]
+    },
+    "Tokens per second": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "llama.cpp — LLM inference in C/C++",
+          "url": "https://github.com/ggml-org/llama.cpp"
+        }
+      ]
+    },
+    "Tool": {
+      "level": "Beginner",
+      "references": [
+        {
+          "title": "Building Effective AI Agents",
+          "url": "https://www.anthropic.com/engineering/building-effective-agents"
+        }
+      ]
+    },
+    "Tool call": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "Building Effective AI Agents",
+          "url": "https://www.anthropic.com/engineering/building-effective-agents"
+        }
+      ]
+    },
+    "Tool spam": {
+      "level": "Beginner",
+      "references": [
+        {
+          "title": "Guide to the Software Engineering Body of Knowledge (SWEBOK Guide V4.0)",
+          "url": "https://www.computer.org/education/bodies-of-knowledge/software-engineering"
+        }
+      ]
+    },
+    "Trace": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "OpenAI Evals",
+          "url": "https://evals.openai.com/"
+        }
+      ]
+    },
+    "Training": {
+      "level": "Beginner",
+      "references": [
+        {
+          "title": "Deep Learning",
+          "url": "https://www.deeplearningbook.org/"
+        }
+      ]
+    },
+    "Trajectory": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "OpenAI Evals",
+          "url": "https://evals.openai.com/"
+        }
+      ]
+    },
+    "Unified memory": {
+      "level": "Advanced",
+      "references": [
+        {
+          "title": "CUDA Programming Guide",
+          "url": "https://docs.nvidia.com/cuda/cuda-programming-guide/index.html"
+        }
+      ]
+    },
+    "Vector": {
+      "level": "Advanced",
+      "references": [
+        {
+          "title": "Deep Learning",
+          "url": "https://www.deeplearningbook.org/"
+        }
+      ]
+    },
+    "Vector database": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
+          "url": "https://arxiv.org/abs/2005.11401"
+        }
+      ]
+    },
+    "Verifier": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "Building Effective AI Agents",
+          "url": "https://www.anthropic.com/engineering/building-effective-agents"
+        }
+      ]
+    },
+    "Vibe coding": {
+      "level": "Beginner",
+      "references": [
+        {
+          "title": "Andrej Karpathy's original description of vibe coding (archived by Simon Willison)",
+          "url": "https://simonwillison.net/2025/Feb/6/andrej-karpathy/"
+        }
+      ]
+    },
+    "VRAM": {
+      "level": "Core",
+      "references": [
+        {
+          "title": "CUDA Programming Guide",
+          "url": "https://docs.nvidia.com/cuda/cuda-programming-guide/index.html"
+        }
+      ]
+    },
+    "Weights": {
+      "level": "Beginner",
+      "references": [
+        {
+          "title": "Deep Learning",
+          "url": "https://www.deeplearningbook.org/"
+        }
+      ]
+    },
+    "White box": {
+      "level": "Beginner",
+      "references": [
+        {
+          "title": "Guide to the Software Engineering Body of Knowledge (SWEBOK Guide V4.0)",
+          "url": "https://www.computer.org/education/bodies-of-knowledge/software-engineering"
+        }
+      ]
+    },
+    "Workflow": {
+      "level": "Beginner",
+      "references": [
+        {
+          "title": "Building Effective AI Agents",
+          "url": "https://www.anthropic.com/engineering/building-effective-agents"
+        }
+      ]
+    },
+    "World model": {
+      "level": "Advanced",
+      "references": [
+        {
+          "title": "World Models",
+          "url": "https://arxiv.org/abs/1803.10122"
+        }
+      ]
+    },
+    "Wrapper": {
+      "level": "Beginner",
+      "references": [
+        {
+          "title": "Guide to the Software Engineering Body of Knowledge (SWEBOK Guide V4.0)",
+          "url": "https://www.computer.org/education/bodies-of-knowledge/software-engineering"
+        }
+      ]
+    },
+    "Yak shaving": {
+      "level": "Beginner",
+      "references": [
+        {
+          "title": "Guide to the Software Engineering Body of Knowledge (SWEBOK Guide V4.0)",
+          "url": "https://www.computer.org/education/bodies-of-knowledge/software-engineering"
+        }
+      ]
+    }
+  }
+}

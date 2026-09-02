@@ -6,6 +6,7 @@ on:
       - main
       - feat/wiki-knowledge-pages
       - feat/v4-personal-wiki
+      - feat/v5-self-contained-entries
   pull_request:
 
 jobs:
@@ -20,6 +21,8 @@ jobs:
         run: |
           node --check app.js
           node --check data-loader.js
+          node --check term-links.js
+          node --check v5.js
           node --check wiki.js
           if [ -f v4.js ]; then node --check v4.js; fi
       - name: Check canonical JSON syntax
@@ -27,6 +30,7 @@ jobs:
           python -m json.tool wiki-content.json > /dev/null
           python -m json.tool misconceptions.json > /dev/null
           python -m json.tool glossary-7.json > /dev/null
+          python -m json.tool glossary-metadata.json > /dev/null
           python - <<'PY'
           import json
           from pathlib import Path
@@ -40,5 +44,7 @@ jobs:
         run: python scripts/validate_content.py
       - name: Validate V4 content graph
         run: python scripts/validate_v4_content.py
+      - name: Validate V5 content metadata
+        run: python scripts/validate_v5_content.py
       - name: Validate public privacy boundary
         run: if [ -f scripts/validate_privacy.py ]; then python scripts/validate_privacy.py; fi

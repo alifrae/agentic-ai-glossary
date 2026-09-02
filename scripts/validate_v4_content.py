@@ -32,6 +32,7 @@ ALLOWED_EPISTEMIC_STATUSES = {
 ALLOWED_LEVELS = {"beginner", "intermediate", "advanced"}
 ALLOWED_ARTICLE_STATUSES = {"draft", "reviewed"}
 HTTP_URL = re.compile(r"^https?://", re.IGNORECASE)
+GLOSSARY_SHARD_RE = re.compile(r"^glossary-\d+\.json$")
 
 
 def _load_json(path: Path, errors: list[str]) -> Any:
@@ -58,12 +59,18 @@ def _duplicate_ids(items: list[dict[str, Any]], label: str, errors: list[str]) -
 
 def _load_glossary_terms(root: Path) -> set[str]:
     names: set[str] = set()
-    for path in sorted(root.glob("glossary-*.json")):
+    paths = sorted(path for path in root.glob("glossary-*.json") if GLOSSARY_SHARD_RE.match(path.name))
+    for path in paths:
         try:
             payload = json.loads(path.read_text(encoding="utf-8"))
         except (OSError, json.JSONDecodeError):
             continue
-        for entry in payload.get("entries", []):
+        entries = payload.get("entries", []) if isinstance(payload, dict) else []
+        if not isinstance(entries, list):
+            continue
+        for entry in entries:
+            if not isinstance(entry, dict):
+                continue
             term = str(entry.get("term", "")).strip()
             if term:
                 names.add(term.casefold())
