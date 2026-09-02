@@ -96,6 +96,25 @@ class StaticContractTests(unittest.TestCase):
         ]:
             self.assertIn(token, loader)
 
+    def test_v5_self_contained_entry_surface(self):
+        html = self.read("index.html")
+        self.assertIn('href="v5.css"', html)
+        self.assertIn('src="v5.js"', html)
+        v5 = self.read("v5.js")
+        for token in [
+            "WikiTermLinks.render",
+            "entry.level",
+            "entry.prerequisites",
+            "entry.references",
+            "Further reading",
+            "data-no-open",
+            "noopener noreferrer",
+            "MutationObserver",
+            "#cardList",
+            "#conceptContent",
+        ]:
+            self.assertIn(token, v5)
+
     def test_v4_shell_article_renderer_and_global_search(self):
         html = self.read("index.html")
         self.assertIn('href="v4.css"', html)
