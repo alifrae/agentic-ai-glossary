@@ -1,0 +1,96 @@
+{
+  "version": 1,
+  "entries": [
+    {
+      "claim": "ChatGPT is just an LLM.",
+      "verdict": "Misleading",
+      "short": "An LLM is a core intelligence engine; ChatGPT is a product/system around models with interfaces, context handling and additional capabilities.",
+      "detail": "Reducing the product to the model hides important causes of behavior. Tool availability, retrieval, memory, system instructions, routing and UI-level context can change what the assistant can do even when the underlying model is unchanged.",
+      "related": ["ChatGPT", "AI assistant", "LLM", "Harness"]
+    },
+    {
+      "claim": "Hallucination means the model is randomly making things up.",
+      "verdict": "Misleading",
+      "short": "Hallucinations are often coherent and plausible; the problem is that the generated claim is unsupported or false.",
+      "detail": "Language models generate likely continuations from learned patterns and current context. A hallucination can therefore sound highly specific and confident rather than random. Grounding and verification matter precisely because fluency is not evidence.",
+      "related": ["Hallucination", "Grounding", "LLM"]
+    },
+    {
+      "claim": "LLMs always agree with the user and are basically yes-men.",
+      "verdict": "False",
+      "short": "Sycophancy is a real failure mode, but it is not an absolute property of every model response.",
+      "detail": "Agreement behavior depends on training, model version, instructions, context and evaluation. A good assistant should challenge unsupported assumptions when evidence warrants it, but no model is perfectly calibrated against sycophancy.",
+      "related": ["Sycophancy", "LLM", "Eval"]
+    },
+    {
+      "claim": "AI never says 'I don't know.'",
+      "verdict": "False",
+      "short": "Models can express uncertainty or decline to claim knowledge, but their confidence calibration is imperfect.",
+      "detail": "The real problem is not that uncertainty can never be expressed. It is that models can sometimes produce confident-looking answers when evidence is insufficient. Systems should make uncertainty and verification easier rather than assuming confidence equals correctness.",
+      "related": ["Hallucination", "Grounding", "Verifier"]
+    },
+    {
+      "claim": "Because AI can be wrong, its advice is useless.",
+      "verdict": "False",
+      "short": "Usefulness and reliability are domain- and task-dependent; fallibility does not imply zero value.",
+      "detail": "Human experts, software systems and measurement processes can also fail. The relevant question is error rate, failure severity, evidence, verification cost and whether the AI improves the overall decision process. Higher-stakes use requires stronger checks.",
+      "related": ["Eval", "Verifier", "Evidence"]
+    },
+    {
+      "claim": "An LLM is basically a database or search engine.",
+      "verdict": "False",
+      "short": "An LLM generates from learned parameters and current context; databases and search engines retrieve stored records or documents.",
+      "detail": "AI products can combine all three. RAG, for example, uses retrieval to find external information and then asks a model to generate using that evidence. Confusing the components makes it harder to diagnose stale knowledge or fabricated facts.",
+      "related": ["LLM", "RAG", "Retrieval"]
+    },
+    {
+      "claim": "It only predicts the next token, so it cannot reason.",
+      "verdict": "Misleading",
+      "short": "Next-token prediction describes the training/generation objective, not the full set of computations or capabilities learned inside the model.",
+      "detail": "A model can learn internal representations and algorithms that help it perform multi-step tasks while still producing output through next-token prediction. This does not prove human-like reasoning, but the objective alone is not a valid argument that reasoning-like computation is impossible.",
+      "related": ["Next-token prediction", "LLM", "Chain of thought (CoT)"]
+    },
+    {
+      "claim": "A bigger context window gives the AI perfect memory.",
+      "verdict": "False",
+      "short": "Context capacity is not the same as reliable memory, attention or retrieval.",
+      "detail": "Information can fit inside a context window and still be overlooked, contradicted, stale or poorly structured. Persistent memory is a separate system concern, and long contexts also increase cost and can create context-rot problems.",
+      "related": ["Context window", "Memory", "Context rot"]
+    },
+    {
+      "claim": "RAG eliminates hallucinations.",
+      "verdict": "False",
+      "short": "RAG can improve grounding, but retrieval and generation can both fail.",
+      "detail": "The system may retrieve the wrong document, miss the right one, surface stale evidence, or generate a conclusion that is not supported by the retrieved material. RAG should be evaluated as a pipeline rather than treated as a truth guarantee.",
+      "related": ["RAG", "Hallucination", "Grounding"]
+    },
+    {
+      "claim": "More agents are automatically better than one agent.",
+      "verdict": "False",
+      "short": "Multiple agents add specialization but also coordination overhead, duplicated work and new failure modes.",
+      "detail": "A multi-agent design is justified when decomposition, isolation or parallelism creates measurable value. If one well-tooled agent can solve the task, adding more agents can create agent spaghetti rather than more intelligence.",
+      "related": ["Multi-agent system", "Agent", "Agent spaghetti"]
+    },
+    {
+      "claim": "Passing a benchmark proves general intelligence.",
+      "verdict": "False",
+      "short": "A benchmark measures performance on a scoped test set, not every dimension of intelligence or generality.",
+      "detail": "Benchmarks can be narrow, saturated, contaminated, optimized against or weakly representative of real tasks. They are useful evidence when designed well, but the claim must stay within what the benchmark actually measures.",
+      "related": ["Benchmark", "Eval", "AGI"]
+    },
+    {
+      "claim": "AGI has one universally agreed definition.",
+      "verdict": "False",
+      "short": "Researchers, companies and commentators use different thresholds and operational definitions for AGI.",
+      "detail": "Disputes can concern breadth, human-level performance, autonomy, economic usefulness, adaptability, learning ability or embodiment. Productive discussion should define the threshold first and then examine measured capabilities.",
+      "related": ["AGI", "Benchmark", "AI"]
+    },
+    {
+      "claim": "AGI would automatically and immediately become ASI through recursive self-improvement.",
+      "verdict": "Reasonable but uncertain",
+      "short": "Rapid self-improvement is a plausible scenario, not an established law connecting AGI to ASI.",
+      "detail": "Acceleration would depend on whether AI can materially improve AI research and engineering, whether improvements compound, and whether compute, data, hardware, experimentation, deployment and real-world bottlenecks constrain the loop. The speed and ceiling are open questions.",
+      "related": ["AGI", "ASI", "Singularity"]
+    }
+  ]
+}
