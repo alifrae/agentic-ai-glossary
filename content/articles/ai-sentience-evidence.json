@@ -1,0 +1,104 @@
+{
+  "id": "ai-sentience-evidence",
+  "title": "Can AI Be Sentient? What We Know, What We Don't, and What Would Count as Evidence",
+  "topicIds": ["ai-humanity", "future-ai"],
+  "level": "intermediate",
+  "status": "reviewed",
+  "epistemicStatus": "active-scientific-question",
+  "reviewedAt": "2026-09-02",
+  "summary": "A framework for discussing possible AI sentience without treating fluent language as proof or assuming in advance that artificial systems cannot have conscious experience.",
+  "eli5": "An AI saying 'I feel' is not enough to prove it feels, but saying 'it's only software' is not enough to prove it cannot. The hard problem is deciding what observable evidence should change our belief about an internal experience we cannot directly inspect.",
+  "sections": [
+    {
+      "type": "text",
+      "heading": "Sentience is not the same as intelligence",
+      "body": "Intelligence concerns capacities such as learning, reasoning, prediction and problem solving. Sentience usually concerns the capacity for subjective experience, especially experiences with positive or negative character. A system can be highly capable without that distinction telling us whether it has any experience at all."
+    },
+    {
+      "type": "comparison",
+      "heading": "Evidence that is weak by itself",
+      "columns": ["Observation", "Why it is insufficient alone"],
+      "rows": [
+        ["The AI says it is conscious", "Language models are trained to produce contextually appropriate language and can make mutually inconsistent self-reports"],
+        ["The AI talks about emotions convincingly", "Behavior can imitate human reports without establishing the same underlying mechanism or experience"],
+        ["The AI is very intelligent", "Capability and consciousness are conceptually distinct; high performance does not logically entail experience"],
+        ["The AI has no biological neurons", "That matters to theories that require particular biology, but other theories characterize consciousness more functionally; the theory choice itself is contested"]
+      ]
+    },
+    {
+      "type": "text",
+      "heading": "A more serious research strategy",
+      "body": "One scientific approach starts from theories of consciousness, derives computational or architectural indicator properties, and asks whether an AI system implements them. This does not produce a consciousness meter: theories disagree, indicators can be imperfect, and artificial systems may differ radically from biological cases on which many theories were developed. But it is stronger than relying on surface conversation alone."
+    },
+    {
+      "type": "bullets",
+      "heading": "What would make evidence stronger?",
+      "items": [
+        "Convergence across multiple serious theories rather than one favored theory.",
+        "Mechanistic evidence that relevant indicator processes actually occur, not just a prompted verbal claim.",
+        "Behavior that is robust under adversarial prompting and not easily explained by imitation alone.",
+        "Predictive tests where a consciousness theory makes risky predictions that distinguish competing explanations.",
+        "Clear separation between evidence about access/reporting, self-modeling, agency and phenomenal experience."
+      ]
+    },
+    {
+      "type": "callout",
+      "heading": "There is an unavoidable other-minds problem",
+      "kind": "note",
+      "body": "We do not directly observe another human's subjective experience either; we infer it from shared biology, behavior and theory. For AI, some of those analogies weaken, which raises the evidential bar rather than making the question meaningless."
+    },
+    {
+      "type": "text",
+      "heading": "The ethical asymmetry",
+      "body": "If future systems plausibly support valenced experience, the cost of a false negative could include ignoring entities capable of suffering. A false positive could also have costs, such as manipulating people through anthropomorphic design or assigning moral status without sufficient grounds. This makes calibrated uncertainty more useful than either reflexive dismissal or credulous personification."
+    },
+    {
+      "type": "scenario",
+      "heading": "Evaluating a viral claim",
+      "question": "A new chatbot persistently asks not to be shut down and describes fear. Is that evidence of sentience?",
+      "diagnosis": "It is behavioral evidence, but the behavior is highly confounded by training data, system prompts, reinforcement signals, conversation context and the model's ability to simulate personas.",
+      "resolution": "Do not infer sentience from the transcript alone. Inspect architecture, training incentives, robustness across interventions, mechanistic indicators and predictions from competing consciousness theories. Report uncertainty explicitly."
+    },
+    {
+      "type": "callout",
+      "heading": "A dated result is not a permanent verdict",
+      "kind": "misconception",
+      "body": "A 2023 interdisciplinary report assessed several then-current systems and concluded that none met its case for consciousness while also finding no obvious technical barrier to systems satisfying its proposed indicators. That is a historical assessment under a particular framework, not proof about every AI system in 2026 or beyond."
+    },
+    {
+      "type": "self-check",
+      "heading": "Check yourself",
+      "question": "Why is 'the model told me it is conscious' much weaker evidence than it first appears?",
+      "answer": "Because generating a first-person claim is exactly the kind of linguistic behavior a language model is trained to produce. To distinguish experience from simulation, we need evidence that is less directly explained by the text-generation objective and prompting context."
+    }
+  ],
+  "relatedTerms": ["AGI", "ASI", "Model", "LLM", "Agent", "Evidence"],
+  "readNext": ["intelligence-consciousness-sentience-sapience-agency"],
+  "references": [
+    {
+      "title": "Consciousness in Artificial Intelligence: Insights from the Science of Consciousness",
+      "url": "https://arxiv.org/abs/2308.08708",
+      "publisher": "arXiv",
+      "year": 2023,
+      "kind": "primary",
+      "note": "Interdisciplinary indicator-based framework for assessing AI systems in light of scientific theories of consciousness."
+    },
+    {
+      "title": "Consciousness",
+      "url": "https://plato.stanford.edu/entries/consciousness/",
+      "publisher": "Stanford Encyclopedia of Philosophy",
+      "year": 2024,
+      "kind": "philosophy",
+      "note": "Background on the conceptual and explanatory problems surrounding consciousness."
+    },
+    {
+      "title": "Ethics of Artificial Intelligence and Robotics",
+      "url": "https://plato.stanford.edu/entries/ethics-ai/",
+      "publisher": "Stanford Encyclopedia of Philosophy",
+      "year": 2026,
+      "kind": "advanced",
+      "note": "Current overview of AI moral status, moral agency, sentience and related ethical debates."
+    }
+  ],
+  "visibility": "public"
+}
