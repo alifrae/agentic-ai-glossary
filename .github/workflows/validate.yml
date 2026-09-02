@@ -22,6 +22,7 @@ jobs:
           node --check app.js
           node --check data-loader.js
           node --check term-links.js
+          node --check v5.js
           node --check wiki.js
           if [ -f v4.js ]; then node --check v4.js; fi
       - name: Check canonical JSON syntax
