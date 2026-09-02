@@ -119,6 +119,36 @@
       "example": "A scene-analysis application can load a KPI plugin that computes a domain-specific metric while the core application remains sensor- and algorithm-agnostic.",
       "aliases": ["Plug-in", "Extension"],
       "related": ["Capability", "API", "Tool"]
+    },
+    {
+      "term": "Distillation",
+      "group": "Model Optimization",
+      "kind": "Technique",
+      "definition": "Knowledge distillation trains a student model to reproduce useful behavior or output distributions from a teacher model, often to transfer capability into a smaller or cheaper model.",
+      "plain": "A stronger teacher helps train a smaller student so the student keeps more of the teacher's useful behavior.",
+      "example": "Instead of learning only the single correct next token, a student can learn from the teacher's whole probability distribution over candidate tokens.",
+      "aliases": ["Knowledge distillation", "Teacher-student distillation"],
+      "related": ["Model", "Training", "Pruning", "Quantization", "Inference"]
+    },
+    {
+      "term": "Pruning",
+      "group": "Model Optimization",
+      "kind": "Technique",
+      "definition": "Pruning removes or disables parameters, connections, channels, attention heads, or other model structures that contribute little enough that the resulting model can be smaller or cheaper to run.",
+      "plain": "Cut away parts of a trained model that appear unnecessary, then often retrain or fine-tune what remains.",
+      "example": "Unstructured pruning can zero individual weights, while structured pruning can remove whole channels or blocks that hardware can skip more easily.",
+      "aliases": ["Neural network pruning", "Model pruning"],
+      "related": ["Weights", "Model", "Training", "Distillation", "Quantization", "Inference"]
+    },
+    {
+      "term": "Quantization",
+      "group": "Model Optimization",
+      "kind": "Technique",
+      "definition": "Quantization represents model weights and sometimes activations with lower-precision numeric formats so inference can use less memory, bandwidth, and computation, with possible accuracy and calibration trade-offs.",
+      "plain": "Store and compute the model's numbers with fewer bits so it can run more cheaply.",
+      "example": "A model whose weights were stored as 32-bit floating-point values can be converted or trained to use 8-bit integer values for more efficient inference on suitable hardware.",
+      "aliases": ["Model quantization", "Neural network quantization"],
+      "related": ["Weights", "Inference", "Model", "Training", "Distillation", "Pruning"]
     }
   ]
 }
