@@ -1,0 +1,31 @@
+name: Validate static wiki
+
+on:
+  push:
+    branches:
+      - main
+      - feat/wiki-knowledge-pages
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Check JavaScript syntax
+        run: |
+          node --check app.js
+          node --check data-loader.js
+          node --check wiki.js
+      - name: Check canonical JSON syntax
+        run: |
+          python -m json.tool wiki-content.json > /dev/null
+          python -m json.tool misconceptions.json > /dev/null
+          python -m json.tool glossary-7.json > /dev/null
+      - name: Run unit tests
+        run: python -m unittest discover -s tests -p 'test_*.py' -v
+      - name: Validate content graph
+        run: python scripts/validate_content.py
