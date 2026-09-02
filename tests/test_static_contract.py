@@ -115,6 +115,20 @@ class StaticContractTests(unittest.TestCase):
         ]:
             self.assertIn(token, v5)
 
+    def test_v5_llm_math_graph_renderer_contract(self):
+        v5 = self.read("v5.js")
+        for token in [
+            "graphStages",
+            "renderMathGraph",
+            "<svg",
+            "stageIndex",
+            "nodeIndex",
+            "entry.related",
+            "data-v5-graph-term",
+            "#v4TopicView",
+        ]:
+            self.assertIn(token, v5)
+
     def test_v4_shell_article_renderer_and_global_search(self):
         html = self.read("index.html")
         self.assertIn('href="v4.css"', html)
