@@ -1,0 +1,144 @@
+{
+  "id": "how-a-model-gets-built-end-to-end",
+  "title": "How a Model Gets Built, End to End",
+  "topicIds": ["ai-foundations", "ai-engineering"],
+  "level": "beginner",
+  "status": "reviewed",
+  "epistemicStatus": "established-technical",
+  "reviewedAt": "2026-09-02",
+  "summary": "A lifecycle view of building a language model: prepare data, tokenize it, pretrain a base model, adapt and post-train it, evaluate it, then deploy the model inside a larger product or service.",
+  "eli5": "First collect and prepare examples, then train a neural network to predict patterns, teach it more specific behavior, test it hard, and finally serve it so applications can use it. Training the model and building an assistant product around the model are related but different engineering jobs.",
+  "sections": [
+    {
+      "type": "text",
+      "heading": "1. Data preparation and tokenization",
+      "body": "Model development starts before training. Teams select data sources, remove or transform unusable material, deduplicate where appropriate, define mixtures and quality controls, and convert text into tokens. Tokenization maps raw text to integer token IDs that the model can process. The resulting dataset and tokenizer shape what patterns the model can learn."
+    },
+    {
+      "type": "worked-example",
+      "heading": "Toy model: preparing a tiny support corpus",
+      "intro": "Imagine a fictional TinyHelp language model trained only to learn short technical-help sentences.",
+      "steps": [
+        "Collect a tiny corpus such as: 'reset the router', 'check the cable', and 'restart the service'.",
+        "Normalize the text and split it into tokens using a fixed tokenizer.",
+        "Turn each sequence into training examples where earlier tokens are used to predict the next token."
+      ],
+      "result": "The model has not learned yet; we have only defined the data representation and examples it will train on."
+    },
+    {
+      "type": "text",
+      "heading": "2. Pretraining a base model",
+      "body": "During pretraining, the model repeatedly predicts targets such as the next token, computes a loss, uses backpropagation to obtain gradients, and applies an optimizer to update weights. At large scale this requires distributed compute, careful numerical precision, checkpointing, data pipelines and training monitoring. Pretraining creates a broadly capable base model; it does not automatically create a polished assistant."
+    },
+    {
+      "type": "worked-example",
+      "heading": "Toy model: one pretraining objective",
+      "intro": "Suppose TinyHelp sees 'check the' and the correct next token is 'cable'.",
+      "steps": [
+        "The model produces probabilities for possible next tokens.",
+        "Cross-entropy loss penalizes low probability on the observed token 'cable'.",
+        "Backpropagation computes gradients and the optimizer nudges the weights to reduce future loss."
+      ],
+      "result": "After many examples and updates, the base model learns statistical structure from its corpus."
+    },
+    {
+      "type": "text",
+      "heading": "3. Fine-tuning and supervised adaptation",
+      "body": "Fine-tuning continues training on a narrower dataset or objective. Supervised fine-tuning can teach desired response formats, instruction-following patterns, domain behavior or task specialization. Depending on the system, teams may update all weights or use parameter-efficient methods. Fine-tuning is an additional training stage, not a replacement for evaluation."
+    },
+    {
+      "type": "text",
+      "heading": "4. Alignment and preference-oriented post-training",
+      "body": "Many assistant-oriented systems add post-training that uses human or synthetic demonstrations, preference data, reward models, reinforcement learning, direct preference optimization or related methods. RLHF is historically important, but it is not universal: real systems can use different recipes and combinations. The goal is to shape behavior beyond the base pretraining objective, such as instruction following, usefulness, safety and style."
+    },
+    {
+      "type": "worked-example",
+      "heading": "Toy model: from completion engine to helper",
+      "intro": "TinyHelp can complete text, but we want it to answer requests directly.",
+      "steps": [
+        "Supervised examples show user questions paired with concise support answers.",
+        "Preference examples rank safer or more useful answers above weaker alternatives.",
+        "A chosen post-training method updates the model so preferred behavior becomes more likely."
+      ],
+      "result": "TinyHelp is now better adapted to the assistant-style task, although it still needs independent evaluation."
+    },
+    {
+      "type": "text",
+      "heading": "5. Evaluation, red-teaming and validation",
+      "body": "Evaluation measures whether the trained system actually meets its goals. Teams use held-out task sets, regression suites, capability benchmarks, safety evaluations, red-team exercises, latency and cost tests, and human review. A model can improve on one metric while regressing elsewhere, so release decisions should use multiple checks rather than one benchmark score."
+    },
+    {
+      "type": "scenario",
+      "heading": "A release decision is more than accuracy",
+      "question": "TinyHelp's task accuracy improves, but it now invents troubleshooting steps more often. Should it ship?",
+      "diagnosis": "The new checkpoint improved one capability while worsening groundedness. A single aggregate score hid the regression.",
+      "resolution": "Keep separate evals for task success, hallucination or grounding, safety, latency and cost; block promotion until the required release gates are satisfied."
+    },
+    {
+      "type": "text",
+      "heading": "6. Deployment and inference serving",
+      "body": "Deployment packages a chosen model checkpoint for inference. Serving systems load weights, allocate accelerator or CPU resources, manage batching and caches, expose an API, monitor latency and failures, and may apply quantization, routing or other optimizations. Deployment decisions can change observed product quality even when the underlying trained weights are unchanged."
+    },
+    {
+      "type": "text",
+      "heading": "7. The model is not the assistant product",
+      "body": "A deployed model is still only one component of an assistant product. The surrounding product can add system instructions, retrieval, tools, memory, safety policies, user interfaces, orchestration and observability. A base model, a post-trained assistant model and an AI assistant product therefore refer to different layers of the stack."
+    },
+    {
+      "type": "bullets",
+      "heading": "Failure modes and trade-offs across the lifecycle",
+      "items": [
+        "Poor or biased data can propagate into learned behavior.",
+        "Training instability or bad hyperparameters can waste compute or degrade quality.",
+        "Over-specialized fine-tuning can reduce broader capabilities.",
+        "Preference optimization can improve target behavior while creating regressions elsewhere.",
+        "Benchmarks can be contaminated, gamed or too narrow for the deployment context.",
+        "Aggressive quantization or serving constraints can reduce cost while changing quality or latency.",
+        "Product-layer retrieval, tools and policies can help or hurt independently of the raw model."
+      ]
+    },
+    {
+      "type": "self-check",
+      "heading": "Check yourself",
+      "question": "Why is 'training a model' not the same thing as 'building an AI assistant'?",
+      "answer": "Training produces or modifies model weights. An assistant product also supplies runtime instructions, context, interfaces, tools, retrieval, memory, policies, orchestration and serving infrastructure around the model."
+    }
+  ],
+  "relatedTerms": ["Model", "Training", "Token", "Weights", "Inference", "Eval", "AI assistant", "Distillation", "Pruning", "Quantization"],
+  "readNext": ["llm-math-from-vectors-to-attention", "llm-training-mathematics", "inference-and-sampling", "agentic-system-model-agent-harness"],
+  "references": [
+    {
+      "title": "Language Models are Few-Shot Learners",
+      "url": "https://arxiv.org/abs/2005.14165",
+      "publisher": "OpenAI",
+      "year": 2020,
+      "kind": "primary",
+      "note": "Large-scale autoregressive pretraining and evaluation of GPT-3."
+    },
+    {
+      "title": "Training language models to follow instructions with human feedback",
+      "url": "https://arxiv.org/abs/2203.02155",
+      "publisher": "OpenAI",
+      "year": 2022,
+      "kind": "primary",
+      "note": "Canonical supervised fine-tuning plus RLHF pipeline; one influential post-training recipe, not a universal requirement."
+    },
+    {
+      "title": "Direct Preference Optimization: Your Language Model is Secretly a Reward Model",
+      "url": "https://arxiv.org/abs/2305.18290",
+      "publisher": "Stanford University",
+      "year": 2023,
+      "kind": "primary",
+      "note": "Illustrates that preference-oriented post-training need not always use the same RLHF pipeline."
+    },
+    {
+      "title": "Deep Learning",
+      "url": "https://www.deeplearningbook.org/",
+      "publisher": "MIT Press",
+      "year": 2016,
+      "kind": "advanced",
+      "note": "Authoritative foundation for optimization, backpropagation and neural-network training."
+    }
+  ],
+  "visibility": "public"
+}
