@@ -85,6 +85,17 @@ class StaticContractTests(unittest.TestCase):
         ]:
             self.assertIn(token, loader)
 
+    def test_v5_runtime_metadata_merge_contract(self):
+        loader = self.read("data-loader.js")
+        for token in [
+            "glossary-metadata.json",
+            "__wikiGlossaryMetadata",
+            "prerequisites:",
+            "level:",
+            "references:",
+        ]:
+            self.assertIn(token, loader)
+
     def test_v4_shell_article_renderer_and_global_search(self):
         html = self.read("index.html")
         self.assertIn('href="v4.css"', html)
