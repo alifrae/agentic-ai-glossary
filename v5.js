@@ -5,9 +5,14 @@
   let scheduled = false;
   let cardObserver = null;
   let conceptObserver = null;
+  let topicObserver = null;
 
   function entries() {
     return Array.isArray(window.__wikiGlossaryEntries) ? window.__wikiGlossaryEntries : [];
+  }
+
+  function topics() {
+    return Array.isArray(window.__wikiTopics) ? window.__wikiTopics : [];
   }
 
   function escapeHtml(value) {
@@ -152,10 +157,102 @@
     }
   }
 
+  function mathTopic() {
+    return topics().find(topic => topic.id === "llm-mathematics" && Array.isArray(topic.graphStages)) || null;
+  }
+
+  function graphNodes(topic) {
+    const nodes = [];
+    (topic.graphStages || []).forEach((stage, stageIndex) => {
+      (stage || []).forEach((term, nodeIndex) => {
+        const entry = entryByTerm(term);
+        if (entry) nodes.push({ entry, stageIndex, nodeIndex, stageSize: stage.length });
+      });
+    });
+    return nodes;
+  }
+
+  function graphEdges(nodes) {
+    const canonical = new Map(nodes.map(node => [node.entry.term.toLowerCase(), node]));
+    const seen = new Set();
+    const edges = [];
+    for (const node of nodes) {
+      for (const relatedTerm of node.entry.related || []) {
+        const target = canonical.get(String(relatedTerm).toLowerCase());
+        if (!target || target.entry.term === node.entry.term) continue;
+        const pair = [node.entry.term, target.entry.term].sort((a, b) => a.localeCompare(b));
+        const key = pair.join("\u0000");
+        if (seen.has(key)) continue;
+        seen.add(key);
+        edges.push([node, target]);
+      }
+    }
+    return edges;
+  }
+
+  function graphPosition(node, stageCount) {
+    const width = 960;
+    const height = 430;
+    const xPad = 92;
+    const yPad = 72;
+    const usableWidth = width - xPad * 2;
+    const usableHeight = height - yPad * 2;
+    const x = stageCount <= 1 ? width / 2 : xPad + (usableWidth * node.stageIndex) / (stageCount - 1);
+    const y = node.stageSize <= 1 ? height / 2 : yPad + (usableHeight * node.nodeIndex) / (node.stageSize - 1);
+    return { x, y };
+  }
+
+  function renderMathGraph(topic) {
+    const nodes = graphNodes(topic);
+    if (!nodes.length) return "";
+    const stageCount = topic.graphStages.length;
+    const positioned = new Map(nodes.map(node => [node.entry.term, graphPosition(node, stageCount)]));
+    const edges = graphEdges(nodes);
+    const lines = edges.map(([source, target]) => {
+      const a = positioned.get(source.entry.term);
+      const b = positioned.get(target.entry.term);
+      return `<line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}" />`;
+    }).join("");
+    const nodeMarkup = nodes.map(node => {
+      const position = positioned.get(node.entry.term);
+      const label = escapeHtml(node.entry.term);
+      const href = `#term=${encodeURIComponent(node.entry.term)}`;
+      return `<a href="${href}" data-v5-graph-term="${escapeAttr(node.entry.term)}" aria-label="Open ${escapeAttr(node.entry.term)}">
+        <g class="v5-graph-node" transform="translate(${position.x} ${position.y})">
+          <rect x="-68" y="-24" width="136" height="48" rx="12"></rect>
+          <text text-anchor="middle" dominant-baseline="middle">${label}</text>
+        </g>
+      </a>`;
+    }).join("");
+    return `<section class="v4-section v5-math-graph" data-v5-math-graph>
+      <div class="v4-section-head"><div><p class="eyebrow">Concept graph</p><h2>From representations to generation</h2></div></div>
+      <p class="muted">Stages follow the learning sequence; connections come from canonical related-concept relationships.</p>
+      <div class="v5-graph-scroll" role="region" aria-label="LLM Mathematics concept graph" tabindex="0">
+        <svg viewBox="0 0 960 430" role="img" aria-labelledby="v5GraphTitle v5GraphDesc" preserveAspectRatio="xMidYMid meet">
+          <title id="v5GraphTitle">LLM Mathematics concept graph</title>
+          <desc id="v5GraphDesc">Clickable concepts arranged by teaching stage, with lines for related-concept relationships.</desc>
+          <g class="v5-graph-edges">${lines}</g>
+          <g class="v5-graph-nodes">${nodeMarkup}</g>
+        </svg>
+      </div>
+    </section>`;
+  }
+
+  function decorateMathTopic() {
+    if (!location.hash.startsWith("#topic=llm-mathematics")) return;
+    const topicView = document.querySelector("#v4TopicView");
+    const topic = mathTopic();
+    if (!topicView || !topic || topicView.hidden || topicView.querySelector("[data-v5-math-graph]")) return;
+    const header = topicView.querySelector(".v4-surface-header");
+    const graph = renderMathGraph(topic);
+    if (graph && header) header.insertAdjacentHTML("afterend", graph);
+  }
+
   function decorate() {
     scheduled = false;
     document.querySelectorAll("#cardList .card[data-id]").forEach(decorateCard);
     decorateConceptPage(document.querySelector("#conceptContent"));
+    decorateMathTopic();
   }
 
   function scheduleDecorate() {
@@ -167,6 +264,7 @@
   function installObservers() {
     const cardList = document.querySelector("#cardList");
     const conceptContent = document.querySelector("#conceptContent");
+    const main = document.querySelector("main");
 
     if (cardList && !cardObserver) {
       cardObserver = new MutationObserver(scheduleDecorate);
@@ -175,6 +273,10 @@
     if (conceptContent && !conceptObserver) {
       conceptObserver = new MutationObserver(scheduleDecorate);
       conceptObserver.observe(conceptContent, { childList: true, subtree: true });
+    }
+    if (main && !topicObserver) {
+      topicObserver = new MutationObserver(scheduleDecorate);
+      topicObserver.observe(main, { childList: true, subtree: true });
     }
   }
 
