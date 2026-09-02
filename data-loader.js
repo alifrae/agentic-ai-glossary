@@ -9,6 +9,8 @@
 
   window.__wikiContent = window.__wikiContent || {};
   window.__wikiMisconceptions = window.__wikiMisconceptions || [];
+  window.__wikiTopics = window.__wikiTopics || [];
+  window.__wikiArticles = window.__wikiArticles || [];
 
   function unique(values) {
     return [...new Set((values || []).map(String).map(v => v.trim()).filter(Boolean))];
@@ -48,6 +50,32 @@
     window.__wikiMisconceptions = Array.isArray(misconceptionPayload?.entries) ? misconceptionPayload.entries : [];
   }
 
+  async function loadV4Content() {
+    const [topicsPayload, manifestPayload] = await Promise.all([
+      loadOptionalJson("content/topics.json", { topics: [] }, "V4 topics"),
+      loadOptionalJson("content/articles/index.json", { articles: [] }, "V4 article manifest")
+    ]);
+
+    const topics = Array.isArray(topicsPayload?.topics) ? topicsPayload.topics : [];
+    const manifest = Array.isArray(manifestPayload?.articles) ? manifestPayload.articles : [];
+    const articles = (await Promise.all(manifest.map(async article => {
+      if (!article?.path) return null;
+      try {
+        const response = await nativeFetch(article.path, { cache: "no-store" });
+        if (!response.ok) throw new Error(`${article.path}: HTTP ${response.status}`);
+        const payload = await response.json();
+        return payload && typeof payload === "object" ? payload : null;
+      } catch (error) {
+        console.warn(`V4 article ${article?.id || article.path} unavailable; other wiki surfaces will continue.`, error);
+        return null;
+      }
+    }))).filter(Boolean);
+
+    window.__wikiTopics = topics;
+    window.__wikiArticles = articles;
+    return { topics, articles };
+  }
+
   window.fetch = async (input, init) => {
     const url = typeof input === "string" ? input : input?.url;
     if (url !== "glossary.json") return nativeFetch(input, init);
@@ -59,7 +87,8 @@
         return response.json();
       })),
       loadLearningPaths(),
-      loadWikiEnrichment()
+      loadWikiEnrichment(),
+      loadV4Content()
     ]);
 
     glossaryEntries = payloads.flatMap(payload => payload.entries || []).map(entry => {
@@ -72,7 +101,12 @@
     });
     window.__wikiGlossaryEntries = glossaryEntries;
 
-    setTimeout(() => window.dispatchEvent(new CustomEvent("wiki:data-ready")), 0);
+    setTimeout(() => window.dispatchEvent(new CustomEvent("wiki:data-ready", {
+      detail: {
+        topics: window.__wikiTopics,
+        articles: window.__wikiArticles
+      }
+    })), 0);
 
     return new Response(JSON.stringify({ entries: glossaryEntries }), {
       status: 200,
