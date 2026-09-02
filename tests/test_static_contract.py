@@ -58,6 +58,21 @@ class StaticContractTests(unittest.TestCase):
         self.assertIn('glossary-6.json', loader)
         self.assertIn("term=", app)
 
+    def test_v4_public_identity_and_readme(self):
+        readme = self.read("README.md")
+        html = self.read("index.html")
+        for token in [
+            "Personal AI & Engineering Wiki",
+            "https://alifrae.github.io/agentic-ai-glossary/",
+            "LLM Mathematics",
+            "Agent Protocols",
+            "Future AI",
+            "AI & Humanity",
+        ]:
+            self.assertIn(token, readme)
+        self.assertIn("Personal AI & Engineering Wiki", html)
+        self.assertIn("AI foundations, agentic systems, protocols, future AI, and engineering", html)
+
 
 if __name__ == "__main__":
     unittest.main()
