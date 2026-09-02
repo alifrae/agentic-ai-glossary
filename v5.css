@@ -69,6 +69,55 @@
   color: var(--muted);
 }
 
+.v5-math-graph {
+  overflow: hidden;
+}
+
+.v5-graph-scroll {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--panel);
+}
+
+.v5-graph-scroll svg {
+  display: block;
+  width: 100%;
+  min-width: 720px;
+  height: auto;
+}
+
+.v5-graph-edges line {
+  stroke: currentColor;
+  stroke-opacity: .18;
+  stroke-width: 2;
+}
+
+.v5-graph-node rect {
+  fill: var(--soft);
+  stroke: currentColor;
+  stroke-opacity: .34;
+  stroke-width: 1.5;
+  transition: transform .15s ease, stroke-opacity .15s ease;
+}
+
+.v5-graph-node text {
+  fill: currentColor;
+  font-size: 14px;
+  font-weight: 700;
+  pointer-events: none;
+}
+
+.v5-graph-nodes a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.v5-graph-nodes a:hover .v5-graph-node rect,
+.v5-graph-nodes a:focus .v5-graph-node rect {
+  stroke-opacity: .9;
+}
+
 @media (max-width: 700px) {
   .v5-card-block {
     margin-top: .55rem;
@@ -77,5 +126,9 @@
 
   .v5-prereq-chip {
     min-height: 32px;
+  }
+
+  .v5-graph-scroll svg {
+    min-width: 760px;
   }
 }
