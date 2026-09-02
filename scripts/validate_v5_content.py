@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 from collections import Counter
 from pathlib import Path
 from urllib.parse import urlparse
@@ -12,6 +13,7 @@ from urllib.parse import urlparse
 
 ROOT = Path(__file__).resolve().parents[1]
 ALLOWED_LEVELS = {"Beginner", "Core", "Advanced"}
+GLOSSARY_SHARD_RE = re.compile(r"^glossary-\d+\.json$")
 
 
 def load_json(path: Path):
@@ -20,9 +22,12 @@ def load_json(path: Path):
 
 def load_glossary_entries(root: Path) -> list[dict]:
     entries: list[dict] = []
-    for path in sorted(root.glob("glossary-*.json")):
+    paths = sorted(path for path in root.glob("glossary-*.json") if GLOSSARY_SHARD_RE.match(path.name))
+    for path in paths:
         payload = load_json(path)
-        entries.extend(payload.get("entries", []))
+        shard_entries = payload.get("entries", []) if isinstance(payload, dict) else []
+        if isinstance(shard_entries, list):
+            entries.extend(entry for entry in shard_entries if isinstance(entry, dict))
     return entries
 
 
@@ -36,7 +41,11 @@ def load_metadata(root: Path) -> dict[str, dict]:
 
 
 def canonical_terms(root: Path) -> set[str]:
-    return {str(entry.get("term", "")).strip() for entry in load_glossary_entries(root) if str(entry.get("term", "")).strip()}
+    return {
+        str(entry.get("term", "")).strip()
+        for entry in load_glossary_entries(root)
+        if str(entry.get("term", "")).strip()
+    }
 
 
 def alias_to_canonical(root: Path) -> dict[str, str]:
