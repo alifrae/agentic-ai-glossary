@@ -139,16 +139,6 @@
       "example": "Unstructured pruning can zero individual weights, while structured pruning can remove whole channels or blocks that hardware can skip more easily.",
       "aliases": ["Neural network pruning", "Model pruning"],
       "related": ["Weights", "Model", "Training", "Distillation", "Quantization", "Inference"]
-    },
-    {
-      "term": "Quantization",
-      "group": "Model Optimization",
-      "kind": "Technique",
-      "definition": "Quantization represents model weights and sometimes activations with lower-precision numeric formats so inference can use less memory, bandwidth, and computation, with possible accuracy and calibration trade-offs.",
-      "plain": "Store and compute the model's numbers with fewer bits so it can run more cheaply.",
-      "example": "A model whose weights were stored as 32-bit floating-point values can be converted or trained to use 8-bit integer values for more efficient inference on suitable hardware.",
-      "aliases": ["Model quantization", "Neural network quantization"],
-      "related": ["Weights", "Inference", "Model", "Training", "Distillation", "Pruning"]
     }
   ]
 }
