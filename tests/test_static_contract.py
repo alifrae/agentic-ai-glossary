@@ -85,6 +85,21 @@ class StaticContractTests(unittest.TestCase):
         ]:
             self.assertIn(token, loader)
 
+    def test_v4_shell_article_renderer_and_global_search(self):
+        html = self.read("index.html")
+        self.assertIn('href="v4.css"', html)
+        self.assertIn('src="v4.js"', html)
+        v4 = self.read("v4.js")
+        for token in [
+            "Home", "Topics", "Wiki", "Learn", "ELI5",
+            "#page=home", "#page=topics", "#topic=", "#article=", "#term=",
+            "Concept", "Article", "Topic", "Misconception",
+            "window.__wikiGlossaryEntries", "window.__wikiTopics", "window.__wikiArticles", "window.__wikiMisconceptions",
+            "References", "Read more", "Advanced reading",
+            "text", "bullets", "equation", "worked-example", "comparison", "callout", "scenario", "self-check",
+        ]:
+            self.assertIn(token, v4)
+
 
 if __name__ == "__main__":
     unittest.main()
