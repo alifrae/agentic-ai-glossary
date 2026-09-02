@@ -1,0 +1,103 @@
+{
+  "topics": [
+    {
+      "id": "ai-foundations",
+      "title": "AI Foundations",
+      "summary": "Core concepts behind modern AI systems: models, LLMs, transformers, tokens, embeddings, training, inference, context and multimodality.",
+      "startHere": ["Model", "LLM", "Training", "Inference", "Token", "Attention"],
+      "articleIds": ["llm-math-from-vectors-to-attention", "attention-mathematics", "llm-training-mathematics", "inference-and-sampling"],
+      "relatedTopicIds": ["llm-mathematics", "agentic-ai", "ai-engineering"],
+      "visibility": "public"
+    },
+    {
+      "id": "llm-mathematics",
+      "title": "LLM Mathematics",
+      "summary": "A progressive path from vectors and probability through attention, training loss, gradient descent and autoregressive sampling.",
+      "startHere": ["Embedding", "Attention", "Token", "KV cache"],
+      "articleIds": ["llm-math-from-vectors-to-attention", "attention-mathematics", "llm-training-mathematics", "inference-and-sampling"],
+      "relatedTopicIds": ["ai-foundations", "ai-engineering"],
+      "visibility": "public"
+    },
+    {
+      "id": "agentic-ai",
+      "title": "Agentic AI",
+      "summary": "Models acting through tools, workflows, memory, orchestration, planning, verification and bounded autonomy.",
+      "startHere": ["Agent", "Tool", "Workflow", "Harness", "Agent loop"],
+      "articleIds": ["agentic-system-model-agent-harness", "agent-protocols-mcp-acp-a2a", "pia-sanitized-overview", "sceneworks-sanitized-overview"],
+      "relatedTopicIds": ["agent-protocols", "ai-engineering", "ai-foundations"],
+      "visibility": "public"
+    },
+    {
+      "id": "agent-protocols",
+      "title": "Agent Protocols",
+      "summary": "Interoperability and interface protocols for agent systems, including MCP, ACP, A2A, tool calling, schemas, transports, discovery and authorization.",
+      "startHere": ["MCP", "API", "Schema", "Tool call", "Capability"],
+      "articleIds": ["agent-protocols-mcp-acp-a2a", "sceneworks-sanitized-overview"],
+      "relatedTopicIds": ["agentic-ai", "ai-engineering", "systems-engineering"],
+      "visibility": "public"
+    },
+    {
+      "id": "ai-engineering",
+      "title": "AI Engineering",
+      "summary": "How AI systems are grounded, evaluated, observed, secured, routed and operated in real applications.",
+      "startHere": ["RAG", "Grounding", "Eval", "Benchmark", "Context engineering"],
+      "articleIds": ["agentic-system-model-agent-harness", "pia-sanitized-overview"],
+      "relatedTopicIds": ["ai-foundations", "agentic-ai", "agent-protocols", "systems-engineering"],
+      "visibility": "public"
+    },
+    {
+      "id": "future-ai",
+      "title": "Future AI",
+      "summary": "AGI, ASI, recursive self-improvement, singularity, world models, physical AI, embodiment and the uncertainty around future capability trajectories.",
+      "startHere": ["AGI", "ASI", "World model"],
+      "articleIds": ["agi-asi-rsi-singularity", "ai-sentience-evidence"],
+      "relatedTopicIds": ["ai-humanity", "ai-foundations", "agentic-ai"],
+      "visibility": "public"
+    },
+    {
+      "id": "ai-humanity",
+      "title": "AI & Humanity",
+      "summary": "Consciousness, sentience, sapience, agency, moral status, human augmentation, work, meaning, alignment and coexistence with advanced AI.",
+      "startHere": ["AGI", "ASI", "Agent"],
+      "articleIds": ["intelligence-consciousness-sentience-sapience-agency", "ai-sentience-evidence"],
+      "relatedTopicIds": ["future-ai", "ai-foundations", "systems-engineering"],
+      "visibility": "public"
+    },
+    {
+      "id": "systems-engineering",
+      "title": "Systems Engineering",
+      "summary": "Requirements, interfaces, decomposition, architecture, verification, change impact and evidence-driven technical reasoning.",
+      "startHere": ["Black box", "White box", "Evidence", "Source of truth"],
+      "articleIds": ["pcs-scene-studio-sanitized-overview"],
+      "relatedTopicIds": ["ai-engineering", "agent-protocols", "pcs-scene-studio"],
+      "visibility": "public"
+    },
+    {
+      "id": "pia",
+      "title": "Pia",
+      "summary": "A sanitized public overview of an evidence-first engineering assistant architecture and the general design patterns it illustrates.",
+      "startHere": ["Evidence", "Grounding", "Skill", "Agent", "Eval"],
+      "articleIds": ["pia-sanitized-overview"],
+      "relatedTopicIds": ["agentic-ai", "ai-engineering", "sceneworks"],
+      "visibility": "public"
+    },
+    {
+      "id": "sceneworks",
+      "title": "SceneWorks",
+      "summary": "A sanitized public overview of an agentic engineering harness and control-plane pattern for project-aware tool execution.",
+      "startHere": ["Harness", "MCP", "Workflow", "Tool"],
+      "articleIds": ["sceneworks-sanitized-overview"],
+      "relatedTopicIds": ["agentic-ai", "agent-protocols", "pia", "pcs-scene-studio"],
+      "visibility": "public"
+    },
+    {
+      "id": "pcs-scene-studio",
+      "title": "PCS / Scene Studio",
+      "summary": "A sanitized public overview of a desktop sensor and point-cloud engineering environment and its evolution toward scene-level analysis.",
+      "startHere": ["API", "Plugin", "Black box", "White box"],
+      "articleIds": ["pcs-scene-studio-sanitized-overview"],
+      "relatedTopicIds": ["systems-engineering", "sceneworks", "pia"],
+      "visibility": "public"
+    }
+  ]
+}

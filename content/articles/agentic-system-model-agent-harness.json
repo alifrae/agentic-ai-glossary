@@ -1,0 +1,102 @@
+{
+  "id": "agentic-system-model-agent-harness",
+  "title": "What Is an Agentic AI System? Model vs Agent vs Harness",
+  "topicIds": ["agentic-ai", "ai-engineering"],
+  "level": "beginner",
+  "status": "reviewed",
+  "epistemicStatus": "established-technical",
+  "reviewedAt": "2026-09-02",
+  "summary": "A practical architecture model for separating the intelligence engine from the control loop and the surrounding software that supplies tools, context, permissions, verification and persistence.",
+  "eli5": "The model is the brain-like prediction engine; an agent is a system that lets the model choose actions toward a goal; the harness is the surrounding machinery that gives the agent tools, rules, memory, checks and a place to run.",
+  "sections": [
+    {
+      "type": "comparison",
+      "heading": "Three layers that are often conflated",
+      "columns": ["Layer", "What it is", "Typical responsibilities"],
+      "rows": [
+        ["Model", "A learned inference system", "Generate/score outputs from context; reason within the capabilities of the model and prompting setup"],
+        ["Agent", "A goal-directed control loop using a model", "Choose steps, invoke tools, observe results, decide whether to continue or stop"],
+        ["Harness", "The surrounding application/runtime", "Provide tools, context, permissions, persistence, retries, tracing, verification, user interaction and policy"]
+      ]
+    },
+    {
+      "type": "text",
+      "heading": "Why the distinction matters",
+      "body": "Many real-world improvements attributed to 'the model' actually come from the system around it: better tool interfaces, more relevant context, stronger verification, a safer execution sandbox, better retry logic, or a more appropriate workflow. Conversely, a powerful model can still fail inside a poorly designed harness."
+    },
+    {
+      "type": "comparison",
+      "heading": "Workflow vs agent",
+      "columns": ["Pattern", "Who controls the next step?", "Best fit"],
+      "rows": [
+        ["Workflow", "Predetermined application logic", "Known processes where predictability and explicit gates matter"],
+        ["Agent", "The model dynamically chooses actions within constraints", "Open-ended tasks where the correct sequence cannot be fully specified in advance"],
+        ["Hybrid", "Code defines major stages; agents decide within bounded stages", "Many production systems that need both flexibility and control"]
+      ]
+    },
+    {
+      "type": "bullets",
+      "heading": "A minimal agent loop",
+      "items": [
+        "Observe the current task state and available evidence.",
+        "Choose the next action or decide that the task is complete.",
+        "Invoke a tool or produce an intermediate result.",
+        "Observe the tool result and update working context.",
+        "Verify progress, recover from failure when appropriate, and repeat within explicit limits."
+      ]
+    },
+    {
+      "type": "text",
+      "heading": "Verification changes the system",
+      "body": "For tasks with executable checks—tests, schemas, deterministic calculations, repository diffs or other ground truth—a harness can close the loop between action and evidence. This makes agentic coding and other verifiable engineering tasks structurally different from open-ended tasks whose quality cannot be confirmed automatically."
+    },
+    {
+      "type": "callout",
+      "heading": "More autonomy is not automatically better",
+      "kind": "misconception",
+      "body": "Agentic systems trade control, latency, cost and additional failure modes for flexibility. A fixed workflow or even one model call is preferable when it solves the problem reliably. Add autonomy only where model-directed decisions improve the outcome enough to justify the operational complexity."
+    },
+    {
+      "type": "scenario",
+      "heading": "Engineering scenario",
+      "question": "A model can write a code patch, but it frequently stops after producing plausible code that fails tests. Is the obvious solution a larger model?",
+      "diagnosis": "The failure may be harness-level: the system does not require test execution, inspect failures, or iterate before declaring completion.",
+      "resolution": "First add an explicit verification loop and completion criteria. Then evaluate whether the remaining failures are model-capability failures. This separates mechanism improvements from model upgrades."
+    },
+    {
+      "type": "self-check",
+      "heading": "Check yourself",
+      "question": "What is the simplest test for whether a system is really agentic rather than merely LLM-powered?",
+      "answer": "Ask who dynamically controls workflow execution. If the model chooses actions and determines how to progress toward the goal within guardrails, it is agent-like. If application code dictates every step, it is better described as a workflow even if LLMs appear inside the steps."
+    }
+  ],
+  "relatedTerms": ["Model", "Agent", "Harness", "Workflow", "Tool", "Agent loop", "Eval", "Grounding"],
+  "readNext": ["agent-protocols-mcp-acp-a2a"],
+  "references": [
+    {
+      "title": "Building Effective Agents",
+      "url": "https://www.anthropic.com/engineering/building-effective-agents",
+      "publisher": "Anthropic",
+      "year": 2024,
+      "kind": "primary",
+      "note": "Widely used distinction between predefined workflows and model-directed agents, with practical architecture patterns."
+    },
+    {
+      "title": "A practical guide to building AI agents",
+      "url": "https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/",
+      "publisher": "OpenAI",
+      "year": 2025,
+      "kind": "explainer",
+      "note": "Practical guidance on agent loops, tools, orchestration and guardrails."
+    },
+    {
+      "title": "Trustworthy agents in practice",
+      "url": "https://www.anthropic.com/research/trustworthy-agents",
+      "publisher": "Anthropic",
+      "year": 2026,
+      "kind": "advanced",
+      "note": "Current discussion of autonomy, tool use, human control and agent security."
+    }
+  ],
+  "visibility": "public"
+}

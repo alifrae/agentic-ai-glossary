@@ -1,0 +1,120 @@
+{
+  "id": "llm-math-from-vectors-to-attention",
+  "title": "From Vectors to Attention: the Mathematics Behind LLMs",
+  "topicIds": ["llm-mathematics", "ai-foundations"],
+  "level": "beginner",
+  "status": "reviewed",
+  "epistemicStatus": "established-technical",
+  "reviewedAt": "2026-09-02",
+  "summary": "A mathematical map of an LLM: vectors represent tokens, matrices transform them, dot products compare them, softmax turns scores into weights or probabilities, and repeated Transformer blocks build contextual representations.",
+  "eli5": "An LLM repeatedly turns words into lists of numbers, mixes those numbers according to what is relevant, and finally converts the resulting scores into probabilities for the next token.",
+  "sections": [
+    {
+      "type": "bullets",
+      "heading": "The mathematical chain",
+      "items": [
+        "A token is mapped to an embedding vector.",
+        "Learned matrices project vectors into new representations.",
+        "Dot products measure compatibility between vectors.",
+        "Softmax converts arbitrary scores into positive weights that sum to one.",
+        "Attention forms weighted mixtures of value vectors.",
+        "Feed-forward layers transform each token representation further.",
+        "After many blocks, a final linear map produces vocabulary logits and softmax can turn them into next-token probabilities."
+      ]
+    },
+    {
+      "type": "equation",
+      "heading": "Vectors and dot products",
+      "expression": "x · y = Σᵢ xᵢyᵢ",
+      "explanation": "A dot product collapses two equal-length vectors into one scalar. In attention, a scaled dot product is used as a compatibility score between a query and a key.",
+      "shapes": "If x and y are length d, x · y is a scalar."
+    },
+    {
+      "type": "worked-example",
+      "heading": "Tiny dot-product example",
+      "intro": "Take x = [1, 2] and y = [2, 0].",
+      "steps": [
+        "Multiply corresponding components: 1×2 = 2 and 2×0 = 0.",
+        "Add them: 2 + 0 = 2.",
+        "The dot-product score is therefore 2. A larger score can mean stronger compatibility, but its interpretation depends on how the vectors were learned."
+      ],
+      "result": "x · y = 2"
+    },
+    {
+      "type": "equation",
+      "heading": "Matrix multiplication is learned mixing",
+      "expression": "h = xW + b",
+      "explanation": "A learned weight matrix W recombines the coordinates of x. Most neural-network layers are built from matrix operations plus nonlinear or normalization operations.",
+      "shapes": "If x is 1×d and W is d×m, h is 1×m."
+    },
+    {
+      "type": "equation",
+      "heading": "From logits to probabilities",
+      "expression": "softmax(z)ᵢ = exp(zᵢ) / Σⱼ exp(zⱼ)",
+      "explanation": "Logits are unrestricted scores. Softmax exponentiates and normalizes them, producing non-negative values that sum to one. The same operation appears in attention weights and next-token probability distributions."
+    },
+    {
+      "type": "worked-example",
+      "heading": "Two-logit softmax",
+      "intro": "Suppose the model has two scores, z = [2, 1].",
+      "steps": [
+        "Exponentiate: exp(2) ≈ 7.39 and exp(1) ≈ 2.72.",
+        "Add them: 7.39 + 2.72 ≈ 10.11.",
+        "Normalize: 7.39/10.11 ≈ 0.731 and 2.72/10.11 ≈ 0.269."
+      ],
+      "result": "softmax([2,1]) ≈ [0.731, 0.269]"
+    },
+    {
+      "type": "text",
+      "heading": "Embeddings are learned coordinates",
+      "body": "An embedding assigns each token a dense vector. The individual coordinates usually do not have simple human labels; useful structure emerges from how the model learns to place and transform vectors so that later layers can exploit statistical relationships."
+    },
+    {
+      "type": "equation",
+      "heading": "The core attention equation",
+      "expression": "Attention(Q,K,V) = softmax(QKᵀ / √dₖ)V",
+      "explanation": "Queries are compared with keys, the scores are scaled and normalized, and those weights mix the value vectors. In self-attention, Q, K and V are projections of the same sequence representations."
+    },
+    {
+      "type": "callout",
+      "heading": "A useful correction",
+      "kind": "misconception",
+      "body": "Saying that an LLM 'only predicts the next token' correctly describes its autoregressive training/generation objective at a high level, but it does not describe the internal computation. The prediction is produced by many layers of learned vector transformations and attention."
+    },
+    {
+      "type": "self-check",
+      "heading": "Check yourself",
+      "question": "Why is softmax useful in both attention and next-token prediction?",
+      "answer": "Because it converts a set of arbitrary scores into normalized positive weights. Attention uses those weights to mix value vectors; next-token prediction can interpret them as a probability distribution over vocabulary choices."
+    }
+  ],
+  "relatedTerms": ["LLM", "Model", "Token", "Embedding", "Attention", "Training", "Inference"],
+  "readNext": ["attention-mathematics", "llm-training-mathematics", "inference-and-sampling"],
+  "references": [
+    {
+      "title": "Attention Is All You Need",
+      "url": "https://arxiv.org/abs/1706.03762",
+      "publisher": "arXiv",
+      "year": 2017,
+      "kind": "primary",
+      "note": "The original Transformer paper."
+    },
+    {
+      "title": "Softmax Regression",
+      "url": "https://www.d2l.ai/chapter_linear-classification/softmax-regression.html",
+      "publisher": "Dive into Deep Learning",
+      "year": 2023,
+      "kind": "explainer",
+      "note": "Accessible treatment of softmax, entropy and cross-entropy."
+    },
+    {
+      "title": "Deep Learning",
+      "url": "https://www.deeplearningbook.org/",
+      "publisher": "MIT Press",
+      "year": 2016,
+      "kind": "advanced",
+      "note": "Broad mathematical and optimization background for deep learning."
+    }
+  ],
+  "visibility": "public"
+}

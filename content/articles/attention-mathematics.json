@@ -1,0 +1,96 @@
+{
+  "id": "attention-mathematics",
+  "title": "Attention Mathematics: Q, K, V and Softmax",
+  "topicIds": ["llm-mathematics", "ai-foundations"],
+  "level": "intermediate",
+  "status": "reviewed",
+  "epistemicStatus": "established-technical",
+  "reviewedAt": "2026-09-02",
+  "summary": "A step-by-step view of scaled dot-product attention: project token representations into queries, keys and values; score query-key compatibility; normalize with softmax; then mix values.",
+  "eli5": "Each token asks a question with its query, compares that question with every token's key, and uses the resulting weights to blend the information stored in the values.",
+  "sections": [
+    {
+      "type": "equation",
+      "heading": "Three learned projections",
+      "expression": "Q = XW_Q,   K = XW_K,   V = XW_V",
+      "explanation": "The same input representations X are projected through different learned matrices. Queries are used to ask what is relevant, keys are used for matching, and values contain the information that will be mixed.",
+      "shapes": "For n tokens with model width d_model: X is n×d_model. A head commonly produces Q,K,V with shape n×d_k or n×d_v."
+    },
+    {
+      "type": "equation",
+      "heading": "Compatibility scores",
+      "expression": "S = QKᵀ / √dₖ",
+      "explanation": "Every query is dotted with every key. Dividing by √dₖ keeps score magnitudes better behaved as the vector dimension grows, which helps softmax avoid becoming excessively sharp during optimization.",
+      "shapes": "Q is n×dₖ and Kᵀ is dₖ×n, so S is n×n."
+    },
+    {
+      "type": "equation",
+      "heading": "Normalize and mix",
+      "expression": "A = softmax(S),   O = AV",
+      "explanation": "Softmax is applied across the candidate keys for each query. Each row of A becomes a set of weights that sums to one. Multiplying A by V returns a weighted mixture of value vectors for every token."
+    },
+    {
+      "type": "worked-example",
+      "heading": "A two-key example",
+      "intro": "Use one query q = [1,0], keys k₁ = [1,0], k₂ = [0,1], and values v₁ = [2,0], v₂ = [0,2]. Let dₖ = 2.",
+      "steps": [
+        "Dot products are q·k₁ = 1 and q·k₂ = 0.",
+        "Scale by √2: scores become approximately [0.707, 0].",
+        "Softmax gives weights of approximately [0.67, 0.33].",
+        "Mix the values: 0.67×[2,0] + 0.33×[0,2] ≈ [1.34, 0.66]."
+      ],
+      "result": "The output leans toward v₁ because k₁ matched the query more strongly."
+    },
+    {
+      "type": "text",
+      "heading": "Causal masking in a decoder LLM",
+      "body": "During autoregressive language modeling, a token must not use information from future tokens. A causal mask makes disallowed future attention scores effectively negative infinity before softmax, so their normalized weights become zero."
+    },
+    {
+      "type": "text",
+      "heading": "Why multiple heads?",
+      "body": "Multi-head attention runs several learned Q/K/V projections in parallel and concatenates their outputs. Different heads can learn different compatibility patterns. A head is not guaranteed to correspond to a clean human-interpretable rule; it is simply a separately parameterized attention subspace."
+    },
+    {
+      "type": "callout",
+      "heading": "Attention is not a database lookup",
+      "kind": "misconception",
+      "body": "The query/key/value analogy is useful, but ordinary soft attention computes differentiable weighted mixtures rather than retrieving one exact record. High attention weight also should not automatically be interpreted as a complete causal explanation of the model's decision."
+    },
+    {
+      "type": "self-check",
+      "heading": "Check yourself",
+      "question": "Why does QKᵀ have an n×n shape for n tokens?",
+      "answer": "Because every one of the n query vectors is compared with every one of the n key vectors, producing one compatibility score for each query-key pair."
+    }
+  ],
+  "relatedTerms": ["Attention", "Embedding", "Token", "LLM", "Model"],
+  "readNext": ["llm-training-mathematics"],
+  "references": [
+    {
+      "title": "Attention Is All You Need",
+      "url": "https://arxiv.org/abs/1706.03762",
+      "publisher": "arXiv",
+      "year": 2017,
+      "kind": "primary",
+      "note": "Defines scaled dot-product and multi-head attention in the Transformer."
+    },
+    {
+      "title": "Queries, Keys, and Values",
+      "url": "https://d2l.ai/chapter_attention-mechanisms-and-transformers/queries-keys-values.html",
+      "publisher": "Dive into Deep Learning",
+      "year": 2023,
+      "kind": "explainer",
+      "note": "Intuitive and mathematical treatment of Q/K/V attention."
+    },
+    {
+      "title": "Attention Mechanisms and Transformers",
+      "url": "https://d2l.ai/chapter_attention-mechanisms-and-transformers/index.html",
+      "publisher": "Dive into Deep Learning",
+      "year": 2023,
+      "kind": "advanced",
+      "note": "Extended treatment of attention scoring, self-attention and Transformers."
+    }
+  ],
+  "visibility": "public"
+}

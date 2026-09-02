@@ -58,6 +58,48 @@ class StaticContractTests(unittest.TestCase):
         self.assertIn('glossary-6.json', loader)
         self.assertIn("term=", app)
 
+    def test_v4_public_identity_and_readme(self):
+        readme = self.read("README.md")
+        html = self.read("index.html")
+        for token in [
+            "Personal AI & Engineering Wiki",
+            "https://alifrae.github.io/agentic-ai-glossary/",
+            "LLM Mathematics",
+            "Agent Protocols",
+            "Future AI",
+            "AI & Humanity",
+        ]:
+            self.assertIn(token, readme)
+        self.assertIn("Personal AI & Engineering Wiki", html)
+        self.assertIn("AI foundations, agentic systems, protocols, future AI, and engineering", html)
+
+    def test_v4_content_loader_contract(self):
+        loader = self.read("data-loader.js")
+        for token in [
+            "content/topics.json",
+            "content/articles/index.json",
+            "__wikiTopics",
+            "__wikiArticles",
+            "article.path",
+            "console.warn",
+        ]:
+            self.assertIn(token, loader)
+
+    def test_v4_shell_article_renderer_and_global_search(self):
+        html = self.read("index.html")
+        self.assertIn('href="v4.css"', html)
+        self.assertIn('src="v4.js"', html)
+        v4 = self.read("v4.js")
+        for token in [
+            "Home", "Topics", "Wiki", "Learn", "ELI5",
+            "#page=home", "#page=topics", "#topic=", "#article=", "#term=",
+            "Concept", "Article", "Topic", "Misconception",
+            "window.__wikiGlossaryEntries", "window.__wikiTopics", "window.__wikiArticles", "window.__wikiMisconceptions",
+            "References", "Read more", "Advanced reading",
+            "text", "bullets", "equation", "worked-example", "comparison", "callout", "scenario", "self-check",
+        ]:
+            self.assertIn(token, v4)
+
 
 if __name__ == "__main__":
     unittest.main()

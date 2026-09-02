@@ -1,0 +1,98 @@
+{
+  "id": "agi-asi-rsi-singularity",
+  "title": "AGI, ASI, RSI and the Singularity: What Each Claim Actually Means",
+  "topicIds": ["future-ai"],
+  "level": "intermediate",
+  "status": "reviewed",
+  "epistemicStatus": "forecast-uncertain",
+  "reviewedAt": "2026-09-02",
+  "summary": "A disciplined separation of four ideas that are often collapsed together: broadly general AI capability, superhuman intelligence, recursive self-improvement, and a hypothesized discontinuity in technological change.",
+  "eli5": "AGI asks how general an AI is, ASI asks whether it greatly exceeds humans, RSI asks whether an AI can improve the process that improves itself, and the singularity is a prediction about what society and technological progress might look like if capability growth becomes extremely fast or hard to forecast.",
+  "sections": [
+    {
+      "type": "comparison",
+      "heading": "Four different claims",
+      "columns": ["Term", "Core claim", "What it does not automatically imply"],
+      "rows": [
+        ["AGI", "Broad/general competence across a large range of cognitive tasks", "Consciousness, embodiment, full autonomy or superhuman performance at everything"],
+        ["ASI", "Intelligence/capability far beyond human performance across important domains", "A specific architecture, values, goals or inevitability"],
+        ["RSI", "An improvement process feeds improvements back into its own future improvement capability", "Runaway improvement, unlimited progress or model-weight self-editing"],
+        ["Technological singularity", "A hypothesized future transition after which technological change becomes unusually rapid or difficult to predict from today's perspective", "A scientifically established date or a necessary consequence of AGI"]
+      ]
+    },
+    {
+      "type": "text",
+      "heading": "AGI has no single universally accepted finish line",
+      "body": "Definitions differ over breadth, performance, autonomy, embodiment and economic usefulness. One useful approach is to separate performance depth from task generality and treat autonomy as a deployment dimension rather than silently baking every property into one label. This makes arguments about whether 'AGI is here' easier to inspect: people may be using different thresholds."
+    },
+    {
+      "type": "text",
+      "heading": "ASI is a relative capability concept",
+      "body": "Artificial superintelligence normally refers to systems whose relevant cognitive capabilities substantially exceed human performance. The term does not settle how such a system would be built, whether it would be one model or a larger system, whether it would be conscious, or what goals it would pursue. Those are additional claims."
+    },
+    {
+      "type": "comparison",
+      "heading": "Self-improvement has levels",
+      "columns": ["Loop", "Example", "How closed is the loop?"],
+      "rows": [
+        ["Self-refinement", "Generate an answer, critique it, revise it", "The model improves an output, not necessarily itself"],
+        ["Harness adaptation", "An AI proposes better prompts, tools, routing or tests", "The surrounding system changes; acceptance can remain externally verified"],
+        ["Training-loop improvement", "AI helps create data, rewards, architectures or training code", "The system contributes to future model capability but humans/infrastructure may still gate it"],
+        ["Open-ended RSI", "Successive improvements substantially improve the ability to generate the next improvements", "The strongest recursive claim; evidence for sustained runaway dynamics remains uncertain"]
+      ]
+    },
+    {
+      "type": "callout",
+      "heading": "RSI is not a synonym for 'AI edits its own code'",
+      "kind": "misconception",
+      "body": "A system can modify code without making itself more capable, and it can contribute to capability improvement without directly rewriting its own weights. The key question is whether the improvement process improves the future improvement process in a sustained, validated loop."
+    },
+    {
+      "type": "text",
+      "heading": "Why the singularity is epistemically different",
+      "body": "The singularity is a forecast or scenario family, not an observed technical mechanism. Arguments usually combine assumptions about capability progress, automation of research, economic feedback, deployment speed and limits such as compute, data, verification, institutions or physical bottlenecks. Changing any of those assumptions can change the conclusion."
+    },
+    {
+      "type": "scenario",
+      "heading": "How to evaluate a dramatic claim",
+      "question": "Someone says: 'Once we get AGI, RSI starts immediately and ASI follows in months.'",
+      "diagnosis": "The statement compresses at least three uncertain transitions into one sentence: reaching a chosen AGI threshold, closing a reliable self-improvement loop, and sustaining a rate of improvement sufficient to reach the chosen ASI threshold quickly.",
+      "resolution": "Ask for each transition separately: definition, mechanism, bottlenecks, verification signal, resource assumptions and empirical evidence. Treat timelines as forecasts rather than consequences of the acronyms themselves."
+    },
+    {
+      "type": "self-check",
+      "heading": "Check yourself",
+      "question": "Could an AGI exist without RSI?",
+      "answer": "Yes. General capability and recursive self-improvement are separate properties. A broadly capable system might not have access to or competence at improving its own development process, or such improvements might remain externally gated."
+    }
+  ],
+  "relatedTerms": ["AGI", "ASI", "World model", "Agent", "Eval", "Benchmark"],
+  "readNext": ["ai-sentience-evidence", "intelligence-consciousness-sentience-sapience-agency"],
+  "references": [
+    {
+      "title": "Levels of AGI for Operationalizing Progress on the Path to AGI",
+      "url": "https://deepmind.google/research/publications/66938/",
+      "publisher": "Google DeepMind",
+      "year": 2024,
+      "kind": "primary",
+      "note": "Framework separating AGI performance, generality and deployment considerations such as autonomy."
+    },
+    {
+      "title": "Recursive Self-Improvement in AI: From Bounded Self-Refinement to Autonomous Research Loops",
+      "url": "https://arxiv.org/abs/2607.07663",
+      "publisher": "arXiv",
+      "year": 2026,
+      "kind": "explainer",
+      "note": "Recent survey distinguishing bounded self-refinement from stronger recursive improvement loops."
+    },
+    {
+      "title": "Ethics of Artificial Intelligence and Robotics",
+      "url": "https://plato.stanford.edu/entries/ethics-ai/",
+      "publisher": "Stanford Encyclopedia of Philosophy",
+      "year": 2026,
+      "kind": "advanced",
+      "note": "Reviews superintelligence, singularity and existential-risk debates alongside competing views."
+    }
+  ],
+  "visibility": "public"
+}

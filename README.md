@@ -1,138 +1,166 @@
-# Agentic AI Glossary
+# Personal AI & Engineering Wiki
 
-A lightweight, mobile-friendly personal AI engineering wiki for vocabulary, mental models, architecture, failure modes, misconceptions, engineering scenarios, and things worth remembering.
+A lightweight, mobile-friendly personal knowledge base for AI, agentic systems, protocols, engineering, future AI, and the concepts worth remembering.
 
-The site intentionally stays **static and local-first**: no framework, build step, account, database, backend, or embedded GitHub credential.
+**Live wiki:** https://alifrae.github.io/agentic-ai-glossary/
 
-## V3: wiki + learning
+The public site intentionally stays **static and local-first**: no framework, build step, account, database, backend, or embedded credential. Canonical public knowledge is reviewable in Git; personal learning state remains in the browser.
 
-V3 keeps the fast glossary and the V2 focus/review system, but adds a deeper wiki layer for concepts that deserve more than a definition.
+## What this is becoming
 
-The site has three primary surfaces:
+The repository started as an agentic-AI glossary. It is evolving into a broader **Personal AI & Engineering Wiki** with two complementary layers:
 
-- **Wiki** — the dense searchable glossary plus rich concept pages.
-- **Learn** — the existing focus-first flow with recall-before-reveal, prerequisites, review state, and the same concept picker.
-- **ELI5 & Misconceptions** — simple mental models plus common claims classified as False, Misleading, Depends, or Reasonable but uncertain.
+- **Compact concepts** for fast retrieval, definitions, ELI5 explanations, aliases, examples, prerequisites, misconceptions, and related terms.
+- **Long-form articles and topic hubs** for subjects that need architecture, mathematics, worked examples, comparisons, references, trade-offs, and advanced reading.
 
-Important concepts can now expand into:
+The main public knowledge areas are:
 
-> ELI5 → definition → mental model → how it works → example → trade-offs → failure modes → engineering scenario → decision factors → self-check → prerequisites → confused-with → related concepts → backlinks
+- **AI Foundations** — models, LLMs, transformers, tokens, inference, training, embeddings, attention, context, reasoning and multimodality.
+- **LLM Mathematics** — vectors, matrices, probability, logits, softmax, embeddings, attention, loss, gradient descent, backpropagation, autoregressive inference, sampling and related mathematics.
+- **Agentic AI** — agents, workflows, harnesses, tools, skills, memory, orchestration, subagents, planning, verification and autonomy.
+- **Agent Protocols** — MCP, ACP, A2A, tool/function calling, schemas, transports, capability discovery, authentication/authorization and interoperability.
+- **AI Engineering** — RAG, grounding, evaluation, observability, feedback, safety, context engineering, routing and production trade-offs.
+- **Future AI** — AGI, ASI, recursive self-improvement, singularity, world models, physical AI, embodiment and forecasting uncertainty.
+- **AI & Humanity** — intelligence, consciousness, sentience, sapience, agency, machine consciousness, moral status, AI rights, human augmentation, work, meaning, transhumanism, alignment and coexistence.
+- **Systems Engineering** — requirements, interfaces, black/white-box reasoning, verification, architecture, trade-offs and change-impact thinking.
+- **Pia / SceneWorks / PCS / Scene Studio** — public pages contain only intentionally sanitized, high-level engineering examples.
 
-Compact terms remain compact. A protocol acronym, tool name, or piece of engineering slang does not need a long article unless deeper treatment adds value.
+## Privacy boundary
+
+This repository and its GitHub Pages site are **public**. Confidential project knowledge does not belong here.
+
+Detailed Pia, SceneWorks, PCS, LiDAR, requirements, code-derived analysis, unpublished roadmaps, private test evidence, proprietary protocols/algorithms, employer-specific information, and other uncertain material are kept outside this public repository in a separate private knowledge store.
+
+Public content must never contain private repository names, URLs, paths, document IDs, reverse links, or confidential excerpts. If publication status is uncertain, the material is treated as private.
+
+Client-side hiding, obscure routes, or JavaScript gating are **not** considered privacy controls: anything shipped through GitHub Pages is public.
+
+## Current surfaces
+
+The current V3 application provides:
+
+- **Wiki** — searchable glossary plus rich concept pages.
+- **Learn** — focus-first learning with recall-before-reveal, prerequisites and review state.
+- **ELI5 & Misconceptions** — simple mental models and nuanced misconception cards.
+
+V4 adds **Home**, **Topics**, source-backed long-form articles, broader global search, references/read-more/advanced-reading sections, and the topic hubs described above while preserving the V3 learning model.
 
 ## Focus-first learning
 
-The V2 learning behavior remains intact:
+The learning behavior is intentionally small and low-maintenance:
 
-- **One active concept** — the page remembers what you were learning and makes Resume the default action.
-- **Progressive disclosure** — Focus asks you to recall the concept before revealing the definition and example.
-- **Simple learning states** — Not reviewed → Learning → Familiar → Solid.
-- **Light review scheduling** — Still fuzzy = 1 day, Got it = 7 days, Solid = 30 days.
-- **Memory hooks** — save the analogy or sentence that makes a concept stick.
-- **Understand first** — prerequisite-aware learning paths show foundations before deeper concepts.
-- **Often confused with** — explicitly capture concepts that are easy to mix up.
-- **Related terms + backlinks** — relationships form a small navigable knowledge graph.
-- **Parking lot** — capture a tangent without abandoning the current concept.
-- **Deep links** — concept pages continue to use `#term=...` links.
-- **Keyboard shortcuts** — `/` search, `f` resume focus, `p` park a tangent.
+- one active concept;
+- recall before reveal;
+- Not reviewed → Learning → Familiar → Solid;
+- review intervals of roughly 1 / 7 / 30 days;
+- memory hooks;
+- prerequisite-aware “Understand first” links;
+- confused-with relationships and backlinks;
+- parking lot for tangents;
+- deep links with `#term=...`;
+- `/` search, `f` resume focus, `p` park a tangent.
 
-The site deliberately does **not** add timers, streaks, notifications, gamification, accounts, or a complicated spaced-repetition algorithm. The goal is to reduce cognitive overhead, not create another productivity system to maintain.
+No streaks, timers, notifications, accounts, or complicated spaced-repetition engine are added merely for gamification.
 
-## Reference features
+## Knowledge model
 
-- Instant full-text search
-- Filter by group, kind, and learning state
-- Sort table columns
-- Mobile card layout
-- Rich concept pages for selected foundations
-- ELI5 mental models
-- Nuanced misconception cards
-- Prerequisites, related terms, confused-with links, and backlinks
-- Add/edit/hide entries locally
-- Add personal notes/comments and memory hooks
-- Hide/show columns and add custom columns
-- Export JSON, CSV, or Markdown
-- Import a JSON snapshot
+Canonical public knowledge is split by responsibility:
 
-## Data model
+- `glossary-*.json` — compact canonical vocabulary and concept graph.
+- `learning-paths.json` — prerequisite edges and learning-oriented relationships.
+- `wiki-content.json` — optional V3 enrichment for selected concepts.
+- `misconceptions.json` — curated misconception cards.
+- `content/topics.json` — V4 topic-hub manifest.
+- `content/articles/index.json` — V4 long-form article manifest.
+- `content/articles/*.json` — structured source-backed articles.
 
-Canonical shared knowledge stays reviewable in Git and is deliberately split by responsibility:
+Browser-specific state remains in `localStorage` under `agentic-ai-glossary.local.v1`, including notes, local edits, recall text, learning state, parking-lot items and display preferences.
 
-- `glossary-*.json` — compact canonical vocabulary. Every concept starts here.
-- `learning-paths.json` — prerequisite edges, memory hooks, and confused-with relationships used by the learning layer.
-- `wiki-content.json` — optional long-form enrichment for selected canonical terms: mechanisms, trade-offs, failure modes, scenarios, decision factors, and self-checks.
-- `misconceptions.json` — curated claims with nuanced verdicts and links back to canonical concepts.
+## Article design
 
-Browser-specific state remains in `localStorage` under `agentic-ai-glossary.local.v1`, including:
+Substantial V4 articles are designed to support progressive depth rather than a single wall of text. Depending on the topic they can include:
 
-- personal entry edits
-- notes and memory hooks
-- learning/review state
-- recall sentences
-- parking-lot items
-- custom columns and display preferences
+- ELI5 / 30-second explanation;
+- core explanation;
+- equations and notation;
+- worked numerical examples;
+- architecture/mechanism;
+- trade-offs and failure modes;
+- engineering scenarios;
+- misconceptions;
+- self-checks;
+- related concepts and prerequisites;
+- epistemic-status labels for contested/future topics;
+- **References**;
+- **Read more**;
+- **Advanced reading**.
 
-Existing local data is preserved; V3 does not replace the storage key or learning-state model.
+Primary sources, official specifications, original papers and standards are preferred when available.
 
-Use **Data → Export JSON snapshot** to back up personal state or move it between devices.
+## Epistemic discipline
+
+Future-AI and philosophical material explicitly distinguishes categories such as:
+
+- established technical concept;
+- active scientific question;
+- philosophical position;
+- forecast / uncertain;
+- speculative.
+
+The wiki should make uncertainty easier to see, not flatten technical facts, forecasts and philosophical positions into the same kind of claim.
 
 ## Authoring
 
-### Add a normal glossary term
+### Add a compact concept
 
-Add the term to an appropriate `glossary-*.json` shard with a concise definition, plain-English explanation, example, aliases, and useful relationships.
+Add it to an appropriate `glossary-*.json` shard with a concise definition, plain-English explanation, useful aliases/examples and meaningful relationship edges.
 
-### Add a deep wiki page
+### Enrich a concept
 
-First make sure the canonical term exists in a glossary shard. Then add the same canonical key to `wiki-content.json`. All enrichment fields are optional. Supported fields include:
+For V3-style concept enrichment, add the canonical term to `wiki-content.json` with only the fields that add teaching value (`howItWorks`, `whenItMatters`, trade-offs, failure modes, scenarios, decision factors, self-checks and sources).
 
-- `howItWorks`
-- `whenItMatters`
-- `tradeoffs`
-- `failureModes`
-- `scenario` with `question`, `diagnosis`, and `resolution`
-- `decisionChanges`
-- `checkYourself` with `question` and `answer`
-- `sources`
+### Add a long-form V4 article
 
-Do not expand every term merely for consistency. Depth should be earned by teaching value.
+1. Add or confirm its topic in `content/topics.json`.
+2. Add the article to `content/articles/index.json`.
+3. Create its structured JSON document under `content/articles/`.
+4. Use public-only references.
+5. Mark project-specific public articles as sanitized.
+6. Run all content and privacy validators before merge.
 
 ### Add a misconception
 
-Add an item to `misconceptions.json` with:
-
-- `claim`
-- `verdict`
-- `short`
-- `detail`
-- `related`
-
-Allowed verdicts are:
+Use `misconceptions.json` and one of the existing nuanced verdicts:
 
 - `False`
 - `Misleading`
 - `Depends`
 - `Reasonable but uncertain`
 
-Use the least absolute verdict supported by the evidence. The purpose is to teach distinctions, not manufacture binary myth/fact claims.
+Prefer the least absolute verdict supported by the evidence.
 
 ## Validation
 
-The repository includes a lightweight standard-library content validator and CI checks. Before merging content changes, run:
+The repository uses Python standard-library validators plus JavaScript/JSON syntax checks in GitHub Actions.
+
+Current and V4 validation commands include:
 
 ```bash
 python -m unittest discover -s tests -p 'test_*.py' -v
 python scripts/validate_content.py
+python scripts/validate_v4_content.py
+python scripts/validate_privacy.py
 node --check app.js
 node --check data-loader.js
 node --check wiki.js
+node --check v4.js
 ```
 
-The validator checks canonical-term uniqueness, wiki enrichment keys, misconception structure and references, and learning-path prerequisites. Optional enrichment also fails soft at runtime: if wiki or misconception data cannot be loaded, the base glossary remains usable.
+V4 validators are introduced on the V4 feature branch and become required before it is merged.
 
 ## Run locally
 
-Because the page loads JSON with `fetch`, use any tiny static HTTP server instead of opening `index.html` as a `file://` URL.
+Because the page loads JSON with `fetch`, serve the repository over HTTP rather than opening `index.html` directly as a `file://` URL:
 
 ```bash
 python -m http.server 8000
@@ -140,26 +168,23 @@ python -m http.server 8000
 
 Then open `http://localhost:8000`.
 
-Useful deep links include:
+Current deep links include:
 
 - `#page=wiki`
 - `#page=learn`
 - `#page=eli5`
 - `#term=LLM`
 
+V4 additionally introduces Home, Topics, topic and article routes.
+
 ## GitHub Pages
 
-Publish directly from the root of `main`:
+**Live site:** https://alifrae.github.io/agentic-ai-glossary/
 
-1. Open **Settings → Pages**
-2. Under **Build and deployment**, choose **Deploy from a branch**
-3. Select **main** and **/(root)**
-4. Save
-
-Site: `https://alifrae.github.io/agentic-ai-glossary/`
+The site deploys directly from the root of `main` through GitHub Pages. No build system is required.
 
 ## Design principle
 
-Keep this repository a **small personal memory and learning system, not a CMS**.
+Keep this a **retrieval-oriented personal knowledge and learning system, not a CMS**.
 
-Canonical knowledge stays reviewable in Git. Personal annotations and learning state stay local in the browser. Prefer a small amount of well-connected, high-quality content over mechanically expanding every term.
+Prefer well-connected, source-backed knowledge over mechanically accumulating pages. Preserve simple local learning behavior. Use long-form depth where it improves understanding. Keep confidential engineering memory behind a real repository-level privacy boundary rather than attempting to hide public bytes.

@@ -1,0 +1,96 @@
+{
+  "id": "pcs-scene-studio-sanitized-overview",
+  "title": "PCS / Scene Studio: A Sanitized Engineering Overview",
+  "topicIds": ["pcs-scene-studio", "systems-engineering"],
+  "level": "intermediate",
+  "status": "reviewed",
+  "epistemicStatus": "established-technical",
+  "reviewedAt": "2026-09-02",
+  "summary": "A public, high-level example of a desktop engineering environment for inspecting sensor/scene data: separate data ingestion, analysis, visualization and extensibility so the tool can evolve without coupling every feature to one sensor format or one UI view.",
+  "eli5": "PCS / Scene Studio is an example of turning raw sensor data into something engineers can inspect, filter, measure and visualize, while keeping the underlying data/analysis interfaces reusable instead of burying the logic inside the GUI.",
+  "projectSpecific": true,
+  "sanitized": true,
+  "sections": [
+    {
+      "type": "bullets",
+      "heading": "General architecture lessons",
+      "items": [
+        "Keep acquisition/decoding separate from scene representation and visualization.",
+        "Make engineering analysis accessible through stable APIs rather than only through GUI actions.",
+        "Treat selection, filtering and derived metrics as explicit data operations with deterministic semantics.",
+        "Use extension points for domain-specific algorithms instead of hard-wiring every experiment into the core application.",
+        "Design multi-frame and future perception features around sensor-agnostic identities and time/history concepts where possible.",
+        "Keep interactive rendering performance concerns separate from authoritative data-processing semantics."
+      ]
+    },
+    {
+      "type": "comparison",
+      "heading": "Four concerns worth separating",
+      "columns": ["Concern", "Question"],
+      "rows": [
+        ["Data source", "How do bytes/files/streams become typed samples?"],
+        ["Scene/data model", "What entities, coordinates, timestamps and metadata represent the engineering state?"],
+        ["Analysis", "What deterministic filters, statistics, algorithms and derived products operate on that state?"],
+        ["Presentation", "How do 2D/3D views, tables, plots and interaction expose the results to a human?"]
+      ]
+    },
+    {
+      "type": "text",
+      "heading": "Why sensor-agnostic interfaces matter",
+      "body": "A point-cloud tool can start with one sensor family and still avoid making every API synonymous with that sensor's packet format. Separating source identity, sample identity, calibration/coordinate semantics and derived representations makes later support for additional sensors, multi-frame processing or perception components less disruptive."
+    },
+    {
+      "type": "text",
+      "heading": "Visualization is powerful but should not own truth",
+      "body": "Scientific visualization libraries such as VTK and PyVista provide rich geometry, filters and rendering. An engineering application should still define authoritative selection, units, metadata and analysis contracts independently enough that automated tools and tests can reproduce results without needing to click a renderer."
+    },
+    {
+      "type": "scenario",
+      "heading": "Change-impact scenario",
+      "question": "A single-frame point-cloud application needs to add multi-frame analysis. Where should impact analysis start?",
+      "diagnosis": "The change affects assumptions about identity, selection scope, history, caching, timestamps, memory bounds and APIs—not just a loop that loads more frames.",
+      "resolution": "First identify every subsystem whose invariants assume one current sample. Define sensor-agnostic sample/time/history contracts and bounded resource policies before adding algorithms. Then adapt UI and plugins to the new semantics rather than letting each feature invent its own multi-frame model."
+    },
+    {
+      "type": "callout",
+      "heading": "Why details are intentionally absent",
+      "kind": "note",
+      "body": "This public page contains only general software/engineering patterns. Sensor product parameters, proprietary protocols, internal APIs, implementation-specific architecture, requirements, benchmarks and unpublished roadmap material are intentionally not published."
+    },
+    {
+      "type": "self-check",
+      "heading": "Check yourself",
+      "question": "Why is a stable analysis API important if the application already has a good GUI?",
+      "answer": "Because repeatable automation, tests, plugins and AI assistants need deterministic access to the same engineering semantics. If truth lives only in GUI state, reproducibility and extensibility become fragile."
+    }
+  ],
+  "relatedTerms": ["API", "Plugin", "Black box", "White box", "Evidence", "Source of truth"],
+  "readNext": [],
+  "references": [
+    {
+      "title": "PyVista documentation",
+      "url": "https://docs.pyvista.org/",
+      "publisher": "PyVista",
+      "year": 2026,
+      "kind": "explainer",
+      "note": "Public reference for Python-native 3D visualization and mesh/point-data analysis patterns."
+    },
+    {
+      "title": "VTK Documentation",
+      "url": "https://vtk.org/documentation/",
+      "publisher": "VTK / Kitware",
+      "year": 2026,
+      "kind": "primary",
+      "note": "Authoritative documentation for the underlying scientific visualization toolkit."
+    },
+    {
+      "title": "VTK Overview",
+      "url": "https://vtk.org/overview/",
+      "publisher": "VTK / Kitware",
+      "year": 2026,
+      "kind": "advanced",
+      "note": "Broader context on VTK's visualization, modeling and scientific-computing capabilities."
+    }
+  ],
+  "visibility": "public"
+}

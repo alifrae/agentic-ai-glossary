@@ -1,0 +1,105 @@
+{
+  "id": "agent-protocols-mcp-acp-a2a",
+  "title": "Agent Protocols: MCP vs ACP vs A2A",
+  "topicIds": ["agent-protocols", "agentic-ai"],
+  "level": "intermediate",
+  "status": "reviewed",
+  "epistemicStatus": "established-technical",
+  "reviewedAt": "2026-09-02",
+  "summary": "MCP, Zed's Agent Client Protocol (ACP), and A2A solve different interoperability boundaries: tools/data, editor-to-agent integration, and independent agent-to-agent collaboration respectively.",
+  "eli5": "Think of three plugs for three boundaries: MCP helps an agent reach tools and context; Zed ACP helps an editor talk to a coding agent; A2A helps one independent agent collaborate with another.",
+  "sections": [
+    {
+      "type": "comparison",
+      "heading": "The shortest useful comparison",
+      "columns": ["Protocol", "Primary boundary", "Typical purpose"],
+      "rows": [
+        ["MCP", "Client/model application ↔ tool, resource or server", "Expose callable capabilities and context through a standard protocol"],
+        ["Zed ACP", "Editor/client ↔ coding agent", "Let editing environments integrate agents without a custom adapter for every pair"],
+        ["A2A", "Agent ↔ independent agent", "Discover capabilities, exchange messages/artifacts and coordinate tasks across agent systems"]
+      ]
+    },
+    {
+      "type": "text",
+      "heading": "MCP: capabilities and context",
+      "body": "Model Context Protocol standardizes how an AI application interacts with MCP servers that expose tools and related capabilities. The July 28, 2026 MCP specification moved the core protocol to stateless request/response operation: requests are self-describing, discovery is optional, routing information can travel in headers, and extensions cover capabilities that do not belong in the minimal core."
+    },
+    {
+      "type": "text",
+      "heading": "Zed ACP: the editor-agent boundary",
+      "body": "The Agent Client Protocol created by Zed is an open protocol for connecting agents to editing environments. Its interoperability target is not primarily a generic tool server or a remote peer agent: it lets an editor/client provide a consistent interface to coding agents so capabilities such as context, editing and agent interaction do not require a bespoke integration for each editor-agent pair."
+    },
+    {
+      "type": "text",
+      "heading": "A2A: independent agent collaboration",
+      "body": "Agent2Agent (A2A) is designed for communication between independent, potentially opaque agent systems. Its specification covers capability discovery, interaction modalities, task collaboration and secure exchange without requiring one agent to know the other's internal memory or tools. The current official specification lists 1.0.0 as the latest released version."
+    },
+    {
+      "type": "callout",
+      "heading": "ACP is an overloaded acronym",
+      "kind": "misconception",
+      "body": "Here ACP means Zed's Agent Client Protocol. Other projects have used the same letters for different agent-communication protocols. Always expand the acronym before comparing architectures; otherwise it is easy to compare different standards as if they were the same thing."
+    },
+    {
+      "type": "comparison",
+      "heading": "Do they compete?",
+      "columns": ["Question", "Better framing"],
+      "rows": [
+        ["MCP or A2A?", "Often complementary: an agent can use MCP to access tools while using A2A to collaborate with another agent."],
+        ["MCP or Zed ACP?", "Different boundary: tool/context protocol versus client/editor-to-agent protocol."],
+        ["Should every API become a protocol server?", "No. Add a protocol facade only when interoperability, model-oriented semantics, discovery or policy boundaries justify the extra layer."],
+        ["Does a protocol make an agent reliable?", "No. Protocols standardize interfaces; correctness still depends on permissions, tool semantics, context, validation, retries and application design."]
+      ]
+    },
+    {
+      "type": "scenario",
+      "heading": "Architecture scenario",
+      "question": "A coding assistant runs inside an IDE, needs repository tools, and sometimes delegates a specialized task to a remote agent. Which protocol belongs where?",
+      "diagnosis": "There are three distinct boundaries rather than one universal protocol boundary.",
+      "resolution": "Use an editor-agent protocol such as Zed ACP at the IDE boundary when applicable, MCP where standardized tool/context access is useful, and A2A when the remote system is an independent peer agent exposing agent-level capabilities. Do not add all three unless those boundaries actually exist."
+    },
+    {
+      "type": "self-check",
+      "heading": "Check yourself",
+      "question": "Why is 'MCP vs A2A' often the wrong first question?",
+      "answer": "Because they commonly address different layers. MCP is centered on exposing tools/context/capabilities to AI applications; A2A is centered on collaboration between independent agents. A system may use both."
+    }
+  ],
+  "relatedTerms": ["MCP", "API", "Schema", "Tool call", "Capability", "Agent", "Tool"],
+  "readNext": ["agentic-system-model-agent-harness"],
+  "references": [
+    {
+      "title": "The 2026-07-28 Specification",
+      "url": "https://blog.modelcontextprotocol.io/posts/2026-07-28/",
+      "publisher": "Model Context Protocol",
+      "year": 2026,
+      "kind": "primary",
+      "note": "Official MCP release notes for the current 2026-07-28 specification."
+    },
+    {
+      "title": "Agent Client Protocol",
+      "url": "https://zed.dev/acp",
+      "publisher": "Zed",
+      "year": 2026,
+      "kind": "primary",
+      "note": "Official overview of Zed's Agent Client Protocol."
+    },
+    {
+      "title": "Agent2Agent Protocol Specification",
+      "url": "https://a2a-protocol.org/dev/specification/",
+      "publisher": "A2A Protocol",
+      "year": 2026,
+      "kind": "primary",
+      "note": "Official A2A specification and current version information."
+    },
+    {
+      "title": "A2A Protocol documentation",
+      "url": "https://a2a-protocol.org/v1.0.0/",
+      "publisher": "A2A Protocol",
+      "year": 2026,
+      "kind": "advanced",
+      "note": "Versioned documentation, examples and specification links."
+    }
+  ],
+  "visibility": "public"
+}

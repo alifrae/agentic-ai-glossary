@@ -1,0 +1,92 @@
+{
+  "id": "pia-sanitized-overview",
+  "title": "Pia: A Sanitized Architecture Overview",
+  "topicIds": ["pia", "agentic-ai", "ai-engineering"],
+  "level": "intermediate",
+  "status": "reviewed",
+  "epistemicStatus": "established-technical",
+  "reviewedAt": "2026-09-02",
+  "summary": "A public, deliberately high-level example of an engineering assistant architecture centered on evidence, tool-mediated action, bounded authority and verification rather than treating model output as authoritative by itself.",
+  "eli5": "Pia is a useful design example of putting an AI model inside an engineering system that makes it look at evidence, use explicit tools, respect permissions and verify important conclusions instead of simply chatting from memory.",
+  "projectSpecific": true,
+  "sanitized": true,
+  "sections": [
+    {
+      "type": "bullets",
+      "heading": "Public design principles",
+      "items": [
+        "Treat the model as one component of an engineering assistant, not the whole product.",
+        "Prefer evidence-backed claims over unsupported fluent conclusions.",
+        "Use explicit tools and APIs to inspect system state rather than relying on hidden assumptions.",
+        "Separate observations, user claims and model inferences so their authority is not accidentally conflated.",
+        "Bound actions with permissions and make verification a first-class part of task completion.",
+        "Keep provider-specific model capabilities behind interfaces so the engineering semantics can survive provider changes."
+      ]
+    },
+    {
+      "type": "text",
+      "heading": "Evidence-first does not mean 'never infer'",
+      "body": "Engineering assistants still need hypotheses and inference. The architectural goal is to make the distinction visible: what was directly observed, what source supports it, what conclusion is being inferred, and what uncertainty remains. That structure is especially valuable when code, requirements, runtime state and user statements disagree."
+    },
+    {
+      "type": "comparison",
+      "heading": "Model capability vs assistant capability",
+      "columns": ["Concern", "Model alone", "Engineering assistant system"],
+      "rows": [
+        ["Fresh project state", "Limited to supplied context", "Can retrieve current state through governed tools"],
+        ["Authority", "Generates plausible text", "Can rank evidence sources and label inference separately"],
+        ["Action", "May propose actions", "Can execute only through explicit capability and permission boundaries"],
+        ["Verification", "Can self-critique but may repeat the same error", "Can use independent tests, calculations or source checks when available"],
+        ["Persistence", "Context is bounded", "Harness can retain intentional project context and user-local learning state"]
+      ]
+    },
+    {
+      "type": "scenario",
+      "heading": "Engineering scenario",
+      "question": "A user states that a requirement changed, while the authoritative requirement source still shows the old value. What should an evidence-first assistant do?",
+      "diagnosis": "The system has a conflict between a user claim and an authoritative source; silently overwriting one with the other would destroy provenance.",
+      "resolution": "Represent the disagreement explicitly, cite the authoritative source, treat the user's statement as a claim until the source is updated or another authoritative artifact resolves the conflict, and avoid promoting the claim into persistent factual knowledge automatically."
+    },
+    {
+      "type": "callout",
+      "heading": "Why details are intentionally absent",
+      "kind": "note",
+      "body": "This public page explains general engineering patterns only. Implementation-specific architecture, repository structure, internal roadmaps, requirements, test evidence and proprietary project details are intentionally not published."
+    },
+    {
+      "type": "self-check",
+      "heading": "Check yourself",
+      "question": "What is the main architectural reason to distinguish evidence from inference?",
+      "answer": "Because a model can make a useful inference without that inference becoming an observed fact. Keeping the boundary explicit lets users inspect provenance, challenge assumptions and re-run verification when evidence changes."
+    }
+  ],
+  "relatedTerms": ["Evidence", "Grounding", "Agent", "Harness", "Skill", "Eval", "Source of truth", "Tool"],
+  "readNext": ["agentic-system-model-agent-harness", "agent-protocols-mcp-acp-a2a"],
+  "references": [
+    {
+      "title": "A practical guide to building AI agents",
+      "url": "https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/",
+      "publisher": "OpenAI",
+      "year": 2025,
+      "kind": "explainer",
+      "note": "General agent architecture, tools, orchestration and guardrail patterns."
+    },
+    {
+      "title": "Building Effective Agents",
+      "url": "https://www.anthropic.com/engineering/building-effective-agents",
+      "publisher": "Anthropic",
+      "year": 2024,
+      "kind": "advanced",
+      "note": "Patterns for workflows, agents, tools and evaluation-oriented system design."
+    },
+    {
+      "title": "The 2026-07-28 Specification",
+      "url": "https://blog.modelcontextprotocol.io/posts/2026-07-28/",
+      "publisher": "Model Context Protocol",
+      "year": 2026,
+      "kind": "primary",
+      "note": "Current MCP protocol background for standardized tool/context boundaries."
+    }
+  ],
+  "visibility": "public"
+}

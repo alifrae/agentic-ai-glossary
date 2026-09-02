@@ -109,6 +109,16 @@
       "example": "An LLM repeatedly predicts a next token, appends it to the context, and continues generation.",
       "aliases": ["Next token prediction"],
       "related": ["LLM", "Token", "Inference", "Sampling"]
+    },
+    {
+      "term": "Plugin",
+      "group": "Tools & Interfaces",
+      "kind": "Concept",
+      "definition": "A separately packaged extension that adds a capability to a host application through a defined extension interface without requiring the host's core implementation to contain that feature directly.",
+      "plain": "A modular add-on that teaches an application a new trick through an agreed interface.",
+      "example": "A scene-analysis application can load a KPI plugin that computes a domain-specific metric while the core application remains sensor- and algorithm-agnostic.",
+      "aliases": ["Plug-in", "Extension"],
+      "related": ["Capability", "API", "Tool"]
     }
   ]
 }
