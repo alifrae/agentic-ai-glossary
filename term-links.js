@@ -107,5 +107,22 @@
     return restoreNoLink(html, protectedValues);
   }
 
+  function loadV5Presentation() {
+    if (typeof document === "undefined") return;
+    if (!document.querySelector('link[href="v5.css"]')) {
+      const stylesheet = document.createElement("link");
+      stylesheet.rel = "stylesheet";
+      stylesheet.href = "v5.css";
+      document.head.appendChild(stylesheet);
+    }
+    if (!document.querySelector('script[src="v5.js"]')) {
+      const script = document.createElement("script");
+      script.src = "v5.js";
+      script.async = false;
+      document.head.appendChild(script);
+    }
+  }
+
   window.WikiTermLinks = Object.freeze({ render });
+  loadV5Presentation();
 })();
