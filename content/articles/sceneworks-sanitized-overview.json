@@ -1,0 +1,96 @@
+{
+  "id": "sceneworks-sanitized-overview",
+  "title": "SceneWorks: A Sanitized Agent Harness Overview",
+  "topicIds": ["sceneworks", "agentic-ai", "agent-protocols"],
+  "level": "intermediate",
+  "status": "reviewed",
+  "epistemicStatus": "established-technical",
+  "reviewedAt": "2026-09-02",
+  "summary": "A public architecture example of a project-aware agent harness/control plane: keep durable project/task state outside the model, expose bounded capabilities, preserve execution evidence, and let different AI clients interact through stable interfaces.",
+  "eli5": "SceneWorks illustrates the idea that an AI coding session should not have to remember an entire project in its head. The surrounding harness keeps the durable project state, gives the agent controlled tools, and records what happened.",
+  "projectSpecific": true,
+  "sanitized": true,
+  "sections": [
+    {
+      "type": "text",
+      "heading": "Why a control plane exists",
+      "body": "Long-running engineering work spans model context windows, clients and sessions. A control-plane layer can hold durable project metadata, tasks, execution records and interfaces independently of any one model conversation. The agent remains replaceable; the project state does not disappear when the context window ends."
+    },
+    {
+      "type": "bullets",
+      "heading": "General harness responsibilities",
+      "items": [
+        "Represent projects and tasks independently of a model session.",
+        "Expose only the capabilities the current operation should have.",
+        "Record executions, outputs and diffs so progress is inspectable.",
+        "Provide stable interfaces that multiple AI clients can consume.",
+        "Keep human review and deterministic verification separate from model confidence.",
+        "Make long-running work resumable through explicit artifacts rather than hoping a model reconstructs history from scratch."
+      ]
+    },
+    {
+      "type": "comparison",
+      "heading": "Harness state vs model context",
+      "columns": ["Property", "Model context", "Harness/project state"],
+      "rows": [
+        ["Lifetime", "Bounded by a conversation/context window", "Can persist across sessions"],
+        ["Authority", "Contains instructions and generated reasoning", "Can store explicit task/execution records and validated artifacts"],
+        ["Portability", "Often provider/model-specific", "Can present stable project semantics to multiple clients/adapters"],
+        ["Auditability", "Conversation history may be incomplete or compacted", "Structured execution records can be queried directly"]
+      ]
+    },
+    {
+      "type": "text",
+      "heading": "Where protocols fit",
+      "body": "A harness can expose a model-oriented protocol surface such as MCP without making the protocol itself the internal architecture. The durable domain model, permissions and task semantics belong behind the adapter; the protocol is an interoperability boundary. Other protocols may serve different boundaries, such as editor-to-agent or agent-to-agent communication."
+    },
+    {
+      "type": "scenario",
+      "heading": "Long-running task scenario",
+      "question": "An agent makes progress on a multi-hour implementation, reaches its context limit, and a later session must continue reliably.",
+      "diagnosis": "Conversation text alone is a weak handoff: it may omit current task status, verification results, changed files or why a decision was made.",
+      "resolution": "Persist explicit task state and execution artifacts outside the context window, then give the next session a bounded summary plus direct tools to retrieve authoritative details when needed."
+    },
+    {
+      "type": "callout",
+      "heading": "Why details are intentionally absent",
+      "kind": "note",
+      "body": "This public article presents only general harness/control-plane patterns. Internal endpoints, repository structure, deployment details, task identifiers, implementation decisions and unpublished roadmap information are intentionally not published."
+    },
+    {
+      "type": "self-check",
+      "heading": "Check yourself",
+      "question": "Why should an MCP server not simply mirror every internal CRUD endpoint one-to-one?",
+      "answer": "Because a model-facing protocol should expose coherent capabilities and bounded semantics that help an agent accomplish tasks. Internal APIs can remain more granular; the adapter should present a stable, model-appropriate surface instead of leaking implementation detail."
+    }
+  ],
+  "relatedTerms": ["Harness", "MCP", "Workflow", "Agent", "Tool", "Capability", "Context engineering"],
+  "readNext": ["agent-protocols-mcp-acp-a2a"],
+  "references": [
+    {
+      "title": "Effective harnesses for long-running agents",
+      "url": "https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents",
+      "publisher": "Anthropic",
+      "year": 2025,
+      "kind": "explainer",
+      "note": "Long-running agent work, persistent artifacts and cross-session handoffs."
+    },
+    {
+      "title": "Harness design for long-running application development",
+      "url": "https://www.anthropic.com/engineering/harness-design-long-running-apps",
+      "publisher": "Anthropic",
+      "year": 2026,
+      "kind": "advanced",
+      "note": "Recent discussion of planners, evaluators and structured artifacts in long-running agent harnesses."
+    },
+    {
+      "title": "The 2026-07-28 Specification",
+      "url": "https://blog.modelcontextprotocol.io/posts/2026-07-28/",
+      "publisher": "Model Context Protocol",
+      "year": 2026,
+      "kind": "primary",
+      "note": "Current MCP interoperability model and stateless core."
+    }
+  ],
+  "visibility": "public"
+}
