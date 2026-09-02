@@ -73,6 +73,18 @@ class StaticContractTests(unittest.TestCase):
         self.assertIn("Personal AI & Engineering Wiki", html)
         self.assertIn("AI foundations, agentic systems, protocols, future AI, and engineering", html)
 
+    def test_v4_content_loader_contract(self):
+        loader = self.read("data-loader.js")
+        for token in [
+            "content/topics.json",
+            "content/articles/index.json",
+            "__wikiTopics",
+            "__wikiArticles",
+            "article.path",
+            "console.warn",
+        ]:
+            self.assertIn(token, loader)
+
 
 if __name__ == "__main__":
     unittest.main()
