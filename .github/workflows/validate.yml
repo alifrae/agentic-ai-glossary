@@ -45,6 +45,6 @@ jobs:
       - name: Validate V4 content graph
         run: python scripts/validate_v4_content.py
       - name: Validate V5 content metadata
-        run: python scripts/validate_v5_content.py --allow-partial-coverage
+        run: python scripts/validate_v5_content.py
       - name: Validate public privacy boundary
         run: if [ -f scripts/validate_privacy.py ]; then python scripts/validate_privacy.py; fi
