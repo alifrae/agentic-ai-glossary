@@ -15,7 +15,7 @@ V5 is deliberately a content-quality and rendering pass. It does not redesign th
 V5 is complete when:
 
 1. Canonical glossary terms and aliases appearing in `definition`, `plain`, or `example` render as Wikipedia-style links to the existing `#term=` route.
-2. Every canonical glossary entry has a validated `level` and at least one primary/official `reference` unless explicitly exempted by validator policy.
+2. Every canonical glossary entry has a validated `level` and at least one primary, official, standards-based, or authoritative technical `reference`.
 3. Compact cards show level and prerequisites directly.
 4. The LLM Mathematics topic contains a concept-graph view built from canonical concepts and `related` edges.
 5. The LLM Mathematics teaching sequence explicitly covers vectors → attention → softmax → backpropagation → sampling, with ELI5 → mechanism → worked example depth.
@@ -73,10 +73,11 @@ Allowed levels are exactly:
 
 Reference policy:
 
+- Every canonical glossary entry must have at least one reference.
 - Prefer original papers, standards, official specifications, official technical documentation, or authoritative textbooks/course material.
 - Avoid blog aggregators, SEO summaries, scraped content, and citation farms.
 - An entry may have multiple references.
-- The validator may maintain a small explicit exemption set for concepts where no meaningful external primary source exists; exemptions must be named in code, not silently inferred.
+- When a concept is broad rather than paper-defined, use the best authoritative source available (for example an official standard, specification, technical documentation, or recognized academic textbook/course) rather than weakening the coverage requirement.
 
 ### 1.3 Prerequisite authority remains `learning-paths.json`
 
@@ -295,8 +296,9 @@ The test/validator suite must cover:
 
 - `glossary-metadata.json` parses.
 - Metadata keys resolve to canonical terms, never only aliases.
-- Every canonical glossary term has metadata unless explicitly exempted.
+- Every canonical glossary term has metadata with no implicit exemptions.
 - Levels are exactly Beginner/Core/Advanced.
+- Every metadata entry has at least one reference.
 - References have non-empty titles and HTTPS URLs.
 
 ### Runtime merge
