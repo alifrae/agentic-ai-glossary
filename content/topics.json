@@ -5,7 +5,7 @@
       "title": "AI Foundations",
       "summary": "Core concepts behind modern AI systems: models, LLMs, transformers, tokens, embeddings, training, inference, context and multimodality.",
       "startHere": ["Model", "LLM", "Training", "Inference", "Token", "Attention"],
-      "articleIds": ["llm-math-from-vectors-to-attention", "attention-mathematics", "llm-training-mathematics", "inference-and-sampling"],
+      "articleIds": ["how-a-model-gets-built-end-to-end", "llm-math-from-vectors-to-attention", "attention-mathematics", "llm-training-mathematics", "inference-and-sampling"],
       "relatedTopicIds": ["llm-mathematics", "agentic-ai", "ai-engineering"],
       "visibility": "public"
     },
@@ -13,7 +13,14 @@
       "id": "llm-mathematics",
       "title": "LLM Mathematics",
       "summary": "A progressive path from vectors and probability through attention, training loss, gradient descent and autoregressive sampling.",
-      "startHere": ["Embedding", "Attention", "Token", "KV cache"],
+      "startHere": ["Vector", "Embedding", "Attention", "Softmax"],
+      "graphStages": [
+        ["Vector", "Embedding"],
+        ["Attention"],
+        ["Softmax"],
+        ["Training", "Backpropagation", "Gradient descent"],
+        ["Inference", "Sampling"]
+      ],
       "articleIds": ["llm-math-from-vectors-to-attention", "attention-mathematics", "llm-training-mathematics", "inference-and-sampling"],
       "relatedTopicIds": ["ai-foundations", "ai-engineering"],
       "visibility": "public"
@@ -41,7 +48,7 @@
       "title": "AI Engineering",
       "summary": "How AI systems are grounded, evaluated, observed, secured, routed and operated in real applications.",
       "startHere": ["RAG", "Grounding", "Eval", "Benchmark", "Context engineering"],
-      "articleIds": ["agentic-system-model-agent-harness", "pia-sanitized-overview"],
+      "articleIds": ["how-a-model-gets-built-end-to-end", "agentic-system-model-agent-harness", "pia-sanitized-overview"],
       "relatedTopicIds": ["ai-foundations", "agentic-ai", "agent-protocols", "systems-engineering"],
       "visibility": "public"
     },
