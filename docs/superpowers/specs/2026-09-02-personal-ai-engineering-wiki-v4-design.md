@@ -1,86 +1,78 @@
 # Personal AI & Engineering Wiki V4 — Design
 
 **Date:** 2026-09-02  
-**Status:** Proposed implementation design — user-approved direction, implementation pending written-spec review  
+**Status:** User-approved direction; implementation pending written-spec review  
 **Public repository:** `alifrae/agentic-ai-glossary`  
-**Private companion repository:** `alifrae/personal-ai-engineering-wiki-private` (to be created as a private repository during implementation)
+**Private companion:** separate private GitHub repository; its exact repository name is intentionally not recorded in the public repository.
 
 ## 1. Goal
 
-Evolve the existing Agentic AI Glossary into a personal technical knowledge system that is fast to retrieve from, useful for learning, and safe for work/project knowledge.
+Evolve the existing Agentic AI Glossary into a personal technical knowledge system that supports:
 
-The system must support four distinct use cases without conflating them:
+1. **Reference** — quickly retrieve a definition, architecture, protocol, equation, trade-off, comparison, or source.
+2. **Learning** — progress from ELI5 explanations to advanced material while preserving Focus/review behavior.
+3. **Synthesis** — connect AI, systems engineering, protocols, future AI, philosophy, and sanitized project examples.
+4. **Private engineering memory** — retain confidential/project-derived knowledge without publishing it through GitHub Pages or exposing private-repository metadata in the public site.
 
-1. **Reference:** quickly retrieve a definition, architecture, protocol, equation, trade-off, or comparison.
-2. **Learning:** progressively study a topic from ELI5 through advanced material, while preserving the current Focus/review workflow.
-3. **Synthesis:** connect related concepts across AI, systems engineering, protocols, future AI, philosophy, and the user's projects.
-4. **Private engineering memory:** retain confidential/project-derived knowledge without publishing it through GitHub Pages or exposing private-repository metadata in the public site.
-
-V4 remains intentionally lightweight. The public site stays static, local-first, and framework-free.
+The public application remains static, local-first, framework-free, and deployable directly by GitHub Pages.
 
 ## 2. Non-goals
 
 V4 does **not**:
 
-- turn the repository into a CMS;
-- add a backend, account system, authentication layer, database, or remote personal-state sync;
+- add a backend, database, account system, authentication layer, or remote sync;
+- turn the public repository into a CMS;
 - publish confidential Pia, PCS, SceneWorks, employer, requirements, repository-derived, or proprietary LiDAR information;
-- create a private GitHub Pages deployment;
-- claim philosophical or speculative AI positions as scientific facts;
+- create private GitHub Pages hosting;
+- automatically copy conversation memory or project files into either wiki;
+- treat philosophical or speculative AI claims as settled scientific facts;
 - replace the current glossary, Focus mode, review scheduling, parking lot, notes, or localStorage state.
 
-## 3. Architecture Overview
+## 3. Two-Repository Trust Boundary
 
-V4 uses two repositories with a hard trust boundary.
+### 3.1 Public repository and Pages
 
-### 3.1 Public repository and GitHub Pages
+The current repository contains only public/general knowledge and intentionally sanitized project summaries. It provides:
 
-`alifrae/agentic-ai-glossary`
-
-Purpose:
-
-- public/general technical knowledge;
-- sanitized high-level project summaries;
-- learning paths;
-- glossary and ELI5 material;
+- glossary concepts and ELI5 material;
 - topic hubs and long-form articles;
+- learning paths;
 - references and advanced reading;
-- public search/indexing.
-
-Published by GitHub Pages.
+- global public search;
+- sanitized Pia / SceneWorks / PCS examples.
 
 ### 3.2 Private companion repository
 
-`alifrae/personal-ai-engineering-wiki-private`
+A separate **private** GitHub repository contains confidential engineering knowledge, including:
 
-Purpose:
+- detailed Pia architecture, roadmap, evals, decisions, and investigations;
+- SceneWorks internals/control-plane/execution details;
+- PCS architecture, APIs, test evidence, and roadmaps;
+- proprietary/work-derived LiDAR and sensor material;
+- requirements, repository-derived analysis, implementation decisions, and private notes;
+- anything whose publication status is uncertain.
 
-- detailed Pia architecture and roadmap;
-- SceneWorks internals/control plane/execution details;
-- PCS architecture, APIs, test evidence, and roadmap details;
-- proprietary/work-derived LiDAR and sensor information;
-- repository-derived analysis, requirements, implementation decisions, design rationale, and private engineering notes;
-- any material whose disclosure is uncertain.
-
-The private repository is **not** published through Pages in V4. GitHub itself is the private browsing/search surface. Connected GitHub/AI tools may retrieve it only under the user's existing repository permissions.
+The private repository is Markdown-first and is not deployed through Pages in V4. GitHub itself, GitHub search, and authorized connected AI tooling are the private retrieval surfaces.
 
 ### 3.3 One-way privacy rule
 
-Private content may reference public concepts. Public content must not reference private content.
+Private content may reference public concepts. Public content must **never** reference the private repository or its content.
 
-Specifically, the public repository must contain none of the following:
+Public content must not contain:
 
-- private repository URL/name;
-- private paths or document identifiers;
-- excerpts or summaries generated from confidential material unless explicitly sanitized and intentionally authored for public release;
-- `private://` links or placeholders;
-- statements such as “see private page X” that reveal private information architecture.
+- private repository URLs/names;
+- private paths or document IDs;
+- `private://` links;
+- confidential excerpts or summaries unless a human intentionally rewrites and sanitizes them for public publication;
+- “see private page X” or any other reverse pointer that exposes private information architecture.
 
-A public page may say only a generic statement such as: “Implementation-specific notes are intentionally not published.”
+A public project page may only state generically that implementation-specific details are intentionally not published.
 
-## 4. Information Architecture
+There is **no automatic private-to-public synchronization**. Promotion is an explicit sanitization action.
 
-The public site becomes **Personal AI & Engineering Wiki**. “Glossary” remains a reference view, not the identity of the whole product.
+## 4. Public Information Architecture
+
+The site identity becomes **Personal AI & Engineering Wiki**. The glossary remains one reference surface, not the product identity.
 
 ### 4.1 Top-level topic hubs
 
@@ -96,50 +88,44 @@ The public site becomes **Personal AI & Engineering Wiki**. “Glossary” remai
 10. **SceneWorks** — sanitized public overview only
 11. **PCS / Scene Studio** — sanitized public overview only
 
-Existing **Wiki**, **Learn**, and **ELI5 & Misconceptions** remain available as cross-cutting views.
+Cross-cutting views remain:
 
-### 4.2 Topic hub behavior
+- **Wiki / Glossary**
+- **Learn**
+- **ELI5 & Misconceptions**
 
-Each hub includes:
+### 4.2 Topic hub contract
 
-- short orientation;
+Every hub may contain:
+
+- orientation/summary;
 - “Start here” concepts;
-- learning sequence;
-- featured long-form articles;
+- ordered learning sequence;
+- featured articles;
 - common misconceptions;
 - related hubs;
-- “Read next” recommendations;
-- advanced reading;
-- searchable child concepts/articles.
+- Read next;
+- Read more;
+- Advanced reading.
 
-Hub pages are navigation/synthesis surfaces, not giant articles.
+A hub is a navigation/synthesis page, not a single giant article.
 
 ## 5. Public Content Model
 
-V4 separates compact glossary entries from scalable long-form content.
+### 5.1 Glossary remains canonical for compact concepts
 
-### 5.1 Existing glossary data
+Existing `glossary-*.json` files continue to define short concepts and graph edges, including:
 
-`glossary-*.json` remains canonical for short concept definitions and relation edges.
-
-It continues to hold fields such as:
-
-- `term`
-- `group`
-- `kind`
-- `definition`
-- `plain`
-- `example`
-- `aliases`
-- `related`
-- `confusedWith`
+- `term`, `group`, `kind`
+- `definition`, `plain`, `example`
+- `aliases`, `related`, `confusedWith`
 - `memoryHook`
 
 ### 5.2 Topic manifest
 
 Add `content/topics.json`.
 
-Each topic has:
+Example:
 
 ```json
 {
@@ -153,13 +139,11 @@ Each topic has:
 }
 ```
 
-Only `visibility: "public"` is legal in the public repository.
+Only `visibility: "public"` is legal in publishable public content.
 
 ### 5.3 Article manifest
 
-Add `content/articles/index.json`.
-
-It lists public article IDs and paths so the browser does not enumerate directories:
+Add `content/articles/index.json` listing the long-form public documents the browser is allowed to fetch.
 
 ```json
 {
@@ -174,13 +158,9 @@ It lists public article IDs and paths so the browser does not enumerate director
 }
 ```
 
-The loader fetches only manifest-listed files.
+The runtime fetches manifest-listed files only. It does not enumerate directories.
 
 ### 5.4 Long-form article schema
-
-A public article uses structured JSON rather than runtime Markdown parsing.
-
-Core fields:
 
 ```json
 {
@@ -189,13 +169,16 @@ Core fields:
   "topicIds": ["llm-mathematics", "ai-foundations"],
   "level": "intermediate",
   "status": "reviewed",
+  "epistemicStatus": "established-technical",
+  "reviewedAt": "2026-09-02",
   "summary": "...",
   "eli5": "...",
   "sections": [
     {"type": "text", "heading": "Why dot products?", "body": "..."},
-    {"type": "equation", "heading": "Scaled dot-product attention", "latex": "Attention(Q,K,V)=softmax(QK^T/sqrt(d_k))V", "explanation": "..."},
+    {"type": "equation", "heading": "Scaled dot-product attention", "expression": "Attention(Q,K,V) = softmax(QKᵀ / √dₖ)V", "explanation": "..."},
     {"type": "worked-example", "heading": "Two-token example", "steps": ["..."]},
-    {"type": "callout", "kind": "misconception", "body": "..."}
+    {"type": "callout", "kind": "misconception", "body": "..."},
+    {"type": "text", "heading": "Consciousness implication", "claimClass": "speculation", "body": "..."}
   ],
   "relatedTerms": ["Attention", "Softmax", "Embedding"],
   "readNext": ["transformer-block-mathematics"],
@@ -204,7 +187,36 @@ Core fields:
 }
 ```
 
-Supported section types in V4:
+Allowed `level` values:
+
+- `beginner`
+- `intermediate`
+- `advanced`
+
+Allowed `status` values:
+
+- `draft`
+- `reviewed`
+
+Allowed top-level `epistemicStatus` values:
+
+- `established-technical`
+- `active-scientific-question`
+- `philosophical-position`
+- `forecast-uncertain`
+- `speculative`
+- `mixed`
+
+Allowed optional per-section `claimClass` values:
+
+- `observed-capability`
+- `established-technical`
+- `scientific-hypothesis`
+- `philosophical-position`
+- `forecast`
+- `speculation`
+
+Supported section types:
 
 - `text`
 - `bullets`
@@ -215,11 +227,17 @@ Supported section types in V4:
 - `scenario`
 - `self-check`
 
-Unknown types fail validation rather than rendering unpredictably.
+Unknown enum values fail validation.
 
-## 6. References and Reading Model
+### 5.5 Equation rendering
 
-Every substantial long-form article must have references unless it is explicitly marked as a personal synthesis article with no external factual claims.
+V4 stores equations as readable Unicode/plain mathematical expressions plus human explanations. It does not add a remote MathJax/KaTeX runtime dependency. Equations render in a horizontally scrollable math/code block on mobile and remain understandable if styling fails.
+
+A richer vendored math renderer can be added later only if the simple representation becomes a real limitation.
+
+## 6. References and Reading Depth
+
+References are first-class article data.
 
 ### 6.1 Reference schema
 
@@ -236,21 +254,19 @@ Every substantial long-form article must have references unless it is explicitly
 
 Allowed `kind` values:
 
-- `primary` — specification, paper, standard, official documentation;
-- `explainer` — high-quality secondary explanation;
-- `advanced` — deeper technical treatment, textbook, advanced paper, formal spec;
+- `primary` — official specification/standard, original paper, official documentation;
+- `explainer` — high-quality accessible secondary explanation;
+- `advanced` — deeper/formal paper, textbook, advanced specification;
 - `historical` — historically important source;
-- `philosophy` — primary or serious philosophical source relevant to contested questions.
+- `philosophy` — serious philosophical source relevant to a contested question.
 
 ### 6.2 UI grouping
 
-Article pages display references as:
+- **References:** `primary`, `historical`, and directly relevant `philosophy` sources.
+- **Read more:** `explainer` sources.
+- **Advanced reading:** `advanced` sources.
 
-1. **References** — strongest/most direct sources;
-2. **Read more** — accessible expansion;
-3. **Advanced reading** — deeper/formal treatment.
-
-External links open in a new tab with `rel="noopener"`.
+External links use a normal public `https://` URL and open with `rel="noopener"`.
 
 ### 6.3 Source policy
 
@@ -262,45 +278,36 @@ Prefer, in order:
 4. textbooks/university material;
 5. reputable technical explainers.
 
-Blog posts or community discussions may supplement but should not be the sole support for important technical claims when primary sources exist.
+Community discussions may supplement but should not be the sole source for material technical claims when primary sources exist.
 
-Time-sensitive protocol/model pages should include a `reviewedAt` date and a prominent freshness note when appropriate.
+Time-sensitive protocol/model pages require `reviewedAt`; the UI shows the date where freshness matters.
 
 ## 7. Global Search and Retrieval
 
-V4 search must cover:
+Search spans:
 
-- glossary terms;
-- aliases;
-- definitions/plain explanations;
+- glossary terms and aliases;
+- definitions and ELI5 text;
 - topic titles/summaries;
 - article titles/summaries;
 - article section headings/body text;
 - misconceptions;
 - reference titles.
 
-### 7.1 Search result types
-
-Results are typed:
+Typed result categories:
 
 - `Concept`
 - `Article`
 - `Topic`
 - `Misconception`
 
-Each result shows the matching surface and a short snippet.
+Each result displays its type and a short matching snippet.
 
-### 7.2 No backend search
-
-The browser builds a small in-memory index after loading the public manifests/content. No server or search service is introduced.
-
-The current table/card glossary search remains usable as the **Glossary** view.
+The index is built in memory in the browser. No backend/search service is introduced. Existing glossary table/card search remains available in the Wiki/Glossary surface.
 
 ## 8. LLM Mathematics Hub
 
-The mathematics section is designed as a progressive learning path rather than one monolithic page.
-
-### 8.1 Learning sequence
+The hub is a progressive learning path:
 
 1. Scalars and notation
 2. Vectors
@@ -321,35 +328,31 @@ The mathematics section is designed as a progressive learning path rather than o
 17. Gradient descent
 18. Backpropagation intuition
 19. Autoregressive inference
-20. Temperature, top-k, top-p and sampling
-21. KV cache mathematics/intuitions
-22. Optional advanced topics: RoPE/positional encoding, MoE routing, quantization, speculative decoding.
+20. Temperature, top-k, top-p, and sampling
+21. KV cache intuition/mathematics
+22. Optional advanced topics: positional encoding/RoPE, MoE routing, quantization, speculative decoding.
 
-### 8.2 Pedagogical rule
-
-Each mathematical concept should contain, where applicable:
+Where applicable, each mathematical concept contains:
 
 - ELI5 intuition;
 - notation legend;
 - equation;
-- dimensions/shapes;
-- a tiny numerical worked example;
-- connection to an actual LLM component;
+- tensor/vector dimensions;
+- tiny numerical worked example;
+- connection to the real LLM component;
 - common mistake/misconception;
-- “what to learn next”;
-- advanced reference.
+- what to learn next;
+- advanced source.
 
-The site should not assume calculus/linear algebra fluency. Advanced derivations are progressively disclosed.
+The site does not assume calculus or linear-algebra fluency. Advanced derivations use progressive disclosure.
 
-### 8.3 First flagship article
+Flagship map article:
 
-`From Vectors to Attention: the Mathematics Behind LLMs`
-
-This article provides the high-level mathematical map and links into the individual concepts above.
+**From Vectors to Attention: the Mathematics Behind LLMs**
 
 ## 9. Agent Protocols Hub
 
-Initial articles/concepts:
+Initial scope:
 
 - API vs protocol
 - tool/function calling
@@ -357,32 +360,32 @@ Initial articles/concepts:
 - MCP
 - ACP
 - A2A
-- client/server vs peer/agent roles
+- client/server vs agent/peer roles
 - transports
 - schemas
 - capability discovery
 - identity/authentication/authorization
-- stateless vs stateful protocol design
-- tool/resource semantics
+- stateful vs stateless protocol design
+- tools/resources
 - interoperability
 - MCP vs API
 - MCP vs ACP
 - MCP vs A2A
-- when not to introduce a protocol
+- when not to add a protocol
 
-Each protocol page must clearly separate:
+Every protocol article separates:
 
-- the protocol's purpose;
-- wire/interface concepts;
+- purpose/problem solved;
 - roles/components;
+- wire/interface concepts;
 - what it does **not** solve;
 - security model;
-- current spec version/date when relevant;
+- current spec/version/date where relevant;
 - minimal example;
-- comparison to adjacent protocols;
-- references to official specification/documentation.
+- adjacent-protocol comparison;
+- official references.
 
-Pia/SceneWorks examples in the public site are conceptual/sanitized only.
+Public Pia/SceneWorks examples are conceptual and sanitized only.
 
 ## 10. Future AI Hub
 
@@ -403,22 +406,9 @@ Initial scope:
 - economic/functional definitions of AGI
 - timelines and forecasting uncertainty
 
-Future-facing pages must distinguish:
-
-- observed capability;
-- engineering extrapolation;
-- scientific hypothesis;
-- forecast;
-- philosophical claim;
-- speculation.
-
-No page may collapse these categories into one confidence level.
+Future-facing pages explicitly distinguish observed capability, engineering extrapolation, scientific hypothesis, forecast, philosophical claim, and speculation using the epistemic model in Section 5.4.
 
 ## 11. AI & Humanity Hub
-
-This hub covers philosophical and human questions without presenting contested positions as settled science.
-
-Initial scope:
 
 ### 11.1 Mind and consciousness
 
@@ -444,7 +434,7 @@ Initial scope:
 - moral patienthood
 - digital personhood
 - possible AI rights
-- criteria/evidence for machine sentience
+- evidence standards for machine sentience
 - anthropomorphism
 - deceptive appearance of consciousness
 
@@ -463,51 +453,46 @@ Initial scope:
 - alignment and control
 - existential/catastrophic risk
 
-### 11.4 Epistemic labeling
+Contested pages use `epistemicStatus` and per-section `claimClass` rather than a blanket “fact/myth” presentation.
 
-Each contested article exposes a status banner such as:
+## 12. Sanitized Public Project Hubs
 
-- `Established technical concept`
-- `Active scientific question`
-- `Philosophical position`
-- `Forecast / uncertain`
-- `Speculative`
+Pia, SceneWorks, and PCS/Scene Studio connect abstract concepts to real engineering practice but are deliberately constrained.
 
-Articles may contain multiple claim classes; sections should label them when the distinction matters.
+### Allowed
 
-## 12. Public Project Hubs
-
-Pia, SceneWorks, and PCS/Scene Studio remain useful because they connect abstract concepts to real engineering practice, but public pages are deliberately sanitized.
-
-### 12.1 Allowed public content
-
-Examples:
-
-- what the project is at a high level;
-- generic architectural pattern (e.g. evidence-first assistant, agent harness, desktop point-cloud tool);
+- high-level project purpose;
+- generic architectural patterns;
 - why a pattern matters;
-- conceptual examples of MCP, skills, context, adapters, evals, APIs;
-- lessons that would be safe to publish as general engineering knowledge.
+- conceptual examples of evidence, MCP, skills, context, adapters, evals, APIs;
+- general engineering lessons safe for publication.
 
-### 12.2 Disallowed public content
+### Disallowed
 
-Examples:
-
-- internal repository structure derived from private source code;
+- private repository structure derived from source code;
 - exact requirements or unpublished roadmaps;
 - private test results;
 - proprietary algorithms/protocols;
-- employer-specific sensor parameters or product details;
-- internal URLs, file paths, task IDs, commits when they expose non-public work;
+- employer/product-specific sensor parameters;
+- internal URLs, file paths, task IDs, or sensitive commits;
 - confidential architecture decisions.
 
-If classification is uncertain, default to private.
+When classification is uncertain, content defaults to private.
+
+Public project-specific long-form articles require:
+
+```json
+{
+  "projectSpecific": true,
+  "sanitized": true
+}
+```
+
+CI rejects `projectSpecific: true` without `sanitized: true`.
 
 ## 13. Private Repository Structure
 
-The private repository is Markdown-first because GitHub rendering, code search, diffs, and AI retrieval are more valuable there than a custom browser renderer.
-
-Proposed tree:
+The private companion is Markdown-first:
 
 ```text
 README.md
@@ -543,7 +528,7 @@ notes/
   systems-engineering/
 ```
 
-Each private Markdown document begins with a small metadata header:
+Private documents use metadata such as:
 
 ```yaml
 ---
@@ -556,48 +541,32 @@ status: current
 ---
 ```
 
-`public_concept_ids` points outward to generic concepts; the public repo never carries reverse references.
+Private `public_concept_ids` may point outward to generic public concepts. The public repository never carries reverse references.
+
+The exact private repository name is stored only in private/account context, never committed to the public repository.
 
 ## 14. Privacy Validation and Governance
 
-### 14.1 Public repository validator
+Add `scripts/validate_privacy.py` to the public CI.
 
-Extend CI with `scripts/validate_privacy.py`.
+The validator scans **publishable runtime content**, not design docs. Its scope includes `content/**/*.json`, `glossary-*.json`, `wiki-content.json`, and `misconceptions.json`.
 
-It fails if public content:
+It rejects publishable data that:
 
-- has `visibility` other than `public`;
+- has a `visibility` value other than `public`;
 - contains `private://` references;
-- contains the private repository name;
-- contains known private-path prefixes;
-- includes a reference URL to a non-public GitHub repository;
-- marks Pia/SceneWorks/PCS project articles as non-sanitized;
-- contains fields reserved for private metadata (`classification`, `privatePath`, `privateRepo`, `confidentialSource`).
+- contains fields reserved for private metadata (`classification`, `privatePath`, `privateRepo`, `confidentialSource`);
+- uses `file://`, localhost, or other non-public reference URLs;
+- marks a project-specific article without `sanitized: true`;
+- contains unknown article/epistemic/reference schema fields where strict validation applies.
 
-This is a guardrail, not a substitute for human confidentiality review.
+This validator cannot determine whether prose is confidential. Human review remains authoritative. The default rule is therefore: **uncertain → private**.
 
-### 14.2 Sanitized-page marker
-
-Public project-specific long-form articles require:
-
-```json
-{
-  "projectSpecific": true,
-  "sanitized": true
-}
-```
-
-CI rejects `projectSpecific: true` without `sanitized: true`.
-
-### 14.3 Default classification rule
-
-When uncertain whether information is safe to publish, store it in the private repository. Promotion from private to public is an explicit sanitization action, never automatic synchronization.
+No build script may read from the private repository when producing the public site.
 
 ## 15. Navigation and UI
 
-### 15.1 Primary navigation
-
-V4 primary navigation becomes:
+Primary navigation:
 
 - **Home**
 - **Topics**
@@ -605,119 +574,115 @@ V4 primary navigation becomes:
 - **Learn**
 - **ELI5**
 
-The existing “ELI5 & Misconceptions” content remains one surface, but the shorter navigation label reduces mobile width.
+### Home
 
-### 15.2 Home
-
-Home is a retrieval-oriented dashboard:
+Retrieval-oriented dashboard:
 
 - global search;
 - topic hubs;
 - continue learning;
 - due reviews;
-- recently opened concepts/articles (local-only state);
+- recently opened concepts/articles, stored locally;
 - featured learning paths;
 - direct links to LLM Mathematics, Agent Protocols, Future AI, and AI & Humanity.
 
 No activity feed, streaks, gamification, or recommendation backend.
 
-### 15.3 Article pages
+### Article page
 
 Desktop:
 
 - main reading column;
-- compact sticky article outline when space permits;
-- related/read-next block.
+- compact sticky outline where space permits;
+- related/read-next/references block.
 
 Mobile:
 
 - single-column reading;
 - collapsible outline;
-- equations horizontally scroll instead of shrinking to unreadable text.
+- scrollable equations;
+- touch-sized related/read-next links.
 
 ## 16. Learning Integration
 
-The current Focus system remains concept-centric.
+The existing Focus system remains concept-centric.
 
 V4 adds:
 
-- article “Learn prerequisites” links that open canonical concepts;
-- self-check cards inside articles;
-- “Focus this concept” actions on mathematical/protocol concepts;
-- topic-level learning sequences.
+- article prerequisite links to canonical concepts;
+- self-check cards;
+- “Focus this concept” actions;
+- ordered topic learning paths.
 
-Long-form articles themselves do not get spaced-repetition scheduling in V4. This avoids duplicating the existing concept review model.
+Long-form articles themselves do not get spaced-repetition scheduling in V4.
 
-## 17. Rendering and Data Flow
+## 17. Runtime Data Flow and Failure Isolation
 
-On page load:
+On load:
 
 1. existing glossary shards load;
-2. existing optional V3 enrichment/misconception data loads fail-soft;
+2. V3 enrichment/misconception data loads fail-soft;
 3. `content/topics.json` loads;
 4. `content/articles/index.json` loads;
-5. manifest-listed public article documents load;
-6. a normalized in-memory index is built;
-7. navigation/search renders.
+5. manifest-listed public articles load;
+6. normalized in-memory search/index data is built;
+7. Home/Topics/search render.
 
-If long-form content fails to load:
+If V4 long-form data fails:
 
-- glossary/Learn remains functional;
+- glossary and Learn remain functional;
 - Topics/Article surfaces show a scoped error;
-- failure must not disable Focus/review/localStorage behavior.
+- Focus/review/localStorage behavior remains available.
 
 ## 18. Validation and Tests
 
-CI must verify:
+CI verifies:
 
-### 18.1 Syntax
+### Syntax
 
 - JavaScript syntax;
-- all JSON syntax;
-- private-repo Markdown metadata validation in that repository once created.
+- all public JSON syntax.
 
-### 18.2 Public content graph
+### Content graph
 
 - unique topic/article IDs;
 - every manifest path exists;
-- every article's topic IDs resolve;
-- every `relatedTerms` item resolves to a glossary term/alias;
-- every `readNext` article resolves;
-- every reference has valid required fields;
-- allowed section types only;
+- article topic IDs resolve;
+- `relatedTerms` resolve to glossary terms/aliases;
+- `readNext` IDs resolve;
+- references satisfy schema;
+- section/level/status/epistemic enums are valid;
 - no orphan public articles;
-- no broken topic relations.
+- topic relations resolve.
 
-### 18.3 Privacy
+### Privacy
 
-- privacy validator rules in Section 14;
-- explicit tests proving the validator rejects private markers.
+- Section 14 rules;
+- tests proving private markers and unsanitized project articles are rejected.
 
-### 18.4 Static UI contract
+### Static UI contract
 
-- old glossary selectors/elements remain;
-- old localStorage key remains;
-- old `#term=` deep links remain compatible;
+- existing glossary selectors/elements remain;
+- existing localStorage key remains;
+- `#term=` deep links remain compatible;
 - Home/Topics/Wiki/Learn/ELI5 navigation exists;
-- article section rendering exists;
-- references/read-more/advanced-reading rendering exists;
-- search indexes all required public surface types.
+- article rendering supports all V4 section types;
+- References / Read more / Advanced reading render;
+- global search covers all required public result types.
 
-### 18.5 Regression principle
+### Regression
 
-V4 cannot be considered complete unless the existing V3 validation remains green.
+Existing V3 validation must remain green.
+
+The private repository separately validates Markdown metadata once created.
 
 ## 19. Initial Public Content Deliverables
 
-The first V4 release should add enough depth to prove the architecture without trying to fill the whole wiki at once.
-
 ### 19.1 Topic hubs
 
-All 11 top-level hubs are created with useful summaries and starter navigation.
+Create all 11 top-level hubs with useful summaries, starter concepts, article links, and related topics.
 
-### 19.2 Flagship long-form articles
-
-At minimum:
+### 19.2 Flagship articles
 
 1. **From Vectors to Attention: the Mathematics Behind LLMs**
 2. **Attention Mathematics: Q, K, V and Softmax**
@@ -732,73 +697,66 @@ At minimum:
 11. **SceneWorks: A Sanitized Agent Harness Overview**
 12. **PCS / Scene Studio: A Sanitized Engineering Overview**
 
-### 19.3 References
+Each flagship article receives primary/official sources plus suitable Read more / Advanced reading links where available.
 
-Each flagship article receives primary/official sources plus at least one appropriate deeper-reading resource where available.
+## 20. Private Companion Initial Deliverables
 
-## 20. Private Repository Initial Deliverables
-
-Create the private repository with:
+Create a private repository containing:
 
 - confidentiality README;
 - taxonomy;
-- project README hubs for Pia, SceneWorks, PCS, and LiDAR;
+- project hub READMEs for Pia, SceneWorks, PCS, and LiDAR;
 - private metadata convention;
-- empty/initial folders for architecture, roadmap, decisions, and investigations.
+- initial folders for architecture, roadmap, decisions, investigations, APIs, evals, and related work.
 
-V4 does **not** bulk-copy prior conversation memory or project files into it automatically. Confidential documents are added intentionally from authoritative sources or explicit user-approved summaries.
+V4 does **not** bulk-copy prior conversation memory or project files. Confidential documents are added intentionally from authoritative private sources or explicit user-approved summaries.
 
-## 21. Migration and Compatibility
+## 21. Compatibility
 
-No destructive migration is required.
+No destructive migration:
 
-- existing glossary files stay;
-- existing `wiki-content.json` stays supported;
-- existing `misconceptions.json` stays supported;
-- existing browser localStorage stays untouched;
-- existing `#term=` URLs stay valid;
-- existing GitHub Pages root deployment remains valid;
-- V4 introduces new manifests/content incrementally.
+- existing glossary shards remain;
+- `wiki-content.json` remains supported;
+- `misconceptions.json` remains supported;
+- browser localStorage remains untouched;
+- `#term=` URLs remain valid;
+- GitHub Pages root deployment remains valid;
+- V4 manifests/content are additive.
 
-The site title/UI identity may change to “Personal AI & Engineering Wiki,” but repository renaming is **not** required in V4.
+The UI title may change to **Personal AI & Engineering Wiki**. Repository renaming is not required.
 
-## 22. Security and Confidentiality Rationale
+## 22. Security Rationale
 
-A public repository cannot be made private by hiding routes, omitting links, JavaScript gating, client-side encryption keys, or obscure filenames. Any bytes shipped to GitHub Pages are public.
+Anything shipped to a public GitHub Pages deployment is public. Hidden routes, obscure filenames, JavaScript gates, and client-side encryption are not confidentiality boundaries.
 
-Therefore the security boundary is repository-level access control:
-
-- public knowledge lives in the public repository;
-- confidential knowledge lives only in the private repository;
-- there is no automatic private-to-public publishing path.
-
-This is intentionally simpler and safer than building custom authentication in V4.
+V4 therefore uses GitHub repository access control as the security boundary and intentionally avoids custom private-site authentication.
 
 ## 23. Success Criteria
 
-V4 is successful when:
+V4 is complete only when:
 
-1. the public site is recognizably a personal AI/engineering wiki rather than only a glossary;
-2. a user can reach a major topic within two interactions from Home;
+1. the public site is clearly a personal AI/engineering wiki, not only a glossary;
+2. a major topic is reachable within two interactions from Home;
 3. global search retrieves concepts, articles, topics, and misconceptions;
-4. the LLM Mathematics path teaches the mathematical chain from vectors to training/inference with worked examples;
-5. Agent Protocols has source-backed MCP/ACP/A2A explanations and comparisons;
-6. Future AI and AI & Humanity clearly distinguish fact, hypothesis, philosophy, forecast, and speculation;
+4. the LLM Mathematics path teaches the chain from vectors through attention, training, and inference with worked examples;
+5. Agent Protocols contains source-backed MCP/ACP/A2A explanations and comparisons;
+6. Future AI and AI & Humanity distinguish technical fact, scientific hypothesis, philosophy, forecast, and speculation;
 7. substantial articles expose References, Read more, and Advanced reading;
 8. public Pia/SceneWorks/PCS pages are useful but sanitized;
-9. confidential project knowledge has a separate private repository and no private content/metadata leaks into Pages;
+9. confidential project knowledge lives in a separate private repository with no private content/metadata shipped to Pages;
 10. V3 Focus/review/glossary behavior remains operational;
-11. all syntax, content-graph, privacy, and regression tests pass;
-12. GitHub Pages deploys successfully from `main` after merge.
+11. syntax, content-graph, privacy, and regression validation pass;
+12. GitHub Pages builds and deploys successfully from `main` after integration.
 
 ## 24. Explicit Design Decisions
 
-- **Two repositories, not client-side hiding.** Privacy is enforced by GitHub repository access control.
-- **Public JSON, private Markdown.** Public JSON supports deterministic rendering/search; private Markdown optimizes human/GitHub/AI retrieval.
-- **Manifest-based article loading.** Avoid directory enumeration and keep the static runtime deterministic.
-- **No framework migration.** Existing plain JS/CSS architecture is retained.
-- **No private Pages in V4.** Avoid auth/hosting scope creep.
-- **No automatic private-to-public sync.** Sanitization is always explicit.
-- **References are first-class content.** Primary sources are preferred and reading depth is represented directly in the data model.
-- **Epistemic labels are first-class for Future AI/philosophy.** Technical facts and philosophical/speculative positions are not displayed as equivalent claims.
-- **Math uses progressive disclosure and worked examples.** The goal is understanding, not merely displaying equations.
+- **Two repositories, not client-side hiding.** Repository access control is the confidentiality boundary.
+- **Public JSON, private Markdown.** JSON supports deterministic public rendering/search; Markdown optimizes private GitHub/human/AI retrieval.
+- **Manifest-based article loading.** No directory enumeration.
+- **No framework migration.** Preserve the current plain JS/CSS architecture.
+- **No private Pages in V4.** Avoid authentication/hosting scope creep.
+- **No automatic private-to-public sync.** Sanitization is explicit and human-controlled.
+- **References are first-class.** Primary sources are preferred, with explicit reading depth.
+- **Epistemic labels are first-class.** Technical facts and philosophical/speculative claims are not displayed as equivalent.
+- **Math uses progressive disclosure and worked examples.** Understanding takes priority over decorative notation.
+- **No external math runtime in V4.** Keep the site self-contained and fail-safe; richer rendering can be added later if justified.
