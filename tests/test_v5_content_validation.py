@@ -3,7 +3,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from scripts.validate_v5_content import metadata_coverage, validate_repository
+from scripts.validate_v5_content import canonical_terms, load_metadata, metadata_coverage, validate_repository
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -55,6 +55,15 @@ class V5ContentValidationTests(unittest.TestCase):
         covered, total = metadata_coverage(ROOT)
         self.assertGreater(total, 0)
         self.assertGreaterEqual(covered, 0)
+
+    def test_model_compression_concepts_exist_with_metadata(self):
+        terms = canonical_terms(ROOT)
+        metadata = load_metadata(ROOT)
+        for term in ["Distillation", "Pruning", "Quantization"]:
+            self.assertIn(term, terms)
+            self.assertIn(term, metadata)
+            self.assertIn(metadata[term].get("level"), {"Beginner", "Core", "Advanced"})
+            self.assertTrue(metadata[term].get("references"))
 
     def test_invalid_level_is_reported(self):
         temp, root = self.make_fixture(
