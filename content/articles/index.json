@@ -4,6 +4,7 @@
     {"id":"attention-mathematics","path":"content/articles/attention-mathematics.json","topicIds":["llm-mathematics","ai-foundations"],"visibility":"public"},
     {"id":"llm-training-mathematics","path":"content/articles/llm-training-mathematics.json","topicIds":["llm-mathematics","ai-foundations"],"visibility":"public"},
     {"id":"inference-and-sampling","path":"content/articles/inference-and-sampling.json","topicIds":["llm-mathematics","ai-foundations"],"visibility":"public"},
+    {"id":"how-a-model-gets-built-end-to-end","path":"content/articles/how-a-model-gets-built-end-to-end.json","topicIds":["ai-foundations","ai-engineering"],"visibility":"public"},
     {"id":"agent-protocols-mcp-acp-a2a","path":"content/articles/agent-protocols-mcp-acp-a2a.json","topicIds":["agent-protocols","agentic-ai"],"visibility":"public"},
     {"id":"agentic-system-model-agent-harness","path":"content/articles/agentic-system-model-agent-harness.json","topicIds":["agentic-ai","ai-engineering"],"visibility":"public"},
     {"id":"agi-asi-rsi-singularity","path":"content/articles/agi-asi-rsi-singularity.json","topicIds":["future-ai"],"visibility":"public"},
