@@ -1,0 +1,121 @@
+{
+  "version": 1,
+  "entries": {
+    "LLM": {
+      "howItWorks": "An LLM converts text into tokens, maps those tokens into internal representations, repeatedly applies transformer layers, and predicts a probability distribution over the next token. Training adjusts billions of weights so those predictions capture statistical structure in language, code and other training data. During inference the weights are normally fixed; the model uses the current context to produce the next token, then repeats.",
+      "whenItMatters": "Use the LLM concept when separating raw model capability from the product or agent system around it. It explains why changing tools, context, prompts or retrieval can substantially change behavior without retraining the model.",
+      "tradeoffs": ["Larger or more capable models can improve difficult-task performance but usually cost more compute and latency.", "A larger context window increases capacity, not guaranteed recall or reasoning quality.", "Model behavior is probabilistic, so reliability must be measured rather than inferred from one successful example."],
+      "failureModes": ["Plausible but unsupported generations", "Sensitivity to framing and context quality", "Poor calibration: confidence and correctness can diverge", "Performance degradation on tasks outside the model's strengths"],
+      "scenario": {"question": "A chatbot gives worse answers after a product update, but the underlying model version did not change. Can the LLM still be the only thing to investigate?", "diagnosis": "No. The surrounding system may have changed context construction, retrieval, system instructions, routing, tool availability, or decoding settings.", "resolution": "Treat model, context, tools and orchestration as separate variables and evaluate them independently."},
+      "decisionChanges": ["If the task needs authoritative current facts, add retrieval or tools rather than assuming a larger model solves freshness.", "If latency dominates, a smaller routed model may be preferable for easy tasks.", "If the task is highly structured and deterministic, conventional code may be better than an LLM."],
+      "checkYourself": {"question": "Does changing the prompt change the model's trained weights?", "answer": "No. It changes the context used for that inference; training or fine-tuning changes weights."}
+    },
+    "AI assistant": {
+      "howItWorks": "An AI assistant is a system around one or more models. The product supplies instructions, conversation state, context selection, tools, retrieval, memory, safety controls and a user interface. The model remains the generative or reasoning engine, but the product determines what the model can see and do.",
+      "whenItMatters": "This distinction matters whenever someone attributes every product behavior directly to the underlying LLM.",
+      "tradeoffs": ["More tools and memory increase capability but also complexity and failure surface.", "Stronger product guardrails can improve safety while sometimes reducing flexibility.", "Routing across models can improve cost and latency but makes behavior less attributable to one model."],
+      "failureModes": ["Bad context assembly", "Tool failures", "Stale or incorrect memory", "Product-level instructions conflicting with user intent", "Model errors being mistaken for product errors, or vice versa"],
+      "scenario": {"question": "ChatGPT can browse, inspect files and use tools. Are those capabilities properties of the raw LLM alone?", "diagnosis": "No. They are product/system capabilities exposed around the model.", "resolution": "Reason about the assistant as model + harness + context + tools + interface."},
+      "checkYourself": {"question": "Is an AI assistant identical to the model that powers it?", "answer": "No. The model is one major component of the larger assistant system."}
+    },
+    "Hallucination": {
+      "howItWorks": "A language model is optimized to generate likely continuations, not to guarantee that every generated claim is true. When the available context and learned representations do not sufficiently constrain an answer, the model can produce a fluent statement that is unsupported or false.",
+      "whenItMatters": "Hallucination risk matters most when the answer contains factual claims that can be checked, especially in high-stakes or rapidly changing domains.",
+      "tradeoffs": ["Retrieval and verification reduce risk but add latency and system complexity.", "For creative tasks, unconstrained generation can be useful rather than a defect.", "For factual tasks, fluency should never be treated as evidence."],
+      "failureModes": ["Invented citations or APIs", "Incorrectly combining true facts", "Confidently filling gaps in missing evidence", "Repeating stale knowledge as if current"],
+      "scenario": {"question": "A coding assistant claims a repository contains a function that does not exist. Is that random noise?", "diagnosis": "It is a hallucinated repository fact: a plausible generation not grounded in the actual code.", "resolution": "Require repository evidence or tool verification before accepting the claim."},
+      "decisionChanges": ["When claims are externally verifiable, prefer retrieval plus explicit evidence.", "When evidence is unavailable, the assistant should expose uncertainty instead of inventing specifics."],
+      "checkYourself": {"question": "Does hallucination mean the model outputs random words?", "answer": "No. Hallucinations are often coherent and plausible; the problem is lack of factual support or correctness."}
+    },
+    "Agent": {
+      "howItWorks": "An agent combines a model with an execution loop and capabilities. It observes the current state, chooses an action, invokes a tool or produces output, observes the result, and repeats until a stop condition is reached.",
+      "whenItMatters": "Use an agent when the next useful action cannot be fully predetermined and the model must adapt based on intermediate results.",
+      "tradeoffs": ["Agents handle uncertainty and branching better than rigid workflows but are less predictable.", "More autonomy can reduce human effort while increasing the need for permissions, budgets and verification.", "Tool-rich agents can solve more tasks but expose more failure paths."],
+      "failureModes": ["Loops without progress", "Unnecessary tool calls", "Acting on incorrect assumptions", "Stopping too early", "Exceeding permission or cost boundaries"],
+      "scenario": {"question": "A system always executes retrieve → summarize → email in exactly that order. Is it necessarily an agent?", "diagnosis": "No. That is primarily a workflow unless the model meaningfully chooses actions or branches at runtime.", "resolution": "Use agentic control only where runtime judgment creates value."},
+      "decisionChanges": ["If the process is stable and deterministic, prefer a workflow.", "If intermediate evidence changes what should happen next, an agent becomes more valuable.", "If consequences are high, reduce autonomy or add approval gates."],
+      "checkYourself": {"question": "What separates an agent from a one-shot model call?", "answer": "The agent can pursue a goal across multiple steps and choose actions based on intermediate observations."}
+    },
+    "Workflow": {
+      "howItWorks": "A workflow encodes a known sequence or graph of operations. Individual steps may use AI, but the overall control flow is largely specified in advance rather than continuously chosen by a model.",
+      "whenItMatters": "Workflows are usually the better default when the process is known, repeatable and needs strong predictability.",
+      "tradeoffs": ["Workflows are easier to test and audit than open-ended agents.", "They are less flexible when unexpected intermediate states require novel decisions.", "Adding too many conditional branches can eventually become harder to maintain than a bounded agent."],
+      "failureModes": ["Brittle assumptions about input shape", "Branch explosion", "Silent propagation of an early bad result", "Using an LLM where deterministic validation would be safer"],
+      "scenario": {"question": "Should a nightly pipeline with fixed ingest, validate, transform and publish steps be made multi-agent?", "diagnosis": "Probably not. Its control flow is already known.", "resolution": "Keep deterministic orchestration and use AI only inside steps where judgment is actually needed."},
+      "decisionChanges": ["Use a workflow when you can write the steps before execution.", "Introduce agentic branching only when runtime uncertainty justifies it."],
+      "checkYourself": {"question": "Can a workflow contain LLM calls without becoming an agent?", "answer": "Yes. Using AI inside predefined steps does not automatically make the overall system agentic."}
+    },
+    "RAG": {
+      "howItWorks": "RAG retrieves information relevant to a query from an external corpus, places selected evidence into model context, and asks the model to answer using that evidence. Retrieval and generation are separate stages with separate failure modes.",
+      "whenItMatters": "RAG is useful when knowledge changes frequently, the corpus is too large for context, or answers should be grounded in identifiable sources.",
+      "tradeoffs": ["RAG improves access to current or private knowledge without changing model weights.", "Retrieval adds latency and infrastructure.", "Bad chunking, indexing or ranking can make a capable model look weak."],
+      "failureModes": ["Relevant evidence is never retrieved", "Irrelevant chunks dominate context", "Stale documents are retrieved", "The model ignores or misinterprets retrieved evidence", "Retrieval returns conflicting sources without authority rules"],
+      "scenario": {"question": "A RAG system confidently answers incorrectly even though the correct document exists in the corpus. Where should you start?", "diagnosis": "Separate retrieval from generation. First verify whether the correct evidence was retrieved and ranked highly enough.", "resolution": "Measure retrieval recall/ranking before changing the model or prompt."},
+      "decisionChanges": ["If knowledge is stable and the goal is changing behavior rather than facts, fine-tuning may be more relevant.", "If the corpus is tiny and stable, direct context may be simpler.", "If provenance matters, RAG has an advantage over memorized model knowledge."],
+      "checkYourself": {"question": "Does RAG guarantee that the final answer is correct?", "answer": "No. Retrieval can fail, evidence can be wrong, and generation can still misinterpret or ignore it."}
+    },
+    "Context window": {
+      "howItWorks": "The context window is the maximum tokenized sequence a model can process for one inference. It may include system instructions, user messages, documents, tool outputs and previous generated text.",
+      "whenItMatters": "It constrains how much information can be supplied at once, but it should be treated as capacity rather than reliable memory.",
+      "tradeoffs": ["More context can reduce the need for aggressive summarization or retrieval.", "Longer prompts increase prefill cost and often latency.", "Extra context can introduce distraction, stale information or contradictions."],
+      "failureModes": ["Important facts buried in noise", "Stale instructions remaining visible", "Contradictory evidence", "Assuming content is reliably used merely because it fits"],
+      "scenario": {"question": "A model supports one million tokens. Should you always send the entire repository?", "diagnosis": "No. Capacity does not imply that every token is useful or equally attended to.", "resolution": "Select and structure relevant context; retrieve or summarize deliberately."},
+      "decisionChanges": ["If the task needs only a few precise files, targeted retrieval beats dumping everything.", "If cross-document synthesis genuinely requires broad context, a larger window may be valuable."],
+      "checkYourself": {"question": "Is the context window the same thing as long-term memory?", "answer": "No. Context is what the model can see in the current inference; long-term memory persists outside it for later use."}
+    },
+    "KV cache": {
+      "howItWorks": "During transformer inference, attention produces key and value tensors for processed tokens. The runtime stores these tensors so decoding a new token can reuse prior attention state instead of recomputing the full sequence from scratch.",
+      "whenItMatters": "KV cache explains why long contexts consume substantial runtime memory and why serving systems care about cache allocation, reuse and eviction.",
+      "tradeoffs": ["Caching makes autoregressive decoding practical but consumes memory that grows with sequence length.", "Larger batches and longer contexts compete for cache memory.", "Cache reuse can improve latency when prompt prefixes repeat."],
+      "failureModes": ["Running out of VRAM or memory at long context lengths", "Poor cache management reducing concurrency", "Confusing KV cache with persistent user memory or model weights"],
+      "scenario": {"question": "Why can a model fit in VRAM at short context but fail at a much longer context?", "diagnosis": "The weights are not the only memory consumer; the KV cache grows with the active sequence.", "resolution": "Budget runtime memory for both weights and context-dependent cache."},
+      "decisionChanges": ["For long-context local inference, memory capacity can matter more than nominal parameter size alone.", "For repeated prompt prefixes, cache-aware serving can materially reduce work."],
+      "checkYourself": {"question": "Does KV cache permanently store what the model learned?", "answer": "No. Model weights hold learned parameters; KV cache is temporary attention state for active sequences."}
+    },
+    "MCP": {
+      "howItWorks": "MCP defines a standard protocol through which AI applications can discover and invoke external capabilities and access contextual resources. It standardizes the connection layer; it does not automatically make every underlying API agent-friendly or safe.",
+      "whenItMatters": "MCP matters when the same tools or resources should be usable across compatible AI clients without bespoke integrations for each one.",
+      "tradeoffs": ["Standardization improves portability and discovery.", "A poor tool design remains poor even when exposed through MCP.", "Authorization, scoping and semantics still need application-level engineering."],
+      "failureModes": ["Wrapping every low-level API endpoint as a tool", "Overly broad permissions", "Ambiguous schemas or errors", "Assuming protocol compatibility guarantees good agent behavior"],
+      "scenario": {"question": "You already have a REST API. Should every endpoint become an MCP tool?", "diagnosis": "Usually no. Agents benefit from task-oriented, bounded capabilities rather than a mechanical one-to-one wrapper.", "resolution": "Design a model-oriented capability surface and use MCP as the standardized transport/interface layer."},
+      "decisionChanges": ["Use direct internal APIs when one tightly coupled application owns both sides and protocol portability adds no value.", "Use MCP when cross-client discovery and standardized integration are useful."],
+      "checkYourself": {"question": "Is MCP a replacement for all APIs?", "answer": "No. It is a protocol for AI-facing capability/resource integration; underlying services can still use ordinary APIs internally."}
+    },
+    "Eval": {
+      "howItWorks": "An eval defines an input or scenario, an expected property or rubric, and a scoring method. Good evals measure observable behavior repeatedly so changes to models, prompts, tools or orchestration can be compared rather than judged by anecdotes.",
+      "whenItMatters": "Use evals whenever you need evidence that an AI-system change improved reliability, quality, safety, latency or another target metric.",
+      "tradeoffs": ["Automated evals scale but can miss nuance or encode a flawed grader.", "Human evaluation is richer but slower and more expensive.", "A benchmark provides comparability but may not represent your real workload."],
+      "failureModes": ["Testing only happy paths", "Contaminated or overfit test sets", "LLM judges sharing the same biases as the system being judged", "Metrics improving while real user outcomes get worse"],
+      "scenario": {"question": "A new prompt looks better in five hand-picked examples. Is that enough to ship?", "diagnosis": "No. The sample is too small and likely biased.", "resolution": "Run a representative regression set with explicit scoring and inspect failures."},
+      "decisionChanges": ["For deterministic outputs, use deterministic assertions where possible.", "Use LLM-as-judge when semantic quality cannot be captured well by exact checks, but calibrate it against human judgments."],
+      "checkYourself": {"question": "What is the difference between an eval and a benchmark?", "answer": "An eval can be one task or test; a benchmark is a standardized collection used for broader comparison."}
+    },
+    "World model": {
+      "howItWorks": "A world model represents aspects of state, dynamics and causal consequences well enough to predict how an environment may evolve. The representation may be explicit or learned implicitly, and different systems model different slices of the world.",
+      "whenItMatters": "World models are important for agents that must plan in environments where actions have delayed physical or simulated consequences.",
+      "tradeoffs": ["Richer models can support better planning but require more data and compute.", "A model can be useful without being a complete or perfectly accurate simulation.", "Prediction errors compound when planning far into the future."],
+      "failureModes": ["Incorrect dynamics", "Distribution shift", "Missing hidden state", "Planning exploits inaccuracies in the learned model"],
+      "scenario": {"question": "Why might a robot need more than a language model that describes objects correctly?", "diagnosis": "It must anticipate physical consequences: motion, contact, persistence and how actions change the scene.", "resolution": "Combine perception and planning with representations that capture relevant environment dynamics."},
+      "decisionChanges": ["A narrow task may need only a small task-specific dynamics model.", "Open-world physical control benefits from richer predictive representations."],
+      "checkYourself": {"question": "Must a world model simulate every detail of reality?", "answer": "No. It only needs to model the aspects of the environment relevant to the decisions being made."}
+    },
+    "AGI": {
+      "howItWorks": "AGI is not a specific architecture or algorithm. It is a proposed capability category. Definitions commonly emphasize breadth, adaptability and general-purpose competence, but disagree on whether the threshold should be human-level performance, economic usefulness, autonomy, learning ability, embodiment or some combination.",
+      "whenItMatters": "The term is useful only when the speaker states the operational definition being used. Otherwise debates often become arguments over labels rather than measured capabilities.",
+      "tradeoffs": ["A strict definition improves clarity but may exclude systems many people intuitively call general.", "A broad definition captures current general-purpose AI but can make the term too easy to satisfy.", "Benchmarks can measure components of generality without settling the philosophical label."],
+      "failureModes": ["Moving the goalposts without stating it", "Declaring AGI from one benchmark", "Equating broad language competence with every form of intelligence", "Treating disagreement over terminology as disagreement over measured capability"],
+      "scenario": {"question": "Two people agree an AI can code, analyze images, use tools and solve many professional tasks, yet one says AGI and the other says not AGI. Can both be internally consistent?", "diagnosis": "Yes. They may be applying different definitions or thresholds.", "resolution": "Replace the label dispute with explicit capability criteria and evidence."},
+      "decisionChanges": ["For engineering decisions, track concrete capabilities rather than relying on the AGI label.", "For public claims, state the definition and threshold explicitly."],
+      "checkYourself": {"question": "Is there one universally accepted test that decides whether AGI has been achieved?", "answer": "No. There is no universally agreed operational definition or single accepted test."}
+    },
+    "ASI": {
+      "howItWorks": "ASI is a hypothetical capability category, not a known implementation recipe. It generally refers to systems that outperform the best humans across a very broad range of cognitively important tasks, potentially including scientific discovery, engineering and strategic reasoning.",
+      "whenItMatters": "ASI discussions are about future capability and risk scenarios. Claims should clearly separate observed present capabilities from extrapolation.",
+      "tradeoffs": ["Forecasts depend heavily on assumptions about scaling, algorithms, data, compute, autonomy and real-world bottlenecks.", "Faster AI-assisted research could accelerate progress without implying an unlimited recursive feedback loop.", "Physical, economic and institutional constraints may slow capability translation into real-world impact."],
+      "failureModes": ["Treating speculative timelines as facts", "Assuming AGI automatically and immediately becomes ASI", "Ignoring bottlenecks outside software", "Using the term without defining the dimensions of superiority"],
+      "scenario": {"question": "If an AI becomes better than most programmers, does that by itself establish ASI?", "diagnosis": "No. Superhuman performance in one domain is not the same as broad superintelligence.", "resolution": "Specify the breadth and magnitude of capability being claimed."},
+      "decisionChanges": ["Short-term engineering should focus on measured capability and deployment constraints.", "Long-term scenario analysis can model stronger systems, but assumptions should remain explicit."],
+      "checkYourself": {"question": "Is ASI currently a precisely standardized engineering milestone?", "answer": "No. It is a hypothetical and variably defined future capability category."}
+    }
+  }
+}
