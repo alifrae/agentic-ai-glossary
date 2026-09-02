@@ -1,0 +1,110 @@
+{
+  "id": "llm-training-mathematics",
+  "title": "Training an LLM: Loss, Gradient Descent and Backpropagation",
+  "topicIds": ["llm-mathematics", "ai-foundations"],
+  "level": "intermediate",
+  "status": "reviewed",
+  "epistemicStatus": "established-technical",
+  "reviewedAt": "2026-09-02",
+  "summary": "How next-token training turns prediction errors into parameter updates: cross-entropy measures surprise, backpropagation computes gradients, and an optimizer changes the weights to reduce expected loss.",
+  "eli5": "The model guesses the next token, measures how bad the guess was, works backward to find which weights contributed to the error, and nudges those weights in a direction that should make future guesses better.",
+  "sections": [
+    {
+      "type": "equation",
+      "heading": "Next-token negative log-likelihood",
+      "expression": "L = -Σₜ log p_θ(xₜ | x₍<t₎)",
+      "explanation": "For each target token, training penalizes the model when it assigns low probability to the observed token. Summing or averaging these negative log probabilities gives the language-model loss."
+    },
+    {
+      "type": "worked-example",
+      "heading": "Why confident wrong answers hurt more",
+      "intro": "Suppose the correct next token receives probability 0.8 in one example and 0.1 in another.",
+      "steps": [
+        "For probability 0.8, the negative log loss is -ln(0.8) ≈ 0.223.",
+        "For probability 0.1, the loss is -ln(0.1) ≈ 2.303.",
+        "The second prediction is penalized much more because the model assigned little probability to what actually occurred."
+      ],
+      "result": "Cross-entropy rewards calibrated probability mass on the observed target, not merely whether the top-ranked token happened to be right."
+    },
+    {
+      "type": "equation",
+      "heading": "Gradient descent update",
+      "expression": "θ ← θ - η∇_θ L",
+      "explanation": "θ represents the model parameters, ∇_θL is the gradient of the loss with respect to those parameters, and η is the learning rate. Practical training typically uses stochastic mini-batches and optimizers such as Adam variants rather than plain full-batch gradient descent."
+    },
+    {
+      "type": "worked-example",
+      "heading": "One-parameter intuition",
+      "intro": "Suppose a parameter θ = 2.0, its loss gradient is +0.5, and the learning rate η = 0.1.",
+      "steps": [
+        "Multiply learning rate by gradient: 0.1 × 0.5 = 0.05.",
+        "Move opposite the positive gradient: 2.0 - 0.05 = 1.95.",
+        "The update is local: it assumes a small move opposite the gradient will reduce loss."
+      ],
+      "result": "θ becomes 1.95."
+    },
+    {
+      "type": "text",
+      "heading": "What backpropagation actually does",
+      "body": "Backpropagation applies the chain rule through the computational graph. Starting from the final loss, it computes how sensitive that loss is to intermediate activations and then to every trainable parameter. Modern frameworks automate this differentiation, but the mathematical object is still the gradient of the composed computation."
+    },
+    {
+      "type": "equation",
+      "heading": "The chain rule",
+      "expression": "dy/dx = (dy/du)(du/dx)",
+      "explanation": "Deep networks are nested functions. Backpropagation repeatedly applies this rule so that a loss gradient can flow through layers, attention operations, nonlinearities and matrix multiplications."
+    },
+    {
+      "type": "bullets",
+      "heading": "Training is more than the core equation",
+      "items": [
+        "Data quality and mixture determine what statistical regularities are available to learn.",
+        "Batching estimates gradients from subsets of examples.",
+        "Learning-rate schedules strongly affect optimization stability and final quality.",
+        "Regularization, normalization, precision formats and distributed-training strategies change practical behavior.",
+        "Post-training methods can further change behavior after base pretraining; they are distinct from the core autoregressive pretraining loss."
+      ]
+    },
+    {
+      "type": "callout",
+      "heading": "Training is not memorizing a lookup table",
+      "kind": "misconception",
+      "body": "Neural training adjusts shared parameters to reduce loss across many examples. Models can memorize some training data, but the mechanism is learned parameterization and generalization, not a database that stores one explicit record for every prompt-response pair."
+    },
+    {
+      "type": "self-check",
+      "heading": "Check yourself",
+      "question": "What is the difference between the loss and the gradient?",
+      "answer": "The loss is a scalar measuring how poor the prediction is under the chosen objective. The gradient is a vector of derivatives telling how that scalar would change for small changes to each parameter."
+    }
+  ],
+  "relatedTerms": ["Training", "Inference", "LLM", "Model", "Token"],
+  "readNext": ["inference-and-sampling"],
+  "references": [
+    {
+      "title": "Deep Learning",
+      "url": "https://www.deeplearningbook.org/",
+      "publisher": "MIT Press",
+      "year": 2016,
+      "kind": "primary",
+      "note": "Standard reference for optimization, backpropagation and deep-network fundamentals."
+    },
+    {
+      "title": "Forward Propagation, Backward Propagation, and Computational Graphs",
+      "url": "https://en.d2l.ai/chapter_multilayer-perceptrons/backprop.html",
+      "publisher": "Dive into Deep Learning",
+      "year": 2023,
+      "kind": "explainer",
+      "note": "Step-by-step explanation of forward and backward propagation."
+    },
+    {
+      "title": "Softmax Regression",
+      "url": "https://www.d2l.ai/chapter_linear-classification/softmax-regression.html",
+      "publisher": "Dive into Deep Learning",
+      "year": 2023,
+      "kind": "advanced",
+      "note": "Connects probability, entropy, cross-entropy and maximum likelihood."
+    }
+  ],
+  "visibility": "public"
+}
