@@ -37,13 +37,16 @@ Client-side hiding, obscure routes, or JavaScript gating are **not** considered 
 
 ## Current surfaces
 
-The current V3 application provides:
+The V4 application provides:
 
-- **Wiki** — searchable glossary plus rich concept pages.
+- **Home** — retrieval-first landing page with topic entry points and global search.
+- **Topics** — browse the 11 public knowledge hubs and their flagship articles.
+- **Wiki** — searchable compact glossary plus rich concept pages.
 - **Learn** — focus-first learning with recall-before-reveal, prerequisites and review state.
 - **ELI5 & Misconceptions** — simple mental models and nuanced misconception cards.
+- **Long-form articles** — source-backed explanations with equations, worked examples, comparisons, references, read-next paths and advanced reading.
 
-V4 adds **Home**, **Topics**, source-backed long-form articles, broader global search, references/read-more/advanced-reading sections, and the topic hubs described above while preserving the V3 learning model.
+V4 preserves the existing V3 learning model and browser-local state while adding the broader knowledge architecture around it.
 
 ## Focus-first learning
 
@@ -68,7 +71,7 @@ Canonical public knowledge is split by responsibility:
 
 - `glossary-*.json` — compact canonical vocabulary and concept graph.
 - `learning-paths.json` — prerequisite edges and learning-oriented relationships.
-- `wiki-content.json` — optional V3 enrichment for selected concepts.
+- `wiki-content.json` — optional concept enrichment for selected terms.
 - `misconceptions.json` — curated misconception cards.
 - `content/topics.json` — V4 topic-hub manifest.
 - `content/articles/index.json` — V4 long-form article manifest.
@@ -117,7 +120,7 @@ Add it to an appropriate `glossary-*.json` shard with a concise definition, plai
 
 ### Enrich a concept
 
-For V3-style concept enrichment, add the canonical term to `wiki-content.json` with only the fields that add teaching value (`howItWorks`, `whenItMatters`, trade-offs, failure modes, scenarios, decision factors, self-checks and sources).
+For compact concept enrichment, add the canonical term to `wiki-content.json` with only the fields that add teaching value (`howItWorks`, `whenItMatters`, trade-offs, failure modes, scenarios, decision factors, self-checks and sources).
 
 ### Add a long-form V4 article
 
@@ -143,7 +146,7 @@ Prefer the least absolute verdict supported by the evidence.
 
 The repository uses Python standard-library validators plus JavaScript/JSON syntax checks in GitHub Actions.
 
-Current and V4 validation commands include:
+Required validation includes:
 
 ```bash
 python -m unittest discover -s tests -p 'test_*.py' -v
@@ -156,7 +159,7 @@ node --check wiki.js
 node --check v4.js
 ```
 
-V4 validators are introduced on the V4 feature branch and become required before it is merged.
+The V3 content graph, V4 content graph, and public privacy boundary are all required CI gates on `main`.
 
 ## Run locally
 
@@ -168,14 +171,16 @@ python -m http.server 8000
 
 Then open `http://localhost:8000`.
 
-Current deep links include:
+Useful deep links include:
 
+- `#page=home`
+- `#page=topics`
 - `#page=wiki`
 - `#page=learn`
 - `#page=eli5`
 - `#term=LLM`
-
-V4 additionally introduces Home, Topics, topic and article routes.
+- `#topic=llm-mathematics`
+- `#article=llm-math-from-vectors-to-attention`
 
 ## GitHub Pages
 
