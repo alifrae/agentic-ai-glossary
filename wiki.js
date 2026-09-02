@@ -155,14 +155,14 @@
       const element = main.querySelector(selector);
       if (element) wikiIndex.appendChild(element);
     });
-    wikiView.append(conceptPage, wikiIndex);
+    wikiView.append(conceptPage);
 
     [".focus-strip", ".review-strip"].forEach(selector => {
       const element = main.querySelector(selector);
       if (element) learnView.appendChild(element);
     });
 
-    main.append(wikiView, learnView, eli5View);
+    main.append(wikiView, learnView, eli5View, wikiIndex);
     return { nav, wikiView, learnView, eli5View, conceptPage, conceptContent, wikiIndex };
   }
 
@@ -183,6 +183,8 @@
     shell.wikiView.hidden = active !== "wiki";
     shell.learnView.hidden = active !== "learn";
     shell.eli5View.hidden = active !== "eli5";
+    if (active === "learn") shell.wikiIndex.hidden = false;
+    if (active === "eli5") shell.wikiIndex.hidden = true;
     shell.nav.querySelectorAll("[data-wiki-page]").forEach(button => {
       const selected = button.dataset.wikiPage === active;
       button.setAttribute("aria-current", selected ? "page" : "false");
@@ -370,9 +372,12 @@
         document.title = "Agentic AI Wiki";
       }
     } else if (state.page === "eli5") {
+      shell.wikiIndex.hidden = true;
       renderEli5Page();
       document.title = "ELI5 & Misconceptions · Agentic AI Wiki";
     } else {
+      shell.conceptPage.hidden = true;
+      shell.wikiIndex.hidden = false;
       document.title = "Learn · Agentic AI Wiki";
     }
   }
@@ -394,19 +399,27 @@
     }
     const learnButton = event.target.closest("[data-wiki-learn]");
     if (learnButton) {
+      const term = learnButton.dataset.wikiLearn;
       goToPage("learn");
       setTimeout(() => {
         const search = document.querySelector("#searchInput");
         if (search) {
-          search.value = learnButton.dataset.wikiLearn;
+          search.value = term;
           search.dispatchEvent(new Event("input", { bubbles: true }));
         }
+        const entry = resolveTerm(term);
+        const id = entry ? baseId(entry) : "";
+        const row = id
+          ? document.querySelector(`#tableBody [data-id="${id}"]`) || document.querySelector(`#cardList [data-id="${id}"]`)
+          : null;
+        if (row) row.click();
       }, 0);
     }
   }
 
   function interceptBaseEntryOpen(event) {
     if (event.target.closest("[data-no-open]")) return;
+    if (shell && !shell.learnView.hidden) return;
     const item = event.target.closest("#tableBody [data-id], #cardList [data-id]");
     if (!item) return;
     const entry = entryByBaseId(item.dataset.id);
@@ -418,6 +431,7 @@
 
   function interceptBaseEntryKey(event) {
     if (event.key !== "Enter" && event.key !== " ") return;
+    if (shell && !shell.learnView.hidden) return;
     const item = event.target.closest("#tableBody [data-id], #cardList [data-id]");
     if (!item) return;
     const entry = entryByBaseId(item.dataset.id);
