@@ -7,6 +7,33 @@ from scripts.validate_v4_content import validate_repository
 
 
 ROOT = Path(__file__).resolve().parents[1]
+FLAGSHIP_ARTICLES = {
+    "llm-math-from-vectors-to-attention",
+    "attention-mathematics",
+    "llm-training-mathematics",
+    "inference-and-sampling",
+    "agent-protocols-mcp-acp-a2a",
+    "agentic-system-model-agent-harness",
+    "agi-asi-rsi-singularity",
+    "ai-sentience-evidence",
+    "intelligence-consciousness-sentience-sapience-agency",
+    "pia-sanitized-overview",
+    "sceneworks-sanitized-overview",
+    "pcs-scene-studio-sanitized-overview",
+}
+TOPIC_HUBS = {
+    "ai-foundations",
+    "llm-mathematics",
+    "agentic-ai",
+    "agent-protocols",
+    "ai-engineering",
+    "future-ai",
+    "ai-humanity",
+    "systems-engineering",
+    "pia",
+    "sceneworks",
+    "pcs-scene-studio",
+}
 
 
 class V4ContentValidationTests(unittest.TestCase):
@@ -78,6 +105,25 @@ class V4ContentValidationTests(unittest.TestCase):
 
     def test_repository_v4_content_is_consistent(self):
         self.assertEqual(validate_repository(ROOT), [])
+
+    def test_flagship_articles_and_topic_hubs_exist(self):
+        topics_payload = json.loads((ROOT / "content/topics.json").read_text(encoding="utf-8"))
+        manifest_payload = json.loads((ROOT / "content/articles/index.json").read_text(encoding="utf-8"))
+        topic_ids = {item["id"] for item in topics_payload["topics"]}
+        article_ids = {item["id"] for item in manifest_payload["articles"]}
+        self.assertTrue(TOPIC_HUBS.issubset(topic_ids))
+        self.assertTrue(FLAGSHIP_ARTICLES.issubset(article_ids))
+        for item in manifest_payload["articles"]:
+            article = json.loads((ROOT / item["path"]).read_text(encoding="utf-8"))
+            self.assertTrue(article.get("references"), item["id"])
+            if set(article.get("topicIds", [])) & {"future-ai", "ai-humanity"}:
+                self.assertIn(article.get("epistemicStatus"), {
+                    "active-scientific-question",
+                    "philosophical-position",
+                    "forecast-uncertain",
+                    "speculative",
+                    "mixed",
+                })
 
     def test_duplicate_topic_id_is_reported(self):
         temp, root = self.build_fixture()
