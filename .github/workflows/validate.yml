@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - feat/wiki-knowledge-pages
+      - feat/v4-personal-wiki
   pull_request:
 
 jobs:
