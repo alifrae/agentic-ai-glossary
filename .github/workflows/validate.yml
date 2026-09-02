@@ -28,6 +28,7 @@ jobs:
           python -m json.tool wiki-content.json > /dev/null
           python -m json.tool misconceptions.json > /dev/null
           python -m json.tool glossary-7.json > /dev/null
+          python -m json.tool glossary-metadata.json > /dev/null
           python - <<'PY'
           import json
           from pathlib import Path
@@ -41,5 +42,7 @@ jobs:
         run: python scripts/validate_content.py
       - name: Validate V4 content graph
         run: python scripts/validate_v4_content.py
+      - name: Validate V5 content metadata
+        run: python scripts/validate_v5_content.py --allow-partial-coverage
       - name: Validate public privacy boundary
         run: if [ -f scripts/validate_privacy.py ]; then python scripts/validate_privacy.py; fi
