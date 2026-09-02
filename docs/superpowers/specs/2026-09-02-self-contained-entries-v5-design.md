@@ -1,12 +1,12 @@
 # V5 Design — Self-Contained Entries, Cross-Links, References, and Core Content Gaps
 
 Date: 2026-09-02
-Status: Approved in chat; written spec for final review
+Status: Approved after review
 Branch: `feat/v5-self-contained-entries`
 
 ## Objective
 
-Make every glossary entry and long-form article useful as a teaching surface rather than only a definition index. A reader should be able to understand the concept, follow prerequisite/related concepts, inspect primary references, and navigate deeper without leaving the page or relying on Learn mode.
+Make every glossary entry and long-form article useful as a teaching surface rather than only a definition index. A reader should be able to understand the concept, follow prerequisite/related concepts, inspect authoritative references, and navigate deeper without leaving the page or relying on Learn mode.
 
 V5 is deliberately a content-quality and rendering pass. It does not redesign the navigation, add accounts, add gamification, or introduce a frontend framework.
 
@@ -14,15 +14,61 @@ V5 is deliberately a content-quality and rendering pass. It does not redesign th
 
 V5 is complete when:
 
-1. Canonical glossary terms and aliases appearing in `definition`, `plain`, or `example` render as Wikipedia-style links to the existing `#term=` route.
-2. Every canonical glossary entry has a validated `level` and at least one primary, official, standards-based, or authoritative technical `reference`.
+1. Canonical glossary terms and aliases appearing in `definition`, `plain`, or `example` render as Wikipedia-style links to the existing `#term=` route, with a source-level opt-out for generic/common-word occurrences.
+2. Every canonical glossary entry across every glossary shard has a validated `level` and at least one authoritative `reference` before V5 is merged.
 3. Compact cards show level and prerequisites directly.
 4. The LLM Mathematics topic contains a concept-graph view built from canonical concepts and `related` edges.
-5. The LLM Mathematics teaching sequence explicitly covers vectors → attention → softmax → backpropagation → sampling, with ELI5 → mechanism → worked example depth.
+5. The LLM Mathematics teaching sequence explicitly covers vectors → attention → softmax → backpropagation/gradient descent → sampling, with ELI5 → mechanism → worked example depth.
 6. Canonical concepts `Distillation`, `Pruning`, and `Quantization` exist with references and meaningful graph relationships.
 7. A new long-form article, `How a model gets built, end to end`, covers pretraining → fine-tuning → alignment/RLHF → evaluation → deployment with a concrete toy example.
 8. Existing V4 navigation, Learn behavior, local state, and privacy boundary remain unchanged.
 9. CI validates metadata coverage, graph integrity, reference structure, new content, JavaScript/JSON syntax, and privacy constraints.
+
+## 0. Review decisions and risk controls
+
+### 0.1 Metadata coverage: full backfill in V5
+
+V5 will finish with **100% canonical metadata coverage**, not a partial coverage target.
+
+To avoid turning citation backfill into a risky big-bang change, implementation is staged:
+
+1. Build the metadata schema, loader merge, validator, and coverage report.
+2. Add metadata for new and actively touched concepts.
+3. Backfill the remaining canonical glossary entries in reviewable batches grouped by domain/source family.
+4. Switch the final merge gate to require 100% coverage.
+
+During branch development, the validator may report the current coverage percentage and uncovered terms. The branch is not merge-ready until coverage reaches 100%.
+
+References may be reused where one authoritative source genuinely covers several related concepts. The goal is defensible sourcing, not artificial one-source-per-term uniqueness.
+
+### 0.2 Auto-link escape hatch for common words
+
+Automatic linking is the default, but authors can suppress a specific occurrence with:
+
+```text
+[[nolink:Model]]
+```
+
+The rendered text is plain `Model`; the marker itself is never shown.
+
+This escape hatch is intended for ordinary-English uses of canonical terms such as `Model`, `Context`, `Memory`, `Agent`, or `Training` where a link would be noisy or misleading.
+
+### 0.3 Reference authority is a review gate, not a fake CI inference
+
+CI can validate structure, URL scheme, coverage, duplicate metadata keys, and generate a reference-domain/source report. It cannot reliably determine whether a source is truly primary or authoritative.
+
+Therefore:
+
+- automated validation checks structure and completeness;
+- CI emits a source/domain report to make review easier;
+- source authority remains an explicit PR-review responsibility;
+- the README/authoring rules state the source hierarchy: original paper/spec/standard/official docs first, authoritative textbooks/course material second, aggregators avoided.
+
+### 0.4 Graph layout debt is bounded deliberately
+
+The LLM Mathematics graph is curated and intentionally small. Topic data contains ordered `graphStages`, not hard-coded pixel coordinates. The renderer computes responsive deterministic positions from stage index and node index.
+
+This means adding a node generally requires adding it to a stage, not manually tuning x/y coordinates. If the graph grows beyond the point where a staged teaching flow remains readable, that is a future graph-system problem and is explicitly outside V5.
 
 ## 1. Data model
 
@@ -73,11 +119,10 @@ Allowed levels are exactly:
 
 Reference policy:
 
-- Every canonical glossary entry must have at least one reference.
 - Prefer original papers, standards, official specifications, official technical documentation, or authoritative textbooks/course material.
 - Avoid blog aggregators, SEO summaries, scraped content, and citation farms.
 - An entry may have multiple references.
-- When a concept is broad rather than paper-defined, use the best authoritative source available (for example an official standard, specification, technical documentation, or recognized academic textbook/course) rather than weakening the coverage requirement.
+- **Every canonical glossary entry must have at least one reference before V5 merge. There are no silent coverage exemptions.**
 
 ### 1.3 Prerequisite authority remains `learning-paths.json`
 
@@ -128,13 +173,15 @@ Rules:
 3. Word-boundary-aware for ordinary word-like terms.
 4. Do not link the current entry to itself, including its aliases.
 5. Do not recursively process generated links.
-6. Escape the source text before injecting anchor markup.
+6. Escape source text before injecting anchor markup.
 7. All links use existing deep links: `#term=<canonical term>`.
-8. Generated anchors carry a marker such as `data-term-link` and `data-no-open` so clicking a link inside a card does not trigger the card-level open/focus handler.
+8. Generated anchors carry `data-term-link` and `data-no-open` so clicking a link inside a card does not trigger the card-level open/focus handler.
+9. `[[nolink:Canonical or alias text]]` protects one occurrence from linking and renders only the inner visible text.
+10. Invalid or unresolved `[[nolink:...]]` markers render their inner text safely rather than leaking markup.
 
 ### 2.3 Failure behavior
 
-If the glossary dictionary is unavailable, rendering falls back to escaped plain text. Linking is enhancement, not a loading dependency.
+If the glossary dictionary is unavailable, rendering falls back to escaped plain text after stripping valid `nolink` markers. Linking is enhancement, not a loading dependency.
 
 ## 3. Compact cards
 
@@ -182,9 +229,21 @@ It is not a general-purpose graph explorer.
 
 ### 5.2 Graph data
 
-Nodes are canonical glossary terms selected for the math learning sequence and neighboring mathematical/model concepts.
+The `llm-mathematics` topic gains an ordered structure such as:
 
-Edges are derived only from canonical `related` relationships where both endpoints are in the graph node set.
+```json
+"graphStages": [
+  ["Embedding", "Vector"],
+  ["Attention"],
+  ["Softmax"],
+  ["Training", "Backpropagation", "Gradient descent"],
+  ["Inference", "Sampling"]
+]
+```
+
+Exact canonical names must resolve against the glossary.
+
+Nodes are canonical glossary terms from these stages. Edges are derived only from canonical `related` relationships where both endpoints are in the graph node set.
 
 No duplicated graph-edge content file is introduced.
 
@@ -194,15 +253,13 @@ Use deterministic inline SVG implemented with existing vanilla JavaScript/CSS.
 
 Requirements:
 
-- mobile-safe horizontal/vertical scaling
-- deterministic positions so the graph does not jump on reload
+- responsive sizing
+- positions computed from stage index/node index rather than stored pixel coordinates
 - clear labels
-- accessible node buttons/anchors where practical
+- accessible clickable nodes where practical
 - click node → existing `#term=` route
 - no external graph dependency
 - graph failure does not block the topic hub content
-
-The preferred first layout is a simple staged learning-flow layout rather than force-directed physics.
 
 ## 6. LLM Mathematics teaching pass
 
@@ -296,10 +353,11 @@ The test/validator suite must cover:
 
 - `glossary-metadata.json` parses.
 - Metadata keys resolve to canonical terms, never only aliases.
-- Every canonical glossary term has metadata with no implicit exemptions.
+- Coverage percentage is computed and printed during branch development.
+- Final merge gate requires exactly 100% canonical metadata coverage.
 - Levels are exactly Beginner/Core/Advanced.
-- Every metadata entry has at least one reference.
 - References have non-empty titles and HTTPS URLs.
+- A source/domain report is emitted for manual authority review.
 
 ### Runtime merge
 
@@ -314,6 +372,8 @@ Tests confirm:
 - self-link prevention exists
 - `#term=` routes are emitted
 - links are marked so card-level handlers do not consume them
+- `[[nolink:...]]` suppresses a selected occurrence
+- invalid/unresolved opt-out markers fail safely
 
 ### Cards
 
@@ -328,8 +388,10 @@ Tests require compact-card rendering for:
 
 Tests require:
 
-- LLM Mathematics topic graph container
+- LLM Mathematics topic `graphStages`
+- all graph-stage terms resolve canonically
 - SVG renderer or equivalent deterministic graph code
+- positions derived from stage/index
 - `related`-edge derivation
 - clickable canonical term nodes
 
