@@ -22,8 +22,14 @@ class StaticContractTests(unittest.TestCase):
         self.assertIn('href="wiki.css"', html)
         self.assertIn('src="wiki.js"', html)
         wiki = self.read("wiki.js")
-        for token in ["Wiki", "Learn", "ELI5 & Misconceptions", "hashchange", "#term=", "page=eli5"]:
+        for token in ["Wiki", "Learn", "ELI5 & Misconceptions", "hashchange", "#term=", "#page=", '"eli5"']:
             self.assertIn(token, wiki)
+
+    def test_learn_keeps_existing_concept_picker_flow(self):
+        wiki = self.read("wiki.js")
+        self.assertIn("main.append(wikiView, learnView, eli5View, wikiIndex)", wiki)
+        self.assertIn("!shell.learnView.hidden", wiki)
+        self.assertIn("row.click()", wiki)
 
     def test_rich_concept_sections_exist(self):
         wiki = self.read("wiki.js")
