@@ -97,9 +97,9 @@ class StaticContractTests(unittest.TestCase):
             self.assertIn(token, loader)
 
     def test_v5_self_contained_entry_surface(self):
-        html = self.read("index.html")
-        self.assertIn('href="v5.css"', html)
-        self.assertIn('src="v5.js"', html)
+        term_links = self.read("term-links.js")
+        self.assertIn('href = "v5.css"', term_links)
+        self.assertIn('src = "v5.js"', term_links)
         v5 = self.read("v5.js")
         for token in [
             "WikiTermLinks.render",
