@@ -1,3 +1,31 @@
 {
-  "entries": {}
+  "entries": {
+    "Distillation": {
+      "level": "Advanced",
+      "references": [
+        {
+          "title": "Distilling the Knowledge in a Neural Network",
+          "url": "https://arxiv.org/abs/1503.02531"
+        }
+      ]
+    },
+    "Pruning": {
+      "level": "Advanced",
+      "references": [
+        {
+          "title": "Learning both Weights and Connections for Efficient Neural Networks",
+          "url": "https://arxiv.org/abs/1506.02626"
+        }
+      ]
+    },
+    "Quantization": {
+      "level": "Advanced",
+      "references": [
+        {
+          "title": "Quantization and Training of Neural Networks for Efficient Integer-Arithmetic-Only Inference",
+          "url": "https://arxiv.org/abs/1712.05877"
+        }
+      ]
+    }
+  }
 }
