@@ -1,0 +1,101 @@
+{
+  "id": "intelligence-consciousness-sentience-sapience-agency",
+  "title": "Intelligence, Consciousness, Sentience, Sapience and Agency",
+  "topicIds": ["ai-humanity"],
+  "level": "beginner",
+  "status": "reviewed",
+  "epistemicStatus": "mixed",
+  "reviewedAt": "2026-09-02",
+  "summary": "A vocabulary map for five properties that are often treated as synonyms even though they ask different questions about capability, experience, judgment and action.",
+  "eli5": "Being smart, having experiences, being able to suffer, having wise judgment, and being able to act toward goals are different properties. An AI discussion becomes confused when one property is used as proof of another.",
+  "sections": [
+    {
+      "type": "comparison",
+      "heading": "Separate the questions",
+      "columns": ["Term", "Question it asks", "Important caution"],
+      "rows": [
+        ["Intelligence", "How well can the system learn, reason, solve problems or achieve cognitive tasks?", "There is no single universally accepted scalar measure of all intelligence"],
+        ["Consciousness", "Is there subjective experience or awareness, and what kind?", "The concept and mechanisms remain philosophically and scientifically contested"],
+        ["Sentience", "Can the system have felt experiences, especially valenced states such as pleasure or suffering?", "Usage varies; some writers use it nearly interchangeably with phenomenal consciousness"],
+        ["Sapience", "Does the system exhibit higher-order judgment, understanding or wisdom-like capacities?", "The term has no standard engineering benchmark and is used more loosely than intelligence"],
+        ["Agency", "Can the system initiate or select actions in pursuit of goals?", "Technical agency can be thin and need not imply consciousness, free will or moral responsibility"]
+      ]
+    },
+    {
+      "type": "text",
+      "heading": "Technical agency can be deliberately thin",
+      "body": "In engineering, calling a system an agent often means that it observes state and selects actions toward an objective. That useful operational definition does not imply that the system has subjective experience, self-originated values or moral responsibility. Philosophy often uses stronger concepts of intentional or moral agency, so context matters."
+    },
+    {
+      "type": "text",
+      "heading": "Consciousness itself has multiple target concepts",
+      "body": "Philosophers and cognitive scientists distinguish ideas such as phenomenal consciousness—the felt character of experience—and access consciousness—information being available for reasoning and report. A system might show sophisticated reporting or self-monitoring without that settling the phenomenal question."
+    },
+    {
+      "type": "text",
+      "heading": "Functionalism and substrate questions",
+      "body": "Functionalist theories characterize mental states largely by the causal roles they play rather than by one specific physical material. This makes artificial realization conceptually possible under those theories. Critics argue that functional organization may still leave out qualitative experience or understanding. The disagreement is philosophical, not a result that engineering alone has already settled."
+    },
+    {
+      "type": "callout",
+      "heading": "The Chinese Room is an argument, not an experiment",
+      "kind": "misconception",
+      "body": "Searle's Chinese Room thought experiment challenges the idea that implementing the right symbol-manipulation program is sufficient for genuine understanding. It has generated extensive replies and remains contested; citing it does not by itself prove that computers cannot understand, just as passing a Turing-style behavioral test does not by itself settle consciousness."
+    },
+    {
+      "type": "comparison",
+      "heading": "Examples of non-implications",
+      "columns": ["Observation", "What does not automatically follow"],
+      "rows": [
+        ["A system solves difficult mathematics", "That it is conscious or sentient"],
+        ["A system autonomously uses tools", "That it has self-originated goals or moral agency"],
+        ["A system reports an inner life", "That the report corresponds to phenomenal experience"],
+        ["A system is sentient, if that were established", "That it is broadly intelligent or wise"],
+        ["A system behaves human-like in conversation", "That every human mental mechanism is reproduced internally"]
+      ]
+    },
+    {
+      "type": "self-check",
+      "heading": "Check yourself",
+      "question": "Why is it useful to say an AI agent has 'technical agency' rather than simply 'agency' in philosophical discussions?",
+      "answer": "Because the qualifier makes clear that we mean goal-directed action selection in an engineered system, not necessarily consciousness, free will, moral responsibility or the stronger intentional-agency concepts debated in philosophy."
+    }
+  ],
+  "relatedTerms": ["Agent", "Model", "LLM", "AGI", "ASI"],
+  "readNext": ["ai-sentience-evidence"],
+  "references": [
+    {
+      "title": "Consciousness",
+      "url": "https://plato.stanford.edu/entries/consciousness/",
+      "publisher": "Stanford Encyclopedia of Philosophy",
+      "year": 2024,
+      "kind": "philosophy",
+      "note": "Survey of major concepts and questions in consciousness research and philosophy."
+    },
+    {
+      "title": "Functionalism",
+      "url": "https://plato.stanford.edu/entries/functionalism/",
+      "publisher": "Stanford Encyclopedia of Philosophy",
+      "year": 2023,
+      "kind": "philosophy",
+      "note": "Background on functionalist theories of mental states and major objections."
+    },
+    {
+      "title": "The Chinese Room Argument",
+      "url": "https://plato.stanford.edu/entries/chinese-room/",
+      "publisher": "Stanford Encyclopedia of Philosophy",
+      "year": 2024,
+      "kind": "advanced",
+      "note": "Detailed account of Searle's argument and major responses."
+    },
+    {
+      "title": "Ethics of Artificial Intelligence and Robotics",
+      "url": "https://plato.stanford.edu/entries/ethics-ai/",
+      "publisher": "Stanford Encyclopedia of Philosophy",
+      "year": 2026,
+      "kind": "advanced",
+      "note": "Current discussion of technical agency, moral agency, moral patienthood and AI status."
+    }
+  ],
+  "visibility": "public"
+}
