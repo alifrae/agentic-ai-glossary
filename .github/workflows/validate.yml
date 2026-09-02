@@ -6,6 +6,7 @@ on:
       - main
       - feat/wiki-knowledge-pages
       - feat/v4-personal-wiki
+      - feat/v5-self-contained-entries
   pull_request:
 
 jobs:
