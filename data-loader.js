@@ -2,13 +2,27 @@
   "use strict";
 
   const nativeFetch = window.fetch.bind(window);
-  const glossaryFiles = ["glossary-1.json", "glossary-2.json", "glossary-3.json", "glossary-4.json", "glossary-5.json", "glossary-6.json"];
+  const glossaryFiles = ["glossary-1.json", "glossary-2.json", "glossary-3.json", "glossary-4.json", "glossary-5.json", "glossary-6.json", "glossary-7.json"];
   const STORAGE_KEY = "agentic-ai-glossary.local.v1";
   let learningPaths = {};
   let glossaryEntries = [];
 
+  window.__wikiContent = window.__wikiContent || {};
+  window.__wikiMisconceptions = window.__wikiMisconceptions || [];
+
   function unique(values) {
     return [...new Set((values || []).map(String).map(v => v.trim()).filter(Boolean))];
+  }
+
+  async function loadOptionalJson(file, fallback, label) {
+    try {
+      const response = await nativeFetch(file, { cache: "no-store" });
+      if (!response.ok) throw new Error(`${file}: HTTP ${response.status}`);
+      return await response.json();
+    } catch (error) {
+      console.warn(`${label} unavailable; the base glossary will continue without it.`, error);
+      return fallback;
+    }
   }
 
   async function loadLearningPaths() {
@@ -25,6 +39,15 @@
     return learningPaths;
   }
 
+  async function loadWikiEnrichment() {
+    const [wikiPayload, misconceptionPayload] = await Promise.all([
+      loadOptionalJson("wiki-content.json", { version: 1, entries: {} }, "Wiki enrichment"),
+      loadOptionalJson("misconceptions.json", { version: 1, entries: [] }, "Misconceptions")
+    ]);
+    window.__wikiContent = wikiPayload?.entries && typeof wikiPayload.entries === "object" ? wikiPayload.entries : {};
+    window.__wikiMisconceptions = Array.isArray(misconceptionPayload?.entries) ? misconceptionPayload.entries : [];
+  }
+
   window.fetch = async (input, init) => {
     const url = typeof input === "string" ? input : input?.url;
     if (url !== "glossary.json") return nativeFetch(input, init);
@@ -35,7 +58,8 @@
         if (!response.ok) throw new Error(`${file}: HTTP ${response.status}`);
         return response.json();
       })),
-      loadLearningPaths()
+      loadLearningPaths(),
+      loadWikiEnrichment()
     ]);
 
     glossaryEntries = payloads.flatMap(payload => payload.entries || []).map(entry => {
@@ -47,6 +71,8 @@
       };
     });
     window.__wikiGlossaryEntries = glossaryEntries;
+
+    setTimeout(() => window.dispatchEvent(new CustomEvent("wiki:data-ready")), 0);
 
     return new Response(JSON.stringify({ entries: glossaryEntries }), {
       status: 200,
