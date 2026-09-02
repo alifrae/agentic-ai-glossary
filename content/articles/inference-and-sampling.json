@@ -1,0 +1,98 @@
+{
+  "id": "inference-and-sampling",
+  "title": "Inference and Sampling: How the Next Token Is Chosen",
+  "topicIds": ["llm-mathematics", "ai-foundations"],
+  "level": "intermediate",
+  "status": "reviewed",
+  "epistemicStatus": "established-technical",
+  "reviewedAt": "2026-09-02",
+  "summary": "How an autoregressive LLM turns its current hidden state into vocabulary logits, converts those scores into probabilities, selects a token, and repeats while reusing cached attention state.",
+  "eli5": "At each step the model scores every possible next token, turns the scores into a probability distribution, chooses according to the decoding policy, appends that token, and runs the next step.",
+  "sections": [
+    {
+      "type": "equation",
+      "heading": "Vocabulary logits",
+      "expression": "z = hW_vocab + b",
+      "explanation": "The final hidden representation h is projected to one score per vocabulary item. These scores are logits; before normalization they are not probabilities."
+    },
+    {
+      "type": "equation",
+      "heading": "Temperature",
+      "expression": "pᵢ(T) = softmax(zᵢ / T)",
+      "explanation": "For T > 0, smaller temperatures sharpen relative differences between logits and larger temperatures flatten them. Temperature changes the sampling distribution; it does not make the model's underlying knowledge more or less true."
+    },
+    {
+      "type": "comparison",
+      "heading": "Common decoding choices",
+      "columns": ["Method", "What it does", "Main trade-off"],
+      "rows": [
+        ["Greedy", "Always selects the highest-probability token", "Deterministic but can become repetitive or locally shortsighted"],
+        ["Top-k", "Samples only from the k highest-scoring candidates", "Simple cutoff, but k is fixed even when uncertainty changes"],
+        ["Top-p / nucleus", "Uses the smallest high-probability set whose cumulative probability reaches p", "Adapts candidate-set size to the distribution"],
+        ["Unrestricted sampling", "Samples from the full normalized distribution", "Maximal diversity but can admit very low-probability tokens"]
+      ]
+    },
+    {
+      "type": "worked-example",
+      "heading": "Why temperature changes randomness",
+      "intro": "Start with logits [2, 1, 0].",
+      "steps": [
+        "At T = 1, softmax is approximately [0.665, 0.245, 0.090].",
+        "At T = 0.5, logits are divided by 0.5, becoming [4, 2, 0], which produces a much sharper distribution.",
+        "At T = 2, logits become [1, 0.5, 0], so probability mass is spread more evenly."
+      ],
+      "result": "Temperature controls distribution sharpness before a sampling rule chooses the next token."
+    },
+    {
+      "type": "text",
+      "heading": "Autoregressive loop",
+      "body": "After a token is selected, it is appended to the sequence and becomes part of the context for the next prediction. Generation is therefore sequential even when much of the model computation is highly parallel within each forward pass."
+    },
+    {
+      "type": "text",
+      "heading": "Why KV cache matters",
+      "body": "In a Transformer decoder, previously computed key and value representations can be cached during generation. The model still computes new query/key/value information for the new token, but it can reuse past keys and values instead of recomputing the full prefix at every decode step. The cache trades memory for lower repeated computation and latency."
+    },
+    {
+      "type": "callout",
+      "heading": "Probability is not confidence calibration",
+      "kind": "misconception",
+      "body": "A high next-token probability is a property of the model's conditional distribution over token continuations. It should not automatically be interpreted as a calibrated probability that the semantic claim being generated is factually correct."
+    },
+    {
+      "type": "self-check",
+      "heading": "Check yourself",
+      "question": "What is the conceptual difference between temperature and top-p?",
+      "answer": "Temperature reshapes the relative probabilities by rescaling logits. Top-p then truncates the candidate set according to cumulative probability mass. They affect different stages of the decoding distribution."
+    }
+  ],
+  "relatedTerms": ["Inference", "LLM", "Token", "KV cache", "Model"],
+  "readNext": [],
+  "references": [
+    {
+      "title": "The Curious Case of Neural Text Degeneration",
+      "url": "https://arxiv.org/abs/1904.09751",
+      "publisher": "arXiv",
+      "year": 2020,
+      "kind": "primary",
+      "note": "Introduces nucleus sampling as a dynamic alternative to fixed candidate truncation."
+    },
+    {
+      "title": "Softmax Regression",
+      "url": "https://www.d2l.ai/chapter_linear-classification/softmax-regression.html",
+      "publisher": "Dive into Deep Learning",
+      "year": 2023,
+      "kind": "explainer",
+      "note": "Background on converting logits to normalized probabilities."
+    },
+    {
+      "title": "Attention Is All You Need",
+      "url": "https://arxiv.org/abs/1706.03762",
+      "publisher": "arXiv",
+      "year": 2017,
+      "kind": "advanced",
+      "note": "Transformer architecture background needed to understand autoregressive decoder inference."
+    }
+  ],
+  "visibility": "public"
+}
